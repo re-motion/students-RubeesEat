@@ -1,0 +1,17 @@
+﻿@page
+@inject ITodoRepository todoRepository
+
+My todo list:
+
+<ul style="list-style: none">
+    @foreach (var item in todoRepository.GetAll())
+    {
+        <li><input type="checkbox" checked="@(item.IsCompleted ? "" : null)" disabled> @item.Name</li>
+    }
+</ul>
+
+<form method="post" action="/api/todos">
+    <label for="newTodoInput">New TODO:</label>
+    <input id="newTodoInput" type="text" name="name">
+    <button>Add new TODO</button>
+</form>
