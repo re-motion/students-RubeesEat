@@ -2,10 +2,10 @@
 using Newtonsoft.Json;
 using RubeesEat.Model;
 
-namespace RubeesEat.IntegrationTests;
+namespace RubeesEat.IntegrationTests.Controllers;
 
 [TestFixture]
-public class TodoApiTests : IntegrationTestBase
+public class TodoControllerTests : IntegrationTestBase
 {
     [Test]
     public async Task GetAll()

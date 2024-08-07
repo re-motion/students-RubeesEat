@@ -15,6 +15,9 @@
     <PackageReference Include="NUnit" Version="4.0.1" />
     <PackageReference Include="NUnit.Analyzers" Version="4.0.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Selenium.Support" Version="4.23.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.23.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,5 +27,20 @@
   <ItemGroup>
     <ProjectReference Include="..\RubeesEat\RubeesEat.csproj" />
   </ItemGroup>
+
+  <Target Name="CopyTestHostAppConfigs" AfterTargets="_CopyAppConfigFile" Condition="Exists('$(OutDir)\$(AssemblyName).dll.config')">
+    <ItemGroup>
+      <_testHostAppConfig Include="$(OutDir)\testhost.dll.config" />
+      <_testHostAppConfig Include="$(OutDir)\testhost.x86.dll.config" />
+      <_testHostAppConfig Include="$(OutDir)\ReSharperTestRunner.dll.config" />
+      <_testHostAppConfig Include="$(OutDir)\ReSharperTestRunner32.dll.config" />
+      <_testHostAppConfig Include="$(OutDir)\ReSharperTestRunner64.dll.config" />
+    </ItemGroup>
+    <!-- We copy from the output directory because linked app configs are not located in the project directory -->
+    <Copy SourceFiles="$(OutDir)\$(AssemblyName).dll.config" DestinationFiles="%(_testHostAppConfig.Identity)" />
+    <ItemGroup>
+      <FileWrites Include="@(_testHostAppConfig)" />
+    </ItemGroup>
+  </Target>
 
 </Project>
