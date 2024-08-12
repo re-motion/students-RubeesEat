@@ -23,10 +23,10 @@ public class SeleniumIntegrationTestBase
     public void SetUp()
     {
         _webHost = Host.CreateDefaultBuilder()
-            .ConfigureWebHostDefaults(c => c
-                .UseUrls(c_hostingUrl)
-                .UseStartup<Startup>())
-            .Build();
+                       .ConfigureWebHostDefaults(c => c
+                                                      .UseUrls(c_hostingUrl)
+                                                      .UseStartup<Startup>())
+                       .Build();
         _webHost.Start();
 
         WebTestHelper = new WebTestHelper();
@@ -40,7 +40,7 @@ public class SeleniumIntegrationTestBase
     }
 
     protected TPageObject Start<TPageObject>(string relativeUrl = null)
-        where TPageObject : PageObject, new()
+            where TPageObject : PageObject, new()
     {
         var url = $"{c_hostingUrl}/{relativeUrl ?? _defaultSite}";
 

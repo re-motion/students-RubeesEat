@@ -5,7 +5,7 @@ namespace RubeesEat.IntegrationTests.SeleniumTests;
 public class TodoSeleniumTests : SeleniumIntegrationTestBase
 {
     public TodoSeleniumTests()
-        : base("Todo")
+            : base("Todo")
     {
     }
 
@@ -15,8 +15,8 @@ public class TodoSeleniumTests : SeleniumIntegrationTestBase
         var page = Start<TodoPageObject>();
 
         Assert.That(
-            page.GetTodoTexts(),
-            Is.EqualTo(new[] {"My first todo"}));
+                page.GetTodoTexts(),
+                Is.EqualTo(new[] { "My first todo" }));
     }
 
     [Test]
@@ -28,7 +28,7 @@ public class TodoSeleniumTests : SeleniumIntegrationTestBase
         page.ClickAddTodo();
 
         Assert.That(
-            page.GetTodoTexts(),
-            Is.EqualTo(new[] {"My first todo", "My new todo"}));
+                page.GetTodoTexts(),
+                Is.EqualTo(new[] { "My first todo", "My new todo" }));
     }
 }

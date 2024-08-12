@@ -6,7 +6,9 @@ My todo list:
 <ul id="todos" style="list-style: none">
     @foreach (var item in todoRepository.GetAll())
     {
-        <li><input type="checkbox" checked="@(item.IsCompleted ? "" : null)" disabled> @item.Name</li>
+        <li>
+            <input type="checkbox" checked="@(item.IsCompleted ? "" : null)" disabled> @item.Name
+        </li>
     }
 </ul>
 

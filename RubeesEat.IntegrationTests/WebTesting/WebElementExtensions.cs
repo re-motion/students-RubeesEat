@@ -6,7 +6,7 @@ namespace RubeesEat.IntegrationTests.WebTesting
     public static class WebElementExtensions
     {
         public static void ClickAndWaitForChanged<T>(this IWebElement webElement, Func<T> selector)
-            where T : class
+                where T : class
         {
             var before = selector();
             webElement.Click();
