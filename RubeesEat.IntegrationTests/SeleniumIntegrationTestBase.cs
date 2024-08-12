@@ -40,7 +40,7 @@ public class SeleniumIntegrationTestBase
     }
 
     protected TPageObject Start<TPageObject>(string relativeUrl = null)
-            where TPageObject : PageObject, new()
+        where TPageObject : PageObject, new()
     {
         var url = $"{c_hostingUrl}/{relativeUrl ?? _defaultSite}";
 
