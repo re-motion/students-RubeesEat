@@ -7,7 +7,12 @@ My todo list:
     @foreach (var item in todoRepository.GetAll())
     {
         <li>
-            <input type="checkbox" checked="@(item.IsCompleted ? "" : null)" disabled> @item.Name
+            <form style="display: inline;" method="post" action="/api/todos/checkbox">
+                <input type="checkbox" name="checkbox" class="checkbox" checked="@(item.IsCompleted ? "" : null)"
+                       onchange="this.value = this.checked; this.form.submit()">
+                <input type="hidden" name="guid" value="@item.Id"/>
+            </form>
+            @item.Name
         </li>
     }
 </ul>

@@ -15,4 +15,19 @@ public class InMemoryTodoRepository : ITodoRepository
     {
         return _todoItems.Values.OrderBy(e => e.Name);
     }
+
+    public TodoItem? GetById(Guid guid)
+    {
+        return _todoItems.GetValueOrDefault(guid);
+    }
+
+    public void Update(TodoItem todo)
+    {
+        if (!_todoItems.ContainsKey(todo.Id))
+        {
+            throw new ArgumentException("Not a valid guid.");
+        }
+
+        _todoItems[todo.Id] = todo;
+    }
 }

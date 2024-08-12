@@ -30,4 +30,45 @@ public class TodoSeleniumTests : SeleniumIntegrationTestBase
             page.GetTodoTexts(),
             Is.EqualTo(new[] { "My first todo", "My new todo" }));
     }
+
+    [Test]
+    public void CheckTodo()
+    {
+        TodoPageObject page = Start<TodoPageObject>();
+        var todos = page.GetTodos();
+        todos[0].ToggleChecked();
+
+        page.Refresh();
+        todos = page.GetTodos();
+
+        Assert.That(
+            todos[0].IsChecked,
+            Is.EqualTo((true))
+        );
+    }
+
+    [Test]
+    public void CheckTodoSecondClick()
+    {
+        var page = Start<TodoPageObject>();
+        var todos = page.GetTodos();
+        todos[0].ToggleChecked();
+
+        page.Refresh();
+        todos = page.GetTodos();
+
+        Assert.That(
+            todos[0].IsChecked,
+            Is.EqualTo((true))
+        );
+
+        todos[0].ToggleChecked();
+        page.Refresh();
+        todos = page.GetTodos();
+
+        Assert.That(
+            todos[0].IsChecked,
+            Is.EqualTo((false))
+        );
+    }
 }

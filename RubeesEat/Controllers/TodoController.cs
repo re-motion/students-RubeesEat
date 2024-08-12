@@ -34,4 +34,24 @@ public class TodoController : ControllerBase
 
         return TypedResults.Redirect("/Todo");
     }
+
+    [Route("checkbox")]
+    [HttpPost]
+    public Results<BadRequest<string>, RedirectHttpResult> Checkbox([FromForm] Guid guid, [FromForm] bool checkbox)
+    {
+        var todo = _todoRepository.GetById(guid);
+        if (todo == null)
+            return TypedResults.BadRequest("Todo not found");
+
+        try
+        {
+            _todoRepository.Update(todo.WithIsCompleted(checkbox));
+        }
+        catch (ArgumentException)
+        {
+            return TypedResults.Redirect("/Todo");
+        }
+
+        return TypedResults.Redirect("/Todo");
+    }
 }

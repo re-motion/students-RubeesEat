@@ -16,4 +16,9 @@ public class TodoItem
         Name = name;
         IsCompleted = isCompleted;
     }
+
+    public TodoItem WithIsCompleted(bool isCompleted)
+    {
+        return new TodoItem(Id, Name, isCompleted);
+    }
 }

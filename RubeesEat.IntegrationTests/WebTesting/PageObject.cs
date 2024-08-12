@@ -7,7 +7,8 @@ namespace RubeesEat.IntegrationTests.WebTesting
     {
         private ChromeDriver _driver;
 
-        private ChromeDriver Driver => _driver ?? throw new InvalidOperationException("PageObject is not assigned to a driver.");
+        private ChromeDriver Driver =>
+            _driver ?? throw new InvalidOperationException("PageObject is not assigned to a driver.");
 
         internal void SetDriver(ChromeDriver driver)
         {
@@ -24,6 +25,11 @@ namespace RubeesEat.IntegrationTests.WebTesting
         public IReadOnlyCollection<IWebElement> FindElements(By by)
         {
             return Driver.FindElements(by);
+        }
+
+        public void Refresh()
+        {
+            Driver.Navigate().Refresh();
         }
     }
 }

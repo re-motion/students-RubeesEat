@@ -10,4 +10,11 @@ public class TodoControlObject : ControlObject
     }
 
     public string Text => Me.Text;
+
+    public bool IsChecked => FindElement(By.CssSelector(".checkbox")).Selected;
+
+    public void ToggleChecked()
+    {
+        FindElement(By.CssSelector(".checkbox")).ClickAndWaitUntilStale();
+    }
 }
