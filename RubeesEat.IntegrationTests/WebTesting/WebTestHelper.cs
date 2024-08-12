@@ -45,7 +45,8 @@ namespace RubeesEat.IntegrationTests.WebTesting
             _chromeDriver = null;
         }
 
-        public TPageObject CreatePageObject<TPageObject>() where TPageObject : PageObject, new()
+        public TPageObject CreatePageObject<TPageObject>()
+            where TPageObject : PageObject, new()
         {
             var pageObject = new TPageObject();
             pageObject.SetDriver(_chromeDriver);

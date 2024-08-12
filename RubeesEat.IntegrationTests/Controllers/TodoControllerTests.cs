@@ -25,7 +25,7 @@ public class TodoControllerTests : IntegrationTestBase
     [Test]
     public async Task Add()
     {
-        var content = new FormUrlEncodedContent(new []
+        var content = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("name", "My new Todo")
         });

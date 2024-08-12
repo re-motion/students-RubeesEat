@@ -23,10 +23,10 @@ public class SeleniumIntegrationTestBase
     public void SetUp()
     {
         _webHost = Host.CreateDefaultBuilder()
-            .ConfigureWebHostDefaults(c => c
-                .UseUrls(c_hostingUrl)
-                .UseStartup<Startup>())
-            .Build();
+                       .ConfigureWebHostDefaults(c => c
+                                                      .UseUrls(c_hostingUrl)
+                                                      .UseStartup<Startup>())
+                       .Build();
         _webHost.Start();
 
         WebTestHelper = new WebTestHelper();
