@@ -10,10 +10,13 @@ indent_style = space
 # ReSharper properties
 resharper_align_multiline_array_and_object_initializer = false
 resharper_align_multiline_calls_chain = true
+resharper_csharp_continuous_indent_multiplier = 1
+resharper_csharp_max_line_length = 129
 resharper_csharp_wrap_after_invocation_lpar = false
 resharper_csharp_wrap_arguments_style = wrap_if_long
 resharper_instance_members_qualify_declared_in = base_class
 resharper_place_constructor_initializer_on_same_line = true
+resharper_place_expr_property_on_single_line = true
 resharper_place_simple_initializer_on_single_line = true
 resharper_space_before_array_rank_brackets = false
 resharper_space_before_empty_method_parentheses = false
