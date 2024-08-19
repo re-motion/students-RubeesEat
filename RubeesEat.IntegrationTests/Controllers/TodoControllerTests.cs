@@ -46,6 +46,42 @@ public class TodoControllerTests : IntegrationTestBase
     }
 
     [Test]
+    public async Task Delete()
+    {
+        var result = await HttpClient.GetStringAsync("/api/todos");
+        var todos = JsonConvert.DeserializeObject<TodoItem[]>(result);
+        var url = "/api/todos/delete";
+        var content = new FormUrlEncodedContent(
+            new[]
+            {
+                new KeyValuePair<string, string>("guid", todos[0].Id.ToString())
+            });
+
+        var response = await HttpClient.PostAsync(url, content);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
+
+        var resultAfter = await HttpClient.GetStringAsync("/api/todos");
+        var todosAfter = JsonConvert.DeserializeObject<TodoItem[]>(resultAfter);
+        Assert.That(todosAfter, Has.Length.EqualTo(0));
+    }
+
+    [Test]
+    public async Task DeleteInvalidID()
+    {
+        var result = await HttpClient.GetStringAsync("/api/todos");
+        var todos = JsonConvert.DeserializeObject<TodoItem[]>(result);
+        var url = "/api/todos/delete";
+        var content = new FormUrlEncodedContent(
+            new[]
+            {
+                new KeyValuePair<string, string>("guid", "6e7d8ae1-0a01-4a6e-9c22-95f71443f1f2")
+            });
+
+        var response = await HttpClient.PostAsync(url, content);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
+    }
+
+    [Test]
     public async Task Checkbox()
     {
         var result = await HttpClient.GetStringAsync("/api/todos");

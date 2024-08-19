@@ -21,6 +21,11 @@ public class InMemoryTodoRepository : ITodoRepository
         return _todoItems.GetValueOrDefault(guid);
     }
 
+    public bool Delete(Guid id)
+    {
+        return _todoItems.Remove(id);
+    }
+
     public void Update(TodoItem todo)
     {
         if (!_todoItems.ContainsKey(todo.Id))

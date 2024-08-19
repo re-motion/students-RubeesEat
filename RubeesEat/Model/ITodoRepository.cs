@@ -9,4 +9,6 @@ public interface ITodoRepository
     TodoItem? GetById(Guid guid);
 
     void Update(TodoItem todo);
+
+    bool Delete(Guid id);
 }

@@ -1,10 +1,12 @@
 ﻿using RubeesEat.IntegrationTests.PageObjects;
+using RubeesEat.Model;
 
 namespace RubeesEat.IntegrationTests.SeleniumTests;
 
 public class TodoSeleniumTests : SeleniumIntegrationTestBase
 {
-    public TodoSeleniumTests() : base("Todo")
+    public TodoSeleniumTests()
+        : base("Todo")
     {
     }
 
@@ -29,6 +31,35 @@ public class TodoSeleniumTests : SeleniumIntegrationTestBase
         Assert.That(
             page.GetTodoTexts(),
             Is.EqualTo(new[] { "My first todo", "My new todo" }));
+    }
+
+    [Test]
+    public void DeleteTodo()
+    {
+        var page = Start<TodoPageObject>();
+        page.GetTodos()[0].ClickDeleteTodo();
+        page.ClickConfirmDelete();
+
+        Assert.That(page.GetTodoTexts(), Is.Empty);
+    }
+
+    [Test]
+    public void CancelDeleteTodo()
+    {
+        var page = Start<TodoPageObject>();
+        page.GetTodos()[0].ClickDeleteTodo();
+        page.ClickCancelTodo();
+
+        Assert.That(
+            page.GetTodoTexts(),
+            Is.EqualTo(new[] { "My first todo" }));
+    }
+
+    [Test]
+    [Ignore("TODO: DSEAT-7 Add web test test deleting same TODO twice")]
+    public void DeleteAlreadyDeletedTodo()
+    {
+        // TODO: DSEAT-7 Add web test test deleting same TODO twice
     }
 
     [Test]

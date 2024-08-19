@@ -17,18 +17,20 @@ namespace RubeesEat.IntegrationTests.WebTesting
         public static void ClickAndWaitUntilStale(this IWebElement webElement)
         {
             webElement.Click();
-            WaitUntil(webElement, e =>
-            {
-                try
+            WaitUntil(
+                webElement,
+                e =>
                 {
-                    var attribute = e.GetAttribute("dummy");
-                    return false;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    return true;
-                }
-            });
+                    try
+                    {
+                        var attribute = e.GetAttribute("dummy");
+                        return false;
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return true;
+                    }
+                });
         }
 
         public static string GetInnerHtml(this IWebElement webElement)

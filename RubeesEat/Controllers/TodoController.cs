@@ -35,6 +35,15 @@ public class TodoController : ControllerBase
         return TypedResults.Redirect("/Todo");
     }
 
+
+    [Route("delete")]
+    [HttpPost]
+    public Results<BadRequest<string>, RedirectHttpResult> Delete([FromForm] string guid)
+    {
+        _todoRepository.Delete(new Guid(guid));
+        return TypedResults.Redirect("/Todo");
+    }
+
     [Route("checkbox")]
     [HttpPost]
     public Results<BadRequest<string>, RedirectHttpResult> Checkbox([FromForm] Guid guid, [FromForm] bool checkbox)

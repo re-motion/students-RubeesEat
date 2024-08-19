@@ -1,35 +1,34 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace RubeesEat.IntegrationTests.WebTesting
+namespace RubeesEat.IntegrationTests.WebTesting;
+
+public abstract class PageObject
 {
-    public abstract class PageObject
+    private ChromeDriver _driver;
+
+    private ChromeDriver Driver =>
+        _driver ?? throw new InvalidOperationException("PageObject is not assigned to a driver.");
+
+    internal void SetDriver(ChromeDriver driver)
     {
-        private ChromeDriver _driver;
+        _driver = driver;
+    }
 
-        private ChromeDriver Driver =>
-            _driver ?? throw new InvalidOperationException("PageObject is not assigned to a driver.");
+    public ChromeDriver GetDriver() => _driver;
 
-        internal void SetDriver(ChromeDriver driver)
-        {
-            _driver = driver;
-        }
+    public IWebElement FindElement(By by)
+    {
+        return Driver.FindElement(by);
+    }
 
-        public ChromeDriver GetDriver() => _driver;
+    public IReadOnlyCollection<IWebElement> FindElements(By by)
+    {
+        return Driver.FindElements(by);
+    }
 
-        public IWebElement FindElement(By by)
-        {
-            return Driver.FindElement(by);
-        }
-
-        public IReadOnlyCollection<IWebElement> FindElements(By by)
-        {
-            return Driver.FindElements(by);
-        }
-
-        public void Refresh()
-        {
-            Driver.Navigate().Refresh();
-        }
+    public void Refresh()
+    {
+        Driver.Navigate().Refresh();
     }
 }
