@@ -35,10 +35,11 @@ public class Startup
 
         app.UseRouting();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapRazorPages();
-            endpoints.MapControllers();
-        });
+        app.UseEndpoints(
+            endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+            });
     }
 }

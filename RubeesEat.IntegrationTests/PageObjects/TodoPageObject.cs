@@ -28,4 +28,14 @@ public class TodoPageObject : PageObject
     {
         FindElement(By.Id("addTodoButton")).ClickAndWaitUntilStale();
     }
+
+    public void ClickConfirmDelete()
+    {
+        FindElement(By.CssSelector("#confirmDelete")).ClickAndWaitUntilStale();
+    }
+
+    public void ClickCancelTodo()
+    {
+        FindElement(By.CssSelector("#cancelDelete")).ClickAndWaitUntilStale();
+    }
 }

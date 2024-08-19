@@ -3,15 +3,15 @@ using RubeesEat.IntegrationTests.WebTesting;
 
 namespace RubeesEat.IntegrationTests.PageObjects;
 
-public class TodoControlObject : ControlObject
+public class TodoControlObject(PageObject page, IWebElement me) : ControlObject(page, me)
 {
-    public TodoControlObject(PageObject page, IWebElement me) : base(page, me)
-    {
-    }
-
-    public string Text => Me.Text;
-
+    public string Text => Me.FindElement(By.CssSelector(".text")).Text;
     public bool IsChecked => FindElement(By.CssSelector(".checkbox")).Selected;
+
+    public void ClickDeleteTodo()
+    {
+        FindElement(By.CssSelector(".deleteButton")).ClickAndWaitUntilStale();
+    }
 
     public void ToggleChecked()
     {

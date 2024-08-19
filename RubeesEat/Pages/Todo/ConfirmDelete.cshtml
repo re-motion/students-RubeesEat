@@ -1,0 +1,12 @@
+@page "{guid}"
+@inject ITodoRepository todoRepository
+
+Confirm Delete:
+<a href="/../../Todo">
+    <button id="cancelDelete">cancel</button>
+</a>
+
+<form method="post" action="/api/todos/delete">
+    <input type="hidden" name="guid" value="@RouteData.Values["guid"]"/>
+    <button id="confirmDelete">confirm</button>
+</form>
