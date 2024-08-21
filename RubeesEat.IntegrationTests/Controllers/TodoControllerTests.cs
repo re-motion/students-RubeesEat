@@ -113,4 +113,64 @@ public class TodoControllerTests : IntegrationTestBase
         var response = await HttpClient.PostAsync(url, content);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
+
+    [Test]
+    public async Task Rename()
+    {
+        var result = await HttpClient.GetStringAsync("/api/todos");
+        var todos = JsonConvert.DeserializeObject<TodoItem[]>(result);
+        var content = new FormUrlEncodedContent(
+            new[]
+            {
+                new KeyValuePair<string, string>("renameTodo", "Renamed"),
+                new KeyValuePair<string, string>("guid", todos[0].Id.ToString())
+            });
+        var response = await HttpClient.PostAsync("/api/todos/rename", content);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
+        result = await HttpClient.GetStringAsync("/api/todos");
+
+        var todos2 = JsonConvert.DeserializeObject<TodoItem[]>(result);
+        Assert.That(todos2, Is.Not.Null);
+        Assert.That(todos2, Has.Length.EqualTo(1));
+        Assert.Multiple(
+            () =>
+            {
+                Assert.That(todos2[0].Name, Is.EqualTo("Renamed"));
+                Assert.That(todos2[0].IsCompleted, Is.False);
+            });
+    }
+
+    [Test]
+    public async Task RenameWithEmptyString()
+    {
+        var result = await HttpClient.GetStringAsync("/api/todos");
+        var todos = JsonConvert.DeserializeObject<TodoItem[]>(result);
+        var content = new FormUrlEncodedContent(
+            new[]
+            {
+                new KeyValuePair<string, string>("renameTodo", ""),
+                new KeyValuePair<string, string>("guid", todos[0].Id.ToString())
+            });
+        var response = await HttpClient.PostAsync("/api/todos/rename", content);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+    }
+
+    [Test]
+    public async Task RenameWithInvalidID()
+    {
+        var result = await HttpClient.GetStringAsync("/api/todos");
+        var todos = JsonConvert.DeserializeObject<TodoItem[]>(result);
+        var content = new FormUrlEncodedContent(
+            new[]
+            {
+                new KeyValuePair<string, string>("renameTodo", "asrg"),
+                new KeyValuePair<string, string>("guid", "582adda4-e1b7-4a03-b5d3-358adb42105e")
+            });
+        var response = await HttpClient.PostAsync("/api/todos/rename", content);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
+
+        var result2 = await HttpClient.GetStringAsync("/api/todos");
+        var todos2 = JsonConvert.DeserializeObject<TodoItem[]>(result2);
+        Assert.That(todos, Is.EqualTo(todos2));
+    }
 }

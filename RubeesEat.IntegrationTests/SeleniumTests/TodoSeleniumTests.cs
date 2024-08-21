@@ -102,4 +102,53 @@ public class TodoSeleniumTests : SeleniumIntegrationTestBase
             Is.EqualTo((false))
         );
     }
+
+    [Test]
+    public void ConfirmRename()
+    {
+        var page = Start<TodoPageObject>();
+        var todoControlObject = page.GetTodos()[0];
+        string expectedName = "New todo name";
+
+        using (var renamePage = todoControlObject.ClickRenameTodo())
+        {
+            renamePage.SetNewRenameText(expectedName);
+            renamePage.ClickConfirmRename();
+        }
+
+        todoControlObject = page.GetTodos()[0];
+        Assert.That(page, Is.Not.Null);
+        Assert.That(todoControlObject.Text, Is.EqualTo(expectedName));
+    }
+
+    [Test]
+    public void CancelRename()
+    {
+        var page = Start<TodoPageObject>();
+        var renamePage = Start<RenamePageObject>();
+
+        var todoControlObject = page.GetTodos()[0];
+        todoControlObject.ClickRenameTodo();
+        renamePage.ClickCancelRename();
+        Assert.That(
+            page.GetTodoTexts(),
+            Is.EqualTo(new[] { "My first todo" }));
+    }
+
+    [Test]
+    public void EmptyStringRename()
+    {
+        var page = Start<TodoPageObject>();
+        var renamePage = Start<RenamePageObject>();
+
+        var todoControlObject = page.GetTodos()[0];
+        todoControlObject.ClickRenameTodo();
+        string invalidInput = "";
+        renamePage.SetNewRenameText(invalidInput);
+        renamePage.ClickConfirmRenameNotUntilStale();
+
+        Assert.That(
+            page.GetTodoTexts(),
+            Is.EqualTo(Array.Empty<string>()));
+    }
 }

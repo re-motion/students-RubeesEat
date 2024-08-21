@@ -63,4 +63,26 @@ public class TodoController : ControllerBase
 
         return TypedResults.Redirect("/Todo");
     }
+    
+    [Route("rename")]
+    [HttpPost]
+    public Results<BadRequest<string>, RedirectHttpResult> Rename([FromForm] Guid guid, [FromForm] string renameTodo)
+    {
+        if (string.IsNullOrEmpty(renameTodo))
+            return TypedResults.BadRequest("TODO name is invalid.");
+
+        var todo = _todoRepository.GetById(guid);
+        if (todo == null)
+            return TypedResults.Redirect("/Todo");
+        try
+        {
+            _todoRepository.Update(todo.WithName(renameTodo));
+        }
+        catch (ArgumentException)
+        {
+            return TypedResults.Redirect("/Todo");
+        }
+
+        return TypedResults.Redirect("/Todo");
+    }
 }

@@ -26,5 +26,16 @@ namespace RubeesEat.IntegrationTests.WebTesting
         {
             return Me.FindElements(by);
         }
+        
+        public TPageObject CreatePageObject<TPageObject>()
+            where TPageObject : PageObject, new()
+        {
+            var page = new TPageObject();
+            page.SetDriver(Page.Driver);
+
+            return page;
+        }
+
+        public ChromeDriver Driver { get; set; }
     }
 }

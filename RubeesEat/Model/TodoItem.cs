@@ -14,4 +14,13 @@ public class TodoItem(Guid id, string name, bool isCompleted)
     {
         return new TodoItem(Id, Name, isCompleted);
     }
+    
+    public TodoItem WithName(string name)
+    {
+        if (name == Name)
+        {
+            return this;
+        }
+        return new TodoItem(Id, name, IsCompleted);
+    }
 }

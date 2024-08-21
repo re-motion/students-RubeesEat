@@ -3,11 +3,11 @@ using OpenQA.Selenium.Chrome;
 
 namespace RubeesEat.IntegrationTests.WebTesting;
 
-public abstract class PageObject
+public abstract class PageObject : IDisposable
 {
     private ChromeDriver _driver;
 
-    private ChromeDriver Driver =>
+    public ChromeDriver Driver =>
         _driver ?? throw new InvalidOperationException("PageObject is not assigned to a driver.");
 
     internal void SetDriver(ChromeDriver driver)
@@ -30,5 +30,9 @@ public abstract class PageObject
     public void Refresh()
     {
         Driver.Navigate().Refresh();
+    }
+
+    public void Dispose()
+    {
     }
 }
