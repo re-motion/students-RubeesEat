@@ -1,4 +1,4 @@
-﻿@page
+@page
 @inject ITodoRepository todoRepository
 
 My todo list:
@@ -13,9 +13,8 @@ My todo list:
                 <input type="hidden" name="guid" value="@item.Id"/>
             </form>
             <span class="text">@item.Name</span>
-            <a href="Todo/ConfirmDelete/@item.Id">
-                <button class="deleteButton">Delete</button>
-            </a>
+            <a href="Todo/ConfirmDelete/@item.Id" class="deleteButton">Delete</a>
+            <a href="Todo/Rename/@item.Id" class="renameButton">Rename</a>
         </li>
     }
 </ul>

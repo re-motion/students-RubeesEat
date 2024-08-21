@@ -17,4 +17,10 @@ public class TodoControlObject(PageObject page, IWebElement me) : ControlObject(
     {
         FindElement(By.CssSelector(".checkbox")).ClickAndWaitUntilStale();
     }
+
+    public RenamePageObject ClickRenameTodo()
+    {
+        FindElement(By.CssSelector(".renameButton")).ClickAndWaitUntilStale();
+        return CreatePageObject<RenamePageObject>();
+    }
 }
