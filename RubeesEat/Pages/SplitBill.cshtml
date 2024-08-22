@@ -1,0 +1,87 @@
+@page
+@inject IPersonRepository PersonRepository
+
+Split bill:
+<form id="splitBillForm" method="post" action="/api/bills">
+
+    <label for="billDescription">Description:</label>
+    <input id="billDescription" type="text" name="billDescription" required="required"><br>
+
+    <label for="billAmount">Total Price:</label>
+    <input id="billAmount" type="number" step=".01" name="billAmount" required="required"><br>
+
+    <span id="addedPeople"></span>
+
+    <label for="billPeople">Add Person:</label>
+    <select name="billPeople" id="billPeople">
+        @foreach (Person person in PersonRepository.GetAll())
+        {
+            <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
+        }
+    </select>
+    <input id ="addPersonButton" type="button" onclick="getOption()" value="Add Person"><br/>
+
+    <button id="splitBillButton" type="button" onclick="validate()">Split the bill</button><br>
+    <text id="placeForErrorMessage" style="color: red;"></text>
+
+    <script type="text/javascript">
+        let counter = 0;
+        function getOption() {
+            selectElement = document.querySelector('#billPeople');
+            let selectedPerson = selectElement.value;
+            let selectedId = selectElement.options[selectElement.selectedIndex].getAttribute("data-id");
+            
+            let personSpan = document.createElement("span");
+            personSpan.textContent = selectedPerson;
+            personSpan.id = selectedId;
+            document.querySelector("#addedPeople").appendChild(personSpan);
+            
+            let id = document.createElement("input");
+            id.type = "hidden";
+            id.name = "id" + counter.toString();
+            id.value = selectedId;
+            document.querySelector("#addedPeople").append(id);
+            
+            let amount = document.createElement("input");
+            amount.name = "amount" + counter.toString();
+            amount.type = "number";
+            amount.step = ".01";
+            console.log("creating amount element for: "+selectedId+" nr: "+counter);
+            document.getElementById(selectedId).append(amount);
+            document.getElementById(selectedId).append(document.createElement("br"));
+            counter++;
+            
+            var dropdown = document.getElementById("billPeople");
+            dropdown.remove(dropdown.selectedIndex)
+        }
+        
+        function validate() {
+            let amounts = document.querySelectorAll("[name^='amount']");
+            let description = document.getElementById("billDescription");
+            let sum = 0;
+            amounts.forEach((amount) => sum += parseFloat(amount.value));
+            
+            let totalAmount = parseFloat(document.getElementById("billAmount").value);
+            
+            if(description.value === "")
+            {
+                document.getElementById("placeForErrorMessage").textContent = "Please enter a description.";
+                return;
+            }
+            
+            if (!document.querySelector("#addedPeople").hasChildNodes())
+            {
+                document.getElementById("placeForErrorMessage").textContent = "Please add a person.";
+                return;
+            }
+            
+            if (totalAmount !== sum || totalAmount === 0) 
+            {
+                document.getElementById("placeForErrorMessage").textContent = "The sum of individual amounts doesn't match the total bill amount.";
+                return;
+            }
+
+            document.getElementById("splitBillForm").submit();
+        }
+    </script>
+</form>

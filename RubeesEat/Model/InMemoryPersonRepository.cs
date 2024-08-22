@@ -36,7 +36,7 @@ public class InMemoryPersonRepository : IPersonRepository
         return _persons[CurrentUser];
     }
 
-    public Person? GetById(Guid guid)
+    public Person GetById(Guid guid)
     {
         return _persons[guid];
     }
