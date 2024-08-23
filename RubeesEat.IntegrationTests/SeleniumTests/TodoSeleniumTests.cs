@@ -151,4 +151,23 @@ public class TodoSeleniumTests : SeleniumIntegrationTestBase
             page.GetTodoTexts(),
             Is.EqualTo(Array.Empty<string>()));
     }
+
+    [Test]
+    public void DeleteSameTodoTwice()
+    {
+        var page = Start<TodoPageObject>();
+        page.GetTodos()[0].ClickDeleteTodo();
+
+        page.NewWindow();
+        page = Start<TodoPageObject>();
+        page.GetTodos()[0].ClickDeleteTodo();
+
+        page.ClickConfirmDelete();
+
+        page.ToFirstWindow();
+
+        page.ClickConfirmDelete();
+
+        Assert.That(page.GetTodoTexts(), Is.Empty);
+    }
 }

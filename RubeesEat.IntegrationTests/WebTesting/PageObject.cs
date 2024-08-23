@@ -35,4 +35,15 @@ public abstract class PageObject : IDisposable
     public void Dispose()
     {
     }
+
+    public void NewWindow()
+    {
+        Driver.SwitchTo().NewWindow(WindowType.Tab);
+        Driver.SwitchTo().Window(Driver.WindowHandles.Last());
+    }
+
+    public void ToFirstWindow()
+    {
+        Driver.SwitchTo().Window(Driver.WindowHandles.First());
+    }
 }
