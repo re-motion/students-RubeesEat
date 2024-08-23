@@ -4,4 +4,6 @@ public interface IBillRepository
 {
     IReadOnlyList<Bill> GetAll();
     void Add(Bill bill);
+    IReadOnlyList<Bill> GetAllForUser(Person user);
+    IReadOnlyList<BalanceChange> GetRecentBalanceChanges(Person user, int amount);
 }

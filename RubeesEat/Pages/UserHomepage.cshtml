@@ -1,0 +1,20 @@
+@page
+@using System.Globalization
+@inject IBillRepository billRepository
+@inject IPersonRepository personRepository
+
+Hello, @personRepository.GetCurrentUser().FirstName!
+
+
+<ul id="balanceChanges" style="list-style: none">
+    @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 10))
+    {
+        <li>
+
+            <div class="amount" style="display: inline; color: @(item.Amount < 0 ? "red" : "green");">@item.Amount€</div>
+
+            <div class="date" style="display: inline;">@item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))</div>
+            <div class="description" style="display: inline;">@item.Description</div>
+        </li>
+    }
+</ul>
