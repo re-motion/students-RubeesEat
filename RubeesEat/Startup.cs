@@ -38,9 +38,9 @@ public class Startup
         var billRepository = new InMemoryBillRepository();
         billRepository.Add(new Bill(Guid.NewGuid(), new DateTime(2024, 9, 9), "Mittagessen auf Patrick sein Nacken",
         [
-            new EntryLine(persons[1], 1_000_000),
-            new EntryLine(persons[2], -500_000),
-            new EntryLine(persons[3], -500_000)
+            new EntryLine(persons[0], 1_000_000.50m),
+            new EntryLine(persons[2], -500_000.50m),
+            new EntryLine(persons[3], -500_000m)
         ]));
         billRepository.Add(new Bill(Guid.NewGuid(), new DateTime(2025, 8, 19), "Default user paid lunch 2025",
         [
