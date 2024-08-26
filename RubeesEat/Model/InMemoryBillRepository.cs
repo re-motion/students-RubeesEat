@@ -56,4 +56,12 @@ public class InMemoryBillRepository : IBillRepository
 
         return balanceChanges;
     }
+
+    public decimal GetBalance(Person user)
+    {
+        return _bills.Values
+                     .SelectMany(e => e.EntryLines)
+                     .Where(e => e.Person == user)
+                     .Sum(e => e.Amount);
+    }
 }

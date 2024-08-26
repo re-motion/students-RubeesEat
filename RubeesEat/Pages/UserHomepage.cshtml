@@ -5,6 +5,15 @@
 
 Hello, @personRepository.GetCurrentUser().FirstName!
 
+@{
+    var amount = billRepository.GetBalance(personRepository.GetCurrentUser());
+    var isPositive = amount >= 0;
+    var displayColor = isPositive ? "green" : "red";
+    var sign = isPositive ? "+" : "-";
+    var amountAsString = sign + " " + amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
+}
+
+<div id="balance" style="color: @displayColor">@amountAsString</div>
 
 <ul id="balanceChanges" style="list-style: none">
     @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 10))

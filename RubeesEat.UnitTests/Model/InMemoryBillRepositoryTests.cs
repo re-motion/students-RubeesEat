@@ -210,4 +210,35 @@ public class InMemoryBillRepositoryTests
         Assert.That(recentBalanceChanges[1].Date, Is.EqualTo(new DateTime(2023, 1, 5)));
         Assert.That(recentBalanceChanges[2].Date, Is.EqualTo(new DateTime(2004, 5, 11)));
     }
+    
+    [Test] 
+    public void GetBalance_ReturnsAccountBalance()
+    {
+        var storage = new Dictionary<Guid, Bill>();
+        storage.Add(TestDomain.BillCafeLeBlanc.Id, TestDomain.BillCafeLeBlanc);
+        storage.Add(TestDomain.BillMaidCafe.Id, TestDomain.BillMaidCafe);
+        
+        EntryLine[] entryLines =
+        [
+            new EntryLine(TestDomain.Jack, 60),
+            new EntryLine(TestDomain.Yusuke, -60)
+        ];
+        Bill mcDonalds = Bill.Create("McDonalds", entryLines);
+        storage.Add(mcDonalds.Id, mcDonalds);
+        
+        var billRepository = new InMemoryBillRepository(storage);
+        
+        Assert.That(billRepository.GetBalance(TestDomain.Jack), Is.EqualTo(10));
+    }
+    
+    [Test] 
+    public void GetBalance_PersonNotInAnyBill_ReturnsZero()
+    {
+        var storage = new Dictionary<Guid, Bill>();
+        storage.Add(TestDomain.BillCafeLeBlanc.Id, TestDomain.BillCafeLeBlanc);
+        storage.Add(TestDomain.BillMaidCafe.Id, TestDomain.BillMaidCafe);
+        var billRepository = new InMemoryBillRepository(storage);
+        
+        Assert.That(billRepository.GetBalance(TestDomain.Levi), Is.EqualTo(0));
+    }
 }
