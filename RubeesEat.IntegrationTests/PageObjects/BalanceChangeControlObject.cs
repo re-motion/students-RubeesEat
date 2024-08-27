@@ -13,4 +13,10 @@ public class BalanceChangeControlObject : ControlObject
     public string Date => Me.FindElement(By.CssSelector(".date")).Text;
     public string Description => Me.FindElement(By.CssSelector(".description")).Text;
     public string Text => Me.Text;
+    
+    public BillDetailsPageObject ClickBillDetails()
+    {
+        FindElement(By.CssSelector(".clickBillDetails")).ClickAndWaitUntilStale();
+        return CreatePageObject<BillDetailsPageObject>();
+    }
 }

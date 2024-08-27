@@ -19,11 +19,17 @@ Hello, @personRepository.GetCurrentUser().FirstName!
     @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 10))
     {
         <li>
-
-            <div class="amount" style="display: inline; color: @(item.Amount < 0 ? "red" : "green");">@item.Amount€</div>
-
-            <div class="date" style="display: inline;">@item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))</div>
-            <div class="description" style="display: inline;">@item.Description</div>
+            <a class="clickBillDetails" href="BillDetails/@item.BillId">
+                <div class="amount" style="display: inline; color: @(item.Amount < 0 ? "red" : "green");">
+                    @item.Amount€
+                </div>
+                <div class="date" style="display: inline;">
+                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                </div>
+                <div class="description" style="display: inline;">
+                    @item.Description
+                </div>
+            </a>
         </li>
     }
 </ul>

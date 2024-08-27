@@ -1,0 +1,33 @@
+@page "{guid}"
+@using System.Globalization
+@inject IBillRepository billRepository
+
+Bill Details:
+@{
+    var billId = Guid.Parse(RouteData.Values["guid"].ToString());
+    if (billRepository.GetById(billId) is null)
+    {
+        <div id="errorText" style="color:red"> Bill was not found!</div>
+    }
+    else
+    {
+        var item = billRepository.GetById(billId);
+        <div class="personWhoPayed" style="">Paid by: @(item.EntryLines[0].Person.FirstName) 
+            @(item.EntryLines[0].Person.LastName) </div>
+        <div class="date">@item.Date.ToString("D")</div>
+        <div class="description">@item.Description</div>
+        <div class="amount" style="display: inline;">Total amount: @item.EntryLines[0].Amount€</div>
+        <ul>
+            @for (int i = 1; i < item.EntryLines.Length; i++)
+            {
+                <li id="entryLine">
+
+                    <div class="person" style="display:inline;">@(item.EntryLines[i].Person.FirstName) 
+                        @(item.EntryLines[i].Person.LastName): </div>
+                    <div class="amountPerPerson" style="display:inline; color: @(item.EntryLines[i].Amount < 0 ? "red" : "green")">@item.EntryLines[i].Amount€ </div>
+
+                </li>
+            }
+        </ul>
+    }
+}
