@@ -21,7 +21,9 @@ public class InMemoryBillRepository : IBillRepository
 
     public Bill? GetById(Guid guid)
     {
-        return _bills[guid];
+        return _bills.TryGetValue(guid, out var bill)
+            ? bill
+            : null;
     }
 
     public void Add(Bill bill)
@@ -50,7 +52,7 @@ public class InMemoryBillRepository : IBillRepository
                           .Where(entryLine => entryLine.Person.Id == user.Id)
                           .Sum(entryLine => entryLine.Amount);
 
-            balanceChanges.Add(new BalanceChange(sum, bill.Date, bill.Description));
+            balanceChanges.Add(new BalanceChange(sum, bill.Date, bill.Description, bill.Id));
             counter++;
         }
 

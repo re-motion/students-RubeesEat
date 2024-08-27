@@ -9,12 +9,15 @@ public class BalanceChange
     public DateTime Date { get; }
 
     public string Description { get; }
+    
+    public Guid BillId { get; }
 
-    public BalanceChange(decimal amount, DateTime date, string description)
+    public BalanceChange(decimal amount, DateTime date, string description, Guid billId)
     {
         ArgumentNullException.ThrowIfNull(description);
         Amount = amount;
         Date = date;
         Description = description;
+        BillId = billId;
     }
 }
