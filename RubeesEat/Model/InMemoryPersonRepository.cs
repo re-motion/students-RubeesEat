@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace RubeesEat.Model;
 
 public class InMemoryPersonRepository : IPersonRepository
@@ -36,8 +38,22 @@ public class InMemoryPersonRepository : IPersonRepository
         return _persons[CurrentUser];
     }
 
-    public Person? GetById(Guid guid)
+    public Person? GetById(Guid id)
     {
-        return _persons[guid];
+        return _persons.TryGetValue(id, out var person) ? person : null;
+    }
+    
+    public bool TryGetById(Guid guid, [NotNullWhen(true)] out Person? person)
+    {
+        try
+        {
+            person = _persons[guid];
+            return true;
+        }
+        catch (KeyNotFoundException e)
+        {
+            person = null;
+            return false;
+        }
     }
 }

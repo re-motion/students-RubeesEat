@@ -1,0 +1,27 @@
+@page
+@inject IPersonRepository PersonRepository
+
+Split bill:
+<form id="splitBillForm" method="post" action="/api/bills">
+
+    <label for="billDescription">Description:</label>
+    <input id="billDescription" type="text" name="billDescription" required="required"><br>
+
+    <label for="billAmount">Total Price:</label>
+    <input id="billAmount" type="number" step=".01" name="billAmount" required="required"><br>
+
+    <span id="addedPeople"></span>
+
+    <label for="billPeople">Add Person:</label>
+    <select name="billPeople" id="billPeople">
+        @foreach (Person person in PersonRepository.GetAll())
+        {
+            <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
+        }
+    </select>
+    <input id="addPersonButton" type="button" onclick="AddPerson()" value="Add Person"><br/>
+
+    <button id="splitBillButton" type="button" onclick="validate()">Split the bill</button><br>
+    <text id="placeForErrorMessage" style="color: red;"></text>
+</form>
+<script type="text/javascript" src="js/SplitBill.js"></script> 

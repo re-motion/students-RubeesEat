@@ -6,7 +6,7 @@ public class Bill
 {
     public static Bill Create(string description, EntryLine[] entryLines) =>
         new(Guid.NewGuid(), DateTime.Now, description, [..entryLines]);
-    
+
     public Guid Id { get; }
     public DateTime Date { get; }
     public string Description { get; }
