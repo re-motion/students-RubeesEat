@@ -25,7 +25,6 @@ public class BillTests
         Assert.That(bill.Date, Is.EqualTo(expectedTime));
         Assert.That(bill.Description, Is.EqualTo("Going to Macdonal"));
         Assert.That(bill.EntryLines.Length, Is.EqualTo(3));
-
     }
 
     [Test]
@@ -36,8 +35,9 @@ public class BillTests
             new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax"), 100),
             new EntryLine(new Person(Guid.NewGuid(), "Klara", "Malernachzahler"), -50)
         ];
-        
-        Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Bolognese Flade in der Fladerei", entryLines), Throws.TypeOf<ArgumentException>().With.Message.EqualTo("Sum of entry lines should be 0."));
+
+        Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Bolognese Flade in der Fladerei", entryLines),
+            Throws.TypeOf<ArgumentException>().With.Message.EqualTo("Sum of entry lines should be 0."));
     }
 
     [Test]
@@ -47,7 +47,8 @@ public class BillTests
         [
             new EntryLine(new Person(Guid.NewGuid(), "Doctor", "Doofenshmirtz"), 100)
         ];
-        
-        Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Alleine bei seiner Geburt", entryLines), Throws.TypeOf<ArgumentException>().With.Message.EqualTo("Entry lines should contain at least 2."));
+
+        Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Alleine bei seiner Geburt", entryLines),
+            Throws.TypeOf<ArgumentException>().With.Message.EqualTo("Entry lines should contain at least 2."));
     }
 }
