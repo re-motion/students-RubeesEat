@@ -4,12 +4,38 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Rubees Eat</title>
-    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
     <link rel="icon" type="image/x-icon" href="~/favicon.ico">
 </head>
 <body>
-@RenderBody()
+<nav>
+    <div>
+        <a href="/./">
+            <img src="/logo_dark.png" alt="Rubees Eat logo " class="logo"/>
+        </a>
+    </div>
+    <ul>
+        <li>
+            <a href="/./">Home</a>
+        </li>
+        <li>
+            <a href="/SplitBill">Split a bill</a>
+        </li>
+        <li>
+            <a href="/LookBill">Show bills</a>
+        </li>
+    </ul>
+    <button class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
 
-<script src="~/js/site.js"></script>
+<div>
+    @RenderBody()
+</div>
+
+<script src="/js/site.js"></script>
 </body>
 </html>

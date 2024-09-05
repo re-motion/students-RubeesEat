@@ -3,31 +3,33 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-Hello, @personRepository.GetCurrentUser().FirstName!
+<h1>Hello, @personRepository.GetCurrentUser().FirstName!</h1>
 
 @{
     var amount = billRepository.GetBalance(personRepository.GetCurrentUser());
     var isPositive = amount >= 0;
-    var displayColor = isPositive ? "green" : "red";
     var sign = isPositive ? "+" : "-";
     var amountAsString = sign + " " + amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
+    var displayClass = isPositive ? "positive-balance" : "negative-balance";
 }
 
-<div id="balance" style="color: @displayColor">@amountAsString</div>
+<div id="balance" class="@displayClass">@amountAsString</div>
 
-<ul id="balanceChanges" style="list-style: none">
+<ul class="entryLines">
     @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 10))
     {
         <li>
             <a class="clickBillDetails" href="BillDetails/@item.BillId">
-                <div class="amount" style="display: inline; color: @(item.Amount < 0 ? "red" : "green");">
-                    @item.Amount€
+                <div class="amount-description">
+                    <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")">
+                        @item.Amount€
+                    </span>
+                    <span class="descriptionHomepage">
+                        @item.Description
+                    </span>
                 </div>
-                <div class="date" style="display: inline;">
+                <div class="dateHomepage">
                     @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
-                </div>
-                <div class="description" style="display: inline;">
-                    @item.Description
                 </div>
             </a>
         </li>

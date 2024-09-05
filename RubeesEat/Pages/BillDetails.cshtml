@@ -17,7 +17,7 @@ Bill Details:
         <div class="date">@item.Date.ToString("D")</div>
         <div class="description">@item.Description</div>
         <div class="amount" style="display: inline;">Total amount: @item.EntryLines[0].Amount€</div>
-        <ul>
+        <ul class="entryLines">
             @for (int i = 1; i < item.EntryLines.Length; i++)
             {
                 <li id="entryLine">
