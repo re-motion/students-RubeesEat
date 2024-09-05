@@ -3,7 +3,7 @@ using RubeesEat.IntegrationTests.PageObjects;
 namespace RubeesEat.IntegrationTests.SeleniumTests;
 
 [TestFixture]
-public class UserHomepageSeleniumTests() : SeleniumIntegrationTestBase("UserHomepage")
+public class RubeesEatSeleniumTests() : SeleniumIntegrationTestBase("Index")
 {
     [Test]
     public void GetDefaultBalanceChanges()

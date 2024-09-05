@@ -14,7 +14,7 @@ public class UserHomepagePageObject : PageObject
 
     public BalanceChangeControlObject[] GetBalanceChanges()
     {
-        return FindElements(By.CssSelector("#balanceChanges > li"))
+        return FindElements(By.CssSelector(".entryLines > li"))
                .Select(e => new BalanceChangeControlObject(this, e))
                .ToArray();
     }

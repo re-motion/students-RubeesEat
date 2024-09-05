@@ -1,0 +1,132 @@
+/*source: https://www.joshwcomeau.com/css/custom-css-reset/*/
+
+:root {
+    --primary-color: #fbbf00;
+    --secondary-color: #2d332f;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    font-family: "Metric Regular", Arial, Tahoma, sans-serif;
+    text-align: center;
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    text-align: center;
+}
+
+nav {
+    background-color: var(--primary-color);
+    padding: 1em 2em;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav > ul {
+    background-color: var(--primary-color);
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    top: 100%;
+    left: 0;
+    right: 0;
+    list-style-type: none;
+    margin: 0;
+    padding-bottom: 1em;
+    align-items: center;
+}
+
+nav > ul.active {
+    display: flex;
+}
+
+nav > ul > li {
+    margin-right: 1.5em;
+    transition: all 0.3s ease;
+}
+
+nav > ul > li > a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav > ul > li:hover {
+    transform: scale(1.15);
+    z-index: 1;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-left: auto;
+}
+
+.hamburger {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.hamburger > span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: black;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active > span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active > span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active > span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+@media (min-width: 512px)
+{
+    nav {
+        justify-content: start;
+    }
+    nav > ul {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        padding-bottom: 0;
+        align-items: center;
+    }
+
+    .hamburger {
+        display: none;
+    }
+}
