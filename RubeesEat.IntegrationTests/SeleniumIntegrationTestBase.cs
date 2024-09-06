@@ -25,7 +25,8 @@ public class SeleniumIntegrationTestBase
         _webHost = Host.CreateDefaultBuilder()
                        .ConfigureWebHostDefaults(c => c
                                                       .UseUrls(c_hostingUrl)
-                                                      .UseStartup<Startup>())
+                                                      .UseStartup<Startup>()
+                                                      .UseContentRoot("..\\..\\..\\..\\RubeesEat"))
                        .Build();
         _webHost.Start();
 
