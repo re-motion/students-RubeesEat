@@ -208,6 +208,17 @@ input[type="button"]:focus
     outline: 0; 
 }
 
+.button:disabled,
+button:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled,
+input[type="button"]:disabled
+{
+    color:gray;
+    border-color: gray;
+    outline: 0;
+}
+
 .button.button-primary,
 button.button-primary,
 input[type="submit"].button-primary,
