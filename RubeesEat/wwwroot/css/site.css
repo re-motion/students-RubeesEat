@@ -250,12 +250,18 @@ input[type="button"].button-primary:focus {
 }
 
 .entryLines {
+    display: flex;
+    flex-direction: column;
     list-style: none;
     padding: 0;
-    margin: 10px;
+    margin: 10px auto;
+    align-items: center;
 }
 
 .entryLines li {
+    max-width: 800px;
+    width: 100%;
+    word-wrap: break-word;
     margin: 10px 10%;
     padding: 10px;
     background-color: white;
@@ -282,6 +288,16 @@ input[type="button"].button-primary:focus {
 
 .amount.positive-amount {
     color: green;
+}
+
+.amount-description {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.descriptionHomepage {
+    flex-grow: 1;
 }
 
 .entryLines li:hover {
