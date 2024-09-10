@@ -131,6 +131,15 @@ p, h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 }
 
+div
+{
+    overflow-wrap: break-word;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
 p { font-size: 1.0rem; line-height: 1.2;  letter-spacing: -.1rem;}
 h1 { font-size: 2.5rem; line-height: 1.2;  letter-spacing: -.1rem;}
 h2 { font-size: 2.5rem; line-height: 1.25; letter-spacing: -.1rem; }
@@ -265,10 +274,14 @@ input[type="button"].button-primary:focus {
 .entryLines {
     list-style: none;
     padding: 0;
-    margin: 10px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .entryLines li {
+    width: 80%;
     margin: 10px 10%;
     padding: 10px;
     background-color: white;
@@ -278,8 +291,8 @@ input[type="button"].button-primary:focus {
 }
 
 .entryLines {
-    --positive-background-color: #FFC1C1;
-    --negative-background-color: #E7FFE7;
+    --positive-background-color: #E7FFE7;
+    --negative-background-color: #FFC1C1;
 }
 
 .entryLines li.negative-amount {
@@ -290,9 +303,15 @@ input[type="button"].button-primary:focus {
 }
 
 .amount-description{
-    font-size: 2rem;
+    font-size: 1.8rem;
     display: grid;
-    grid-template-columns: 25% 50% 25%;
+    text-align: center;
+    padding-left: 1em;
+}
+
+.date{
+    font-style: italic;
+    font-size: 1.5rem;
 }
 
 .negative-amount {
@@ -307,23 +326,41 @@ input[type="button"].button-primary:focus {
     transform: scale(1.02);
 }
 
-
-
 .clickBillDetails {
     text-decoration: none;
     color: var(--secondary-color);
 }
 
 #balance {
-    background-color: var(--secondary-color);
+    --positive-text-color: #adffad;
+    font-weight: bold;
     font-size: 2rem;
-    width: 25%;
-    margin: auto;
-    border: 2px solid var(--primary-color);
-    border-radius: 5px;
+    padding: 1.5rem;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 1rem auto;
+    text-align: center;
 }
 
-@media (min-width: 512px)
+#balance.negative-amount
+{
+    color: var(--negative-background-color);
+}
+
+#balance.positive-amount
+{
+    color: var(--positive-text-color);
+}
+
+@media (min-width: 1800px) {
+    .entryLines li {
+        width: 1800px;
+    }
+}
+
+@media (min-width: 992px)
 {
     nav {
         justify-content: start;
@@ -340,11 +377,23 @@ input[type="button"].button-primary:focus {
         display: none;
     }
     
-    p { font-size: 3.0rem; }
+    div { font-size: 2rem; }
+    p { font-size: 2.0rem; }
     h1 { font-size: 4.0rem; }
     h2 { font-size: 3.6rem; }
     h3 { font-size: 3.2rem; }
     h4 { font-size: 3.0rem; }
     h5 { font-size: 2.4rem; }
     h6 { font-size: 1.5rem; }
+
+    .amount-description{
+        grid-template-columns: 25% 50% 25%;
+        font-size: 2rem;
+        text-align: left;
+    }
+
+    .date{
+        font-style: normal;
+        font-size: 2rem;
+    }
 }
