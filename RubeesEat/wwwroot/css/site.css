@@ -289,11 +289,17 @@ input[type="button"].button-primary:focus {
     background-color: var(--positive-background-color);
 }
 
-.amount.negative-amount {
+.amount-description{
+    font-size: 2rem;
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+}
+
+.negative-amount {
     color: red;
 }
 
-.amount.positive-amount {
+.positive-amount {
     color: green;
 }
 
@@ -301,13 +307,20 @@ input[type="button"].button-primary:focus {
     transform: scale(1.02);
 }
 
+
+
 .clickBillDetails {
     text-decoration: none;
     color: var(--secondary-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+}
+
+#balance {
+    background-color: var(--secondary-color);
+    font-size: 2rem;
+    width: 25%;
+    margin: auto;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
 }
 
 @media (min-width: 512px)
