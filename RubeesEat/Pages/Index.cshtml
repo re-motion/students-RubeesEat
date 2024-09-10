@@ -23,10 +23,10 @@
                     <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")">
                         @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
                     </span>
-                    <span class="descriptionHomepage">
+                    <span class="description">
                         @item.Description
                     </span>
-                    <span class="dateHomepage">
+                    <span class="date">
                         @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
                     </span>
                 </div>
