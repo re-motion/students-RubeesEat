@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
 using RubeesEat.Model;
+using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RubeesEat;
 
@@ -14,6 +16,14 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+                .AddNegotiate();
+        
+        services.AddAuthorization(options =>
+        {
+            options.FallbackPolicy = options.DefaultPolicy;
+        });
+        
         services.AddRazorPages();
 
         var todoRepository = new InMemoryTodoRepository();
@@ -81,11 +91,15 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+        
+        app.UseAuthentication();
 
         app.UseDefaultFiles();
         app.UseStaticFiles();
 
         app.UseRouting();
+        
+        app.UseAuthorization();
 
         app.UseEndpoints(
             endpoints =>
