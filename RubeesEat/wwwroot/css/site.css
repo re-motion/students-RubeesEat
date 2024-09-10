@@ -271,8 +271,8 @@ input[type="button"].button-primary:focus {
 }
 
 .entryLines {
-    --positive-background-color: #FFC1C1;
-    --negative-background-color: #E7FFE7;
+    --positive-background-color: #E7FFE7;
+    --negative-background-color: #FFC1C1;
 }
 
 .entryLines li.negative-amount {
