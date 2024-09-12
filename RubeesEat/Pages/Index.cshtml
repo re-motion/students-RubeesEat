@@ -8,28 +8,27 @@
 @{
     var amount = billRepository.GetBalance(personRepository.GetCurrentUser());
     var isPositive = amount >= 0;
-    var sign = isPositive ? "+" : "-";
-    var amountAsString = sign + " " + amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
-    var displayClass = isPositive ? "positive-balance" : "negative-balance";
+    var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
+    var displayClass = isPositive ? "positive-amount" : "negative-amount";
 }
 
-<div id="balance" class="@displayClass">@amountAsString</div>
+<span id="balance" class="@displayClass">@amountAsString</span>
 
 <ul class="entryLines">
     @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 10))
     {
-        <li>
+        <li class = "@(item.Amount < 0 ? "negative-amount" : "positive-amount")">
             <a class="clickBillDetails" href="BillDetails/@item.BillId">
                 <div class="amount-description">
                     <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")">
-                        @item.Amount€
+                        @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
                     </span>
-                    <span class="descriptionHomepage">
+                    <span class="description">
                         @item.Description
                     </span>
-                </div>
-                <div class="dateHomepage">
-                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                    <span class="date">
+                        @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                    </span>
                 </div>
             </a>
         </li>

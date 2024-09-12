@@ -1,7 +1,22 @@
 /*source: https://www.joshwcomeau.com/css/custom-css-reset/*/
 
+/*
+https://github.com/dhg/Skeleton?tab=readme-ov-file#license
+The MIT License (MIT)
+
+Copyright (c) 2011-2014 Dave Gamache
+
+                        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 :root {
     --primary-color: #fbbf00;
+    --primary-color-darker: #e2ac00;
+    --primary-color-lighter: #ffe697;
     --secondary-color: #2d332f;
 }
 
@@ -26,11 +41,6 @@ img, picture, video, canvas, svg {
 
 input, button, textarea, select {
     font: inherit;
-}
-
-p, h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
-    text-align: center;
 }
 
 nav {
@@ -113,7 +123,244 @@ nav > ul > li:hover {
     transform: rotate(-45deg) translate(7px, -6px);
 }
 
-@media (min-width: 512px)
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+div
+{
+    overflow-wrap: break-word;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+p { font-size: 1.0rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h1 { font-size: 2.5rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h2 { font-size: 2.5rem; line-height: 1.25; letter-spacing: -.1rem; }
+h3 { font-size: 2.0rem; line-height: 1.3;  letter-spacing: -.1rem; }
+h4 { font-size: 1.5rem; line-height: 1.35; letter-spacing: -.08rem; }
+h5 { font-size: 1.0rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h6 { font-size: 0.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+/* Forms
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+input[type="number"],
+input[type="text"],
+select {
+    height: 38px;
+    padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+    background-color: white;
+    border-radius: 4px;
+    max-width: 200px;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+    border: 1px solid var(--primary-color);
+    outline: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 600;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    display: inline;
+}
+
+label > .label-body {
+    display: inline-block;
+    margin-left: .5rem;
+    font-weight: normal;
+}
+
+/* Buttons */
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: var(--primary-color-darker);
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border-radius: 4px;
+    border: 1px solid var(--primary-color-darker);
+    cursor: pointer;
+}
+
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover
+{
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    outline: 0; 
+}
+
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus
+{
+    color: var(--primary-color-lighter);
+    border-color: var(--primary-color-lighter);
+    outline: 0; 
+}
+
+.button:disabled,
+button:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled,
+input[type="button"]:disabled
+{
+    color:gray;
+    border-color: gray;
+    outline: 0;
+}
+
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+    color: var(--secondary-color);
+    background-color: var(--primary-color-darker);
+    border-color: var(--secondary-color); 
+}
+
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover {
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
+    border-color: var(--secondary-color); 
+}
+
+a.button.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+    color: var(--secondary-color);
+    background-color: var(--primary-color-lighter);
+    border-color: var(--secondary-color); 
+}
+
+.entryLines {
+    list-style: none;
+    padding: 0;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.entryLines li {
+    width: 80%;
+    margin: 10px 10%;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.entryLines {
+    --positive-background-color: #E7FFE7;
+    --negative-background-color: #FFC1C1;
+}
+
+.entryLines li.negative-amount {
+    background-color: var(--negative-background-color);
+}
+.entryLines li.positive-amount {
+    background-color: var(--positive-background-color);
+}
+
+.amount-description{
+    font-size: 1.8rem;
+    display: grid;
+    text-align: center;
+    padding-left: 1em;
+}
+
+.date{
+    font-style: italic;
+    font-size: 1.5rem;
+}
+
+.negative-amount {
+    color: red;
+}
+
+.positive-amount {
+    color: green;
+}
+
+.entryLines li:hover {
+    transform: scale(1.02);
+}
+
+.clickBillDetails {
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+#balance {
+    --positive-text-color: #adffad;
+    font-weight: bold;
+    font-size: 2rem;
+    padding: 1.5rem;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+#balance.negative-amount
+{
+    color: var(--negative-background-color);
+}
+
+#balance.positive-amount
+{
+    color: var(--positive-text-color);
+}
+
+@media (min-width: 1800px) {
+    .entryLines li {
+        width: 1800px;
+    }
+}
+
+@media (min-width: 992px)
 {
     nav {
         justify-content: start;
@@ -128,5 +375,25 @@ nav > ul > li:hover {
 
     .hamburger {
         display: none;
+    }
+    
+    div { font-size: 2rem; }
+    p { font-size: 2.0rem; }
+    h1 { font-size: 4.0rem; }
+    h2 { font-size: 3.6rem; }
+    h3 { font-size: 3.2rem; }
+    h4 { font-size: 3.0rem; }
+    h5 { font-size: 2.4rem; }
+    h6 { font-size: 1.5rem; }
+
+    .amount-description{
+        grid-template-columns: 25% 50% 25%;
+        font-size: 2rem;
+        text-align: left;
+    }
+
+    .date{
+        font-style: normal;
+        font-size: 2rem;
     }
 }
