@@ -30,4 +30,45 @@ public class Bill
         Description = description;
         EntryLines = entryLines;
     }
+    
+    public override bool Equals(object? obj)
+    {
+        if (obj is not Bill other)
+        {
+            return false;
+        }
+
+        return Id == other.Id &&
+               Date == other.Date &&
+               Description == other.Description &&
+               EntryLines.SequenceEqual(other.EntryLines);
+    }
+    
+    public override string ToString()
+    {
+        return $"Bill: {Id}, Date: {Date}, Description: {Description}, EntryLines: [{string.Join(", ", EntryLines)}]";
+    }
+    
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+        hash.Add(Id);
+        hash.Add(Date);
+        hash.Add(Description);
+        foreach (var entryLine in EntryLines)
+        {
+            hash.Add(entryLine);
+        }
+        return hash.ToHashCode();
+    }
+    
+    public static bool operator == (Bill? left, Bill? right)
+    {
+        if (left is null)
+            return right is null;
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(Bill? left, Bill? right) => !(left == right);
+    
 }

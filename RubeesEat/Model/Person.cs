@@ -23,8 +23,38 @@ public class Person
         LastName = lastName;
     }
 
-    private bool IsValidName(params string[] words)
+    private static bool IsValidName(params string[] words)
     {
         return words.All(s => Regex.IsMatch(s, @"^[a-zA-Z]+$"));
     }
+    
+    public override bool Equals(object? obj)
+    {
+        if (obj is not Person other)
+            return false;
+
+        return Id == other.Id;
+    }
+    
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
+    }
+    
+    public override string ToString()
+    {
+        return $"{FirstName} {LastName} (ID: {Id})";
+    }
+    
+    public static bool operator == (Person? left, Person? right)
+    {
+        if (left is null)
+        {
+            return right is null;
+        }
+
+        return left.Equals(right);
+    }
+
+    public static bool operator != (Person? left, Person? right) => !(left == right);
 }
