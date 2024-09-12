@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 
 namespace RubeesEat.Model;
 
@@ -33,27 +32,15 @@ public class InMemoryPersonRepository : IPersonRepository
 
     public Person GetCurrentUser()
     {
-        if (!_persons.ContainsKey(CurrentUser))
-            throw new ArgumentException("default User is not in the dictionary");
-        return _persons[CurrentUser];
+        return _persons.TryGetValue(CurrentUser, out var person) 
+            ? person 
+            : throw new ArgumentException("default User is not in the dictionary");
     }
 
-    public Person? GetById(Guid id)
+    public Person? GetById(Guid guid)
     {
-        return _persons.TryGetValue(id, out var person) ? person : null;
-    }
-    
-    public bool TryGetById(Guid guid, [NotNullWhen(true)] out Person? person)
-    {
-        try
-        {
-            person = _persons[guid];
-            return true;
-        }
-        catch (KeyNotFoundException e)
-        {
-            person = null;
-            return false;
-        }
+        return _persons.TryGetValue(guid, out var person)
+            ? person
+            : null;
     }
 }
