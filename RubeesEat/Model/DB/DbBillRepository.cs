@@ -192,7 +192,6 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
     
     private IReadOnlyList<Bill> CreateBillsFromReader(DbDataReader reader)
     {
-
         var bills = new List<Bill>();
         
         BillBuilder billBuilder = new BillBuilder();

@@ -10,7 +10,6 @@ public class SqlConnectionFactory : IDbConnectionFactory
     private string? _connectionString; 
     private string ConnectionString => _connectionString ??= _configuration.GetConnectionString(_connectionStringName);
 
-
     public SqlConnectionFactory(IConfiguration configuration, string connectionStringName)
     {
         _connectionStringName = connectionStringName;

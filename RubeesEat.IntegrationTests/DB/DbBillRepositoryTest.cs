@@ -32,7 +32,6 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
         Assert.That(bills[1].Description, Is.EqualTo("Mittagessen auf Michi sein Nacken"));
         Assert.That(bills[1].Date.ToString(CultureInfo.InvariantCulture), Is.EqualTo("11/09/2021 10:34:09"));
         Assert.That(bills[1].EntryLines.Length, Is.EqualTo(4));
-        
     }
 
     [Test]

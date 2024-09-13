@@ -70,5 +70,4 @@ public class Bill
     }
 
     public static bool operator !=(Bill? left, Bill? right) => !(left == right);
-    
 }

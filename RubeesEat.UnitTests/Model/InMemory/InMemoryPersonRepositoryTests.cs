@@ -80,5 +80,6 @@ public class InMemoryPersonRepositoryTests
         Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
+        Assert.That(personRepository.GetById(defaultUser.Id), Is.Null);
     }
 }
