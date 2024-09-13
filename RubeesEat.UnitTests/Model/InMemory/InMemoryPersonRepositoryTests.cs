@@ -36,7 +36,6 @@ public class InMemoryPersonRepositoryTests
         Assert.That(personRepository.GetById(TestDomain.Jack.Id),Is.EqualTo(TestDomain.Jack));
         Assert.That(personRepository.GetById(TestDomain.Erwin.Id),Is.EqualTo(TestDomain.Erwin));
         Assert.That(personRepository.GetById(TestDomain.Sasha.Id),Is.EqualTo(TestDomain.Sasha));
-
     }
 
     [Test]
