@@ -5,9 +5,13 @@ function AddPerson() {
     const selectedPerson = selectElement.value;
     const selectedId = selectElement.selectedOptions[0].dataset["id"];
 
-    const personSpan = document.createElement("span");
-    personSpan.textContent = selectedPerson;
-    document.querySelector("#addedPeople").appendChild(personSpan);
+    const personDiv = document.createElement('div');
+    personDiv.className = 'personDiv';
+
+    const textDiv = document.createElement('div');
+    textDiv.className = 'text';
+    textDiv.textContent = selectedPerson + " ";
+    personDiv.appendChild(textDiv);
 
     const personIdElement = document.createElement("input");
     personIdElement.type = "hidden";
@@ -19,12 +23,24 @@ function AddPerson() {
     amountElement.name = "amount" + counter;
     amountElement.type = "number";
     amountElement.step = ".01";
-    personSpan.append(amountElement);
-    personSpan.append(document.createElement("br"));
-    counter++;
+    personDiv.append(amountElement);
+    personDiv.append(document.createElement("br"));
 
-    const dropdown = document.getElementById("billPeople");
-    dropdown.remove(dropdown.selectedIndex)
+    const button = document.createElement("button");
+    button.innerText = "Remove";
+    button.onclick = function () {
+        personDiv.remove();
+        let addToOptions = document.createElement("option");
+        addToOptions.value = selectedPerson;
+        addToOptions.dataset.id = selectedId;
+        addToOptions.textContent = selectedPerson;
+        selectElement.appendChild(addToOptions);
+    }
+    personDiv.appendChild(button);
+    document.getElementById("addedPeople").appendChild(personDiv);
+    selectElement.remove(selectElement.selectedIndex);
+    
+    counter++;
 }
 
 function validate() {
@@ -46,7 +62,6 @@ function validate() {
             document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " is not valid. Please only enter 2 digits after the comma";
             return;
         }
-
     }
 
     const sum = [...amounts]

@@ -31,7 +31,7 @@ public class SplitBillPageObject : PageObject
     {
         FindElement(By.Id("addPersonButton")).Click(); 
         return new PersonAmountControlObject(this, 
-            FindElement(By.CssSelector("#addedPeople > span:last-of-type")));
+            FindElement(By.CssSelector("#addedPeople > div:last-of-type")));
     }
 
     public void ClickSplitBill()
@@ -41,7 +41,7 @@ public class SplitBillPageObject : PageObject
 
     public PersonAmountControlObject[] GetPersonAmounts()
     {
-        return FindElements(By.CssSelector("#addedPeople > span"))
+        return FindElements(By.CssSelector("#addedPeople > div > .text"))
                .Select(e => new PersonAmountControlObject(this, e))
                .ToArray();
     }
