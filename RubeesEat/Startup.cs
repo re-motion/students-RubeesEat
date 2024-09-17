@@ -16,16 +16,6 @@ public class Startup
     {
         services.AddRazorPages();
 
-        var todoRepository = new InMemoryTodoRepository();
-        todoRepository.Add(TodoItem.Create("My first todo"));
-
-        services.AddSingleton<ITodoRepository>(todoRepository);
-
-        ConfigureServicesEAT(services);
-    }
-
-    public void ConfigureServicesEAT(IServiceCollection services)
-    {
         Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName");
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
