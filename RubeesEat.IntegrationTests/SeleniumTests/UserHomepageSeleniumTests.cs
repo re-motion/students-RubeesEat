@@ -45,11 +45,11 @@ public class RubeesEatSeleniumTests() : SeleniumIntegrationTestBase("Index")
         Assert.That(billDetailPage.Amount, Is.EqualTo("Total amount: 3000\u20ac"));
         Assert.That(billDetailPage.Date, Is.AnyOf("Dienstag, 19. August 2025", "Tuesday, 19 August 2025", "19 August 2025"));
         Assert.That(billDetailPage.GetEntryLines()[0].Person, Is.EqualTo("DefaultFirstName DefaultLastName:"));
-        Assert.That(billDetailPage.GetEntryLines()[0].AmountPerPerson, Is.EqualTo("-2000€"));
+        Assert.That(billDetailPage.GetEntryLines()[0].AmountPerPerson, Is.EqualTo("2000€"));
         Assert.That(billDetailPage.GetEntryLines()[1].Person, Is.EqualTo("Patrick Widener:"));
-        Assert.That(billDetailPage.GetEntryLines()[1].AmountPerPerson, Is.EqualTo("-500€"));
+        Assert.That(billDetailPage.GetEntryLines()[1].AmountPerPerson, Is.EqualTo("500€"));
         Assert.That(billDetailPage.GetEntryLines()[2].Person, Is.EqualTo("Lilli Grubber:"));
-        Assert.That(billDetailPage.GetEntryLines()[2].AmountPerPerson, Is.EqualTo("-500€"));
+        Assert.That(billDetailPage.GetEntryLines()[2].AmountPerPerson, Is.EqualTo("500€"));
     }
 
     [Test]
