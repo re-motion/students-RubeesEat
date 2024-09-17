@@ -2,7 +2,9 @@
 @using System.Globalization
 @inject IBillRepository billRepository
 
-Bill Details:
+@section Styles {
+<link rel="stylesheet" href="/css/BillDetails.css" />
+}
 @{
     var billId = Guid.Parse(RouteData.Values["guid"].ToString());
     if (billRepository.GetById(billId) is null)
@@ -12,22 +14,22 @@ Bill Details:
     else
     {
         var item = billRepository.GetById(billId);
-        <div class="personWhoPayed" style="">Paid by: @(item.EntryLines[0].Person.FirstName) 
-            @(item.EntryLines[0].Person.LastName) </div>
-        <div class="date">@item.Date.ToString("D")</div>
-        <div class="description">@item.Description</div>
-        <div class="amount" style="display: inline;">Total amount: @item.EntryLines[0].Amount€</div>
-        <ul class="entryLines">
+        <div class="bill-summary">
+            <div class="description">@item.Description</div>
+            <div class="personWhoPayed">Paid by: @(item.EntryLines[0].Person.FirstName)
+                @(item.EntryLines[0].Person.LastName) </div>
+            <div class="date">@item.Date.ToString("D")</div>
+            <div class="amount">Total amount: @item.EntryLines[0].Amount€</div>
+        </div>
+        <div class="bill">
             @for (int i = 1; i < item.EntryLines.Length; i++)
             {
-                <li id="entryLine">
-
-                    <div class="person" style="display:inline;">@(item.EntryLines[i].Person.FirstName) 
+                <div class="entryLine">
+                    <div class="person">@(item.EntryLines[i].Person.FirstName)
                         @(item.EntryLines[i].Person.LastName): </div>
-                    <div class="amountPerPerson" style="display:inline; color: @(item.EntryLines[i].Amount < 0 ? "red" : "green")">@item.EntryLines[i].Amount€ </div>
-
-                </li>
+                    <div class="amountPerPerson">@(-item.EntryLines[i].Amount)€ </div>
+                </div>
             }
-        </ul>
+        </div>
     }
 }

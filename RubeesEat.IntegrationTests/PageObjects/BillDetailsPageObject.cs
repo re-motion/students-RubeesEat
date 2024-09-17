@@ -13,10 +13,10 @@ public class BillDetailsPageObject : PageObject
     public string Date => FindElement(By.CssSelector(".date")).Text;
 
     public string Amount => FindElement(By.CssSelector(".amount")).Text;
-              
+
     public EntryLineControlObject[] GetEntryLines()
     {
-        return FindElements(By.Id("entryLine"))
+        return FindElements(By.CssSelector(".entryLine"))
                .Select(e => new EntryLineControlObject(this, e))
                .ToArray();
     }
