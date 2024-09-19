@@ -15,4 +15,9 @@ public class PersonAmountControlObject : ControlObject
     {
         FindElement(By.CssSelector("input")).SendKeys(value);
     }
+
+    public void ClickRemoveButton()
+    {
+        FindElement(By.CssSelector(".removePeople")).Click();
+    }
 }

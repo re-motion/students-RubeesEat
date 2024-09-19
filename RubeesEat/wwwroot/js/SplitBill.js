@@ -28,6 +28,7 @@ function AddPerson() {
 
     const button = document.createElement("button");
     button.innerText = "Remove";
+    button.className = "removePeople";
     button.onclick = function () {
         personDiv.remove();
         let addToOptions = document.createElement("option");
