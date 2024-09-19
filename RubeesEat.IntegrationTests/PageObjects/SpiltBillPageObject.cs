@@ -45,4 +45,11 @@ public class SplitBillPageObject : PageObject
                .Select(e => new PersonAmountControlObject(this, e))
                .ToArray();
     }
+
+    public List<string> GetSelection()
+    {
+        var selectElement = FindElement(By.Id("billPeople"));
+        var options = selectElement.FindElements(By.TagName("option"));
+        return options.Select(e => e.Text).ToList();
+    }
 }

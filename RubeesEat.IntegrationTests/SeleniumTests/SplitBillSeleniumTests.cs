@@ -98,5 +98,26 @@ public class SplitBillSeleniumTests() : SeleniumIntegrationTestBase("SplitBill")
         
         Assert.That(page.GetErrorMessage(), Is.EqualTo("The sum of individual amounts doesn't match the total bill amount."));
     }
+
+    [Test]
+    public void AddAndRemovePerson()
+    {
+        var page = Start<SplitBillPageObject>();
+        
+        var selectionsStart = page.GetSelection();
+        var selectedPerson = selectionsStart[0];
+        var expectedSelections = selectionsStart.Skip(1).ToList();
+        
+        var person = page.ClickAddPerson();
+        
+        Assert.That(page.GetPersonAmountAndNames().Length, Is.EqualTo(1));
+        Assert.That(page.GetSelection(), Is.EqualTo(expectedSelections));
+        
+        person.ClickRemoveButton();
+        expectedSelections.Add(selectedPerson);
+        
+        Assert.That(page.GetPersonAmountAndNames().Length, Is.EqualTo(0));
+        Assert.That(page.GetSelection(), Is.EqualTo(expectedSelections));
+    }
 }
 
