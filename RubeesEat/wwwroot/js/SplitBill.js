@@ -1,6 +1,8 @@
 let counter = 0;
 
 function AddPerson() {
+    const dropdown = document.getElementById("billPeople");
+    const addPerson = document.getElementById("addPerson");
     const selectElement = document.getElementById('billPeople');
     const selectedPerson = selectElement.value;
     const selectedId = selectElement.selectedOptions[0].dataset["id"];
@@ -36,12 +38,18 @@ function AddPerson() {
         addToOptions.dataset.id = selectedId;
         addToOptions.textContent = selectedPerson;
         selectElement.appendChild(addToOptions);
+
+        addPerson.hidden = false;
     }
     personDiv.appendChild(button);
     document.getElementById("addedPeople").appendChild(personDiv);
-    selectElement.remove(selectElement.selectedIndex);
     
     counter++;
+
+    dropdown.remove(dropdown.selectedIndex)
+    if (selectElement.options.length === 0) {
+        addPerson.hidden = true;
+    }
 }
 
 function validate() {

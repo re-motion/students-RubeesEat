@@ -11,17 +11,18 @@ Split bill:
     <input id="billAmount" type="number" step=".01" name="billAmount" required="required"><br>
 
     <div id="addedPeople"></div>
-
-    <label for="billPeople">Add Person:</label>
-    <select name="billPeople" id="billPeople">
-        @foreach (Person person in PersonRepository.GetAll())
-        {
-            <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
-        }
-    </select>
-    <input id="addPersonButton" type="button" onclick="AddPerson()" value="Add Person"><br/>
+    <div id="addPerson">
+        <label for="billPeople">Add Person:</label>
+        <select name="billPeople" id="billPeople">
+            @foreach (Person person in PersonRepository.GetAll())
+            {
+                <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
+            }
+        </select>
+        <input id="addPersonButton" type="button" onclick="AddPerson()" value="Add Person"><br/>
+    </div>
 
     <button id="splitBillButton" type="button" onclick="validate()">Split the bill</button><br>
     <text id="placeForErrorMessage" style="color: red;"></text>
 </form>
-<script type="text/javascript" src="js/SplitBill.js"></script> 
+<script type="text/javascript" src="js/SplitBill.js"></script>
