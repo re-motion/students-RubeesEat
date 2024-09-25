@@ -44,14 +44,14 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
             {
                 break;
             }
-
-            Person? person;
+            
             if (!Guid.TryParse((id), out var personGuid))
             {
                 return TypedResults.BadRequest("Person Guid not valid");
             }
-
-            if (!personRepository.TryGetById(personGuid, out person))
+            
+            var person = personRepository.GetById(personGuid);
+            if (person == null)
             {
                 return TypedResults.BadRequest("Person not found");
             }

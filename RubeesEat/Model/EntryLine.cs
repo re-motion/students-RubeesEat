@@ -11,4 +11,9 @@ public class EntryLine
         Person = person;
         Amount = amount;
     }
+    
+    public override string ToString()
+    {
+        return $"EntryLine: Person = {Person}, Amount = {Amount}";
+    }
 }
