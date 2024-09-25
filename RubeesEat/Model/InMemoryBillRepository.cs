@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 namespace RubeesEat.Model;
 
 public class InMemoryBillRepository : IBillRepository
@@ -31,32 +32,46 @@ public class InMemoryBillRepository : IBillRepository
         ArgumentNullException.ThrowIfNull(bill);
         _bills.Add(bill.Id, bill);
     }
+        
+    public PaginatedView<BalanceChange> GetRecentBalanceChanges(Person currentUser, int page, int pageSize)
+    {
+        var skip = (page - 1) * pageSize;
+
+        var billsOfUser = _bills.Values
+                                .Where(b => b.EntryLines.Any(e => e.Person.Id == currentUser.Id))
+                                .ToList();
+
+        int totalPages = (int)Math.Ceiling(billsOfUser.Count / (double)pageSize);
+
+        var balanceChanges = billsOfUser
+                             .OrderByDescending(b => b.Date)
+                             .Skip(skip)
+                             .Take(pageSize)
+                             .Select(b => GetBalanceChangesForUser(b, currentUser))
+                             .ToImmutableArray();
+        
+        var billsPaginated = new PaginatedView<BalanceChange>(
+            balanceChanges,
+            page,
+            totalPages
+        );
+
+        return billsPaginated;
+        
+        static BalanceChange GetBalanceChangesForUser(Bill bill, Person currentUser)
+        {
+            var sum = bill.EntryLines
+                          .Where(entryLine => entryLine.Person.Id == currentUser.Id)
+                          .Sum(entryLine => entryLine.Amount);
+            return new BalanceChange(sum, bill.Date, bill.Description, bill.Id);
+        }
+    }
 
     public IReadOnlyList<Bill> GetAllForUser(Person user)
     {
         return _bills.Values
                      .Where(e => e.EntryLines.Any(f => f.Person == user))
                      .ToList();
-    }
-
-    public IReadOnlyList<BalanceChange> GetRecentBalanceChanges(Person user, int amount)
-    {
-        var billsWithUser = GetAllForUser(user).OrderByDescending(bill => bill.Date);
-        var balanceChanges = new List<BalanceChange>();
-        int counter = 0;
-        foreach (var bill in billsWithUser)
-        {
-            if (counter >= amount)
-                break;
-            var sum = bill.EntryLines
-                          .Where(entryLine => entryLine.Person.Id == user.Id)
-                          .Sum(entryLine => entryLine.Amount);
-
-            balanceChanges.Add(new BalanceChange(sum, bill.Date, bill.Description, bill.Id));
-            counter++;
-        }
-
-        return balanceChanges;
     }
 
     public decimal GetBalance(Person user)

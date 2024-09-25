@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RubeesEat.IntegrationTests.WebTesting;
 
@@ -22,7 +23,12 @@ public class SeleniumIntegrationTestBase
     [SetUp]
     public void SetUp()
     {
+        var config = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
         _webHost = Host.CreateDefaultBuilder()
+                       .ConfigureAppConfiguration((context, builder) =>
+                       {
+                           builder.AddConfiguration(config);
+                       })
                        .ConfigureWebHostDefaults(c => c
                                                       .UseUrls(c_hostingUrl)
                                                       .UseStartup<Startup>()

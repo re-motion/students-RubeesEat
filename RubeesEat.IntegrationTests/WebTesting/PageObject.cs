@@ -32,6 +32,11 @@ public abstract class PageObject : IDisposable
     {
         return WebTestElementFinder.FindElement(Driver, id);
     }
+    
+    public IReadOnlyCollection<IWebElement> FindElements(string id)
+    {
+        return WebTestElementFinder.FindElements(Driver, id);
+    }
 
     public void InvokeAction(string action)
     {
