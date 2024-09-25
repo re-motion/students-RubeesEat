@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using RubeesEat.IntegrationTests.PageObjects;
 
 namespace RubeesEat.IntegrationTests.WebTesting
 {
@@ -25,6 +26,16 @@ namespace RubeesEat.IntegrationTests.WebTesting
         public IReadOnlyCollection<IWebElement> FindElements(By by)
         {
             return Me.FindElements(by);
+        }
+        
+        public IWebElement FindElement(string id)
+        {
+            return WebTestElementFinder.FindElement(Me, id);
+        }
+        
+        public void InvokeAction(string action)
+        {
+            WebTestElementFinder.InvokeAction(Me, action);
         }
         
         public TPageObject CreatePageObject<TPageObject>()

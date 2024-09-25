@@ -9,7 +9,7 @@ public class SplitBillSeleniumTests() : SeleniumIntegrationTestBase("SplitBill")
     {
         var page = Start<SplitBillPageObject>();
         
-        page.ClickAddPerson();
+        page.AddPerson();
         
         Assert.That(page.GetPersonAmountAndNames()[0], Is.EqualTo("DefaultFirstName DefaultLastName"));
     }

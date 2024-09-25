@@ -5,7 +5,7 @@ Split bill:
 <form id="splitBillForm" method="post" action="/api/bills">
 
     <label for="billDescription">Description:</label>
-    <input id="billDescription" type="text" name="billDescription" required="required"><br>
+    <input id="billDescription" t-id="billDescription" type="text" name="billDescription" required="required"></input><br>
 
     <label for="billAmount">Total Price:</label>
     <input id="billAmount" type="number" step=".01" name="billAmount" required="required"><br>
@@ -19,7 +19,7 @@ Split bill:
                 <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
             }
         </select>
-        <input id="addPersonButton" type="button" onclick="AddPerson()" value="Add Person"><br/>
+        <input id="addPersonButton" t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>
     </div>
 
     <button id="splitBillButton" type="button" onclick="validate()">Split the bill</button><br>

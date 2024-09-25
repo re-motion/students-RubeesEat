@@ -13,7 +13,7 @@ public class PersonAmountControlObject : ControlObject
 
     public void SetAmountForPerson(string value)
     {
-        FindElement(By.CssSelector("input")).SendKeys(value);
+        FindElement("input").SendKeys(value);
     }
 
     public void ClickRemoveButton()
