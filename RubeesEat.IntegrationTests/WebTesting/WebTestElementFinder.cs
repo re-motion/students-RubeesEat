@@ -19,6 +19,14 @@ public static class WebTestElementFinder
         return elements.First();
     }
     
+    public static IReadOnlyCollection<IWebElement> FindElements(ISearchContext context, string id)
+    {
+        ReadOnlyCollection<IWebElement> elements = context.FindElements(By.CssSelector($"[data-test-id='{id}']"));
+        if (elements.Count == 0)
+            throw new NoSuchElementException($"Element with test id: '{id}' was not found.");
+        return elements;
+    }
+    
     public static void InvokeAction(ISearchContext context, string action)
     {
         ReadOnlyCollection<IWebElement> elements = context.FindElements(By.CssSelector($"[data-test-action='{action}']"));

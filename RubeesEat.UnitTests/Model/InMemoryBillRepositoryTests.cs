@@ -92,7 +92,7 @@ public class InMemoryBillRepositoryTests
             new EntryLine(persons[1], -500_000)
         ]));
 
-        var balanceChangesFromUser = billRepository.GetRecentBalanceChanges(defaultUser, 1);
+        var balanceChangesFromUser = billRepository.GetRecentBalanceChanges(defaultUser, 1, 1);
 
         Assert.That(balanceChangesFromUser.Count, Is.EqualTo(1));
         Assert.That(balanceChangesFromUser[0].Amount, Is.EqualTo(200));
@@ -131,7 +131,7 @@ public class InMemoryBillRepositoryTests
         billRepository.Add(new Bill(Guid.NewGuid(), dateTime, description, [entryLine1, entryLine2, entryLine3]));
         billRepository.Add(new Bill(Guid.NewGuid(), dateTime, description, [entryLine1, entryLine2, entryLine3]));
 
-        var balanceChangesFromUser = billRepository.GetRecentBalanceChanges(defaultUser, 3);
+        var balanceChangesFromUser = billRepository.GetRecentBalanceChanges(defaultUser, 1, 3);
 
         Assert.That(balanceChangesFromUser.Count, Is.EqualTo(3));
     }
@@ -169,7 +169,7 @@ public class InMemoryBillRepositoryTests
             new EntryLine(persons[1], -500_000)
         ]));
 
-        var balanceChangesFromUser = billRepository.GetRecentBalanceChanges(defaultUser, 1);
+        var balanceChangesFromUser = billRepository.GetRecentBalanceChanges(defaultUser, 1, 1);
 
         Assert.That(balanceChangesFromUser.Count, Is.EqualTo(0));
     }
@@ -204,7 +204,7 @@ public class InMemoryBillRepositoryTests
             new EntryLine(persons[1], -500_000)
         ]));
 
-        var recentBalanceChanges = billRepository.GetRecentBalanceChanges(defaultUser, 3);
+        var recentBalanceChanges = billRepository.GetRecentBalanceChanges(defaultUser, 1, 3);
 
         Assert.That(recentBalanceChanges[0].Date, Is.EqualTo(new DateTime(2024, 9, 9)));
         Assert.That(recentBalanceChanges[1].Date, Is.EqualTo(new DateTime(2023, 1, 5)));
@@ -240,5 +240,28 @@ public class InMemoryBillRepositoryTests
         var billRepository = new InMemoryBillRepository(storage);
         
         Assert.That(billRepository.GetBalance(TestDomain.Levi), Is.EqualTo(0));
+    }
+
+    [Test]
+    public void GetBalanceChangesForPage_Page1_ReturnsBalanceChangesForPage1()
+    {
+        var storage = new Dictionary<Guid, Bill>();
+        EntryLine[] entryLines =
+        [
+            new EntryLine(TestDomain.Jack, 60),
+            new EntryLine(TestDomain.Yusuke, -60)
+        ];
+        var mcDonalds = Bill.Create("McDonalds", entryLines);
+
+        var balanceChange = new PaginatedView<BalanceChange>(
+            ImmutableArray.Create(new BalanceChange(60, mcDonalds.Date, mcDonalds.Description, mcDonalds.Id)),
+            1,
+            1
+        );
+        storage.Add(mcDonalds.Id, mcDonalds);
+        storage.Add(TestDomain.BillCafeLeBlanc.Id, TestDomain.BillCafeLeBlanc);
+        storage.Add(TestDomain.BillMaidCafe.Id, TestDomain.BillMaidCafe);
+        var billRepository = new InMemoryBillRepository(storage);
+        Assert.That(billRepository.GetRecentBalanceChanges(TestDomain.Jack, 1, 1), Is.EqualTo(balanceChange));
     }
 }

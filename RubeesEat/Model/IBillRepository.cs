@@ -5,7 +5,7 @@ public interface IBillRepository
     IReadOnlyList<Bill> GetAll();
     void Add(Bill bill);
     IReadOnlyList<Bill> GetAllForUser(Person user);
-    IReadOnlyList<BalanceChange> GetRecentBalanceChanges(Person user, int amount);
+    PaginatedView<BalanceChange> GetRecentBalanceChanges(Person currentUser, int page, int pageSize);
     decimal GetBalance(Person user);
     Bill? GetById(Guid guid);
 }

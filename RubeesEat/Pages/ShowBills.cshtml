@@ -1,0 +1,61 @@
+@page
+@using System.Collections.Immutable
+@using System.Globalization
+@inject IConfiguration Configuration
+@inject IBillRepository billRepository
+@inject IPersonRepository personRepository
+
+<h1>Your Bills</h1>
+
+@{
+    var currentUser = personRepository.GetCurrentUser();
+    int pageSize  = Configuration.GetValue<int>("PageSize");
+
+    int page;
+    
+    if (!Int32.TryParse(Request.Query["page"], out page) || page <= 0)
+    {
+        page = 1;
+    }    
+    var billsPaginated = billRepository.GetRecentBalanceChanges(currentUser, page, pageSize);
+}
+
+<ul class="entryLines">
+    @foreach (var item in billsPaginated.Items)
+    {
+        <li t-id="entryLines > li">
+            <a class="clickBillDetails" href="../BillDetails/@item.BillId">
+                <div class="amount-description">
+                    <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="amount">
+                        @item.Amount€
+                    </span>
+                    <span class="description">
+                        @item.Description
+                    </span>
+                </div>
+                <div class="date">
+                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                </div>
+            </a>
+        </li>
+    }
+</ul>
+
+<div class="pagination">
+    @if (billsPaginated.HasPreviousPage)
+    {
+        <a href="../ShowBills/?page=@(page - 1)" t-action="prevButton" t-click-behavior="Click">Prev</a>
+    }
+
+    <span class="pageInfo">Viewing page @(page)/@billsPaginated.TotalPages</span>
+
+    @if (billsPaginated.HasNextPage)
+    {
+        <a href="../ShowBills/?page=@(page + 1)" t-action="nextButton" t-click-behavior="Click">Next</a>
+    }
+</div>
+
+@if (!billsPaginated.Items.Any())
+{
+    <div class="errorMessage">No bills found for this page.</div>
+}
