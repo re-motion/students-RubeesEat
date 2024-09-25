@@ -25,6 +25,8 @@ function AddPerson() {
     amountElement.name = "amount" + counter;
     amountElement.type = "number";
     amountElement.step = ".01";
+    if (isTest) 
+        amountElement.setAttribute("data-test-id", "input");
     personDiv.append(amountElement);
     personDiv.append(document.createElement("br"));
 

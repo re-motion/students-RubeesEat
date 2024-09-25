@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using RubeesEat.IntegrationTests.PageObjects;
 
 namespace RubeesEat.IntegrationTests.WebTesting;
 
@@ -25,6 +26,16 @@ public abstract class PageObject : IDisposable
     public IReadOnlyCollection<IWebElement> FindElements(By by)
     {
         return Driver.FindElements(by);
+    }
+    
+    public IWebElement FindElement(string id)
+    {
+        return WebTestElementFinder.FindElement(Driver, id);
+    }
+
+    public void InvokeAction(string action)
+    {
+        WebTestElementFinder.InvokeAction(Driver, action);
     }
 
     public void Refresh()

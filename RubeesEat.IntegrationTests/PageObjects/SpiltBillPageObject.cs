@@ -19,7 +19,7 @@ public class SplitBillPageObject : PageObject
 
     public void SetNewDesciptionText(string value)
     {
-        FindElement(By.Id("billDescription")).SendKeys(value);
+        FindElement("billDescription").SendKeys(value);
     }
 
     public void SetNewTotalPriceText(string value)
@@ -32,6 +32,11 @@ public class SplitBillPageObject : PageObject
         FindElement(By.Id("addPersonButton")).Click(); 
         return new PersonAmountControlObject(this, 
             FindElement(By.CssSelector("#addedPeople > div:last-of-type")));
+    }
+
+    public void AddPerson()
+    {
+        InvokeAction("addPerson");
     }
 
     public void ClickSplitBill()

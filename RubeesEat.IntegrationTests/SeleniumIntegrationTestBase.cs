@@ -27,6 +27,7 @@ public class SeleniumIntegrationTestBase
                                                       .UseUrls(c_hostingUrl)
                                                       .UseStartup<Startup>()
                                                       .UseContentRoot("..\\..\\..\\..\\RubeesEat"))
+                       .UseEnvironment("Test")
                        .Build();
         _webHost.Start();
 
