@@ -23,8 +23,13 @@ public class Person
         LastName = lastName;
     }
 
-    private bool IsValidName(params string[] words)
+    private static bool IsValidName(params string[] words)
     {
         return words.All(s => Regex.IsMatch(s, @"^[a-zA-Z]+$"));
+    }
+    
+    public override string ToString()
+    {
+        return $"{FirstName} {LastName} (ID: {Id})";
     }
 }

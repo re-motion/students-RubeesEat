@@ -30,4 +30,9 @@ public class Bill
         Description = description;
         EntryLines = entryLines;
     }
+    
+    public override string ToString()
+    {
+        return $"Bill: {Id}, Date: {Date}, Description: {Description}, EntryLines: [{string.Join(", ", EntryLines)}]";
+    }
 }

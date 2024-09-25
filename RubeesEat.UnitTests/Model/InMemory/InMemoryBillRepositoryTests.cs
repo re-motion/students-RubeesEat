@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using RubeesEat.Model;
 
-namespace RubeesEat.UnitTests.Model;
+namespace RubeesEat.UnitTests.Model.InMemory;
 
 [TestFixture]
 public class InMemoryBillRepositoryTests

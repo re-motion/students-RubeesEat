@@ -28,6 +28,12 @@
     <ProjectReference Include="..\RubeesEat\RubeesEat.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="CreateTestDb.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="CopyTestHostAppConfigs" AfterTargets="_CopyAppConfigFile" Condition="Exists('$(OutDir)\$(AssemblyName).dll.config')">
     <ItemGroup>
       <_testHostAppConfig Include="$(OutDir)\testhost.dll.config" />
