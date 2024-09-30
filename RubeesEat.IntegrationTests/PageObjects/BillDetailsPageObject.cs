@@ -6,17 +6,17 @@ namespace RubeesEat.IntegrationTests.PageObjects;
 
 public class BillDetailsPageObject : PageObject
 {
-    public string PersonWhoPaid => FindElement(By.CssSelector(".personWhoPayed")).Text;
+    public string PersonWhoPaid => FindElement("personWhoPaid").Text;
 
-    public string Description => FindElement(By.CssSelector(".description")).Text;
+    public string Description => FindElement("description").Text;
 
-    public string Date => FindElement(By.CssSelector(".date")).Text;
+    public string Date => FindElement("date").Text;
 
-    public string Amount => FindElement(By.CssSelector(".amount")).Text;
+    public string Amount => FindElement("amount").Text;
 
     public EntryLineControlObject[] GetEntryLines()
     {
-        return FindElements(By.CssSelector(".entryLine"))
+        return FindElements("entryLine")
                .Select(e => new EntryLineControlObject(this, e))
                .ToArray();
     }

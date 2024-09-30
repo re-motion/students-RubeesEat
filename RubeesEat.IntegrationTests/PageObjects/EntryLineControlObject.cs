@@ -8,7 +8,7 @@ public class EntryLineControlObject : ControlObject
     public EntryLineControlObject(PageObject page, IWebElement me) : base(page, me)
     {
     }
-    public string Person => Me.FindElement(By.CssSelector(".person")).Text;
-    public string AmountPerPerson => Me.FindElement(By.CssSelector(".amountPerPerson")).Text;
+    public string Person => FindElement("person").Text;
+    public string AmountPerPerson => FindElement("amountPerPerson").Text;
     
 }

@@ -32,7 +32,6 @@ function AddPerson() {
 
     const button = document.createElement("button");
     button.innerText = "Remove";
-    button.className = "removePeople";
     button.onclick = function () {
         personDiv.remove();
         let addToOptions = document.createElement("option");
@@ -42,6 +41,11 @@ function AddPerson() {
         selectElement.appendChild(addToOptions);
 
         addPerson.hidden = false;
+    }
+    if (isTest)
+    {
+        button.setAttribute("data-test-action", "removePeople");
+        button.setAttribute("data-test-click-behavior", "Click");
     }
     personDiv.appendChild(button);
     document.getElementById("addedPeople").appendChild(personDiv);

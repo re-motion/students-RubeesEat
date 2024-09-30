@@ -14,7 +14,7 @@ public class SplitBillPageObject : PageObject
 
     public string? GetErrorMessage()
     {
-        return FindElements(By.CssSelector("#placeForErrorMessage")).FirstOrDefault()?.Text;
+        return FindElements("placeForErrorMessage").FirstOrDefault()?.Text;
     }
 
     public void SetNewDesciptionText(string value)
@@ -24,36 +24,31 @@ public class SplitBillPageObject : PageObject
 
     public void SetNewTotalPriceText(string value)
     {
-        FindElement(By.Id("billAmount")).SendKeys(value);
+        FindElement("billAmount").SendKeys(value);
     }
 
     public PersonAmountControlObject ClickAddPerson()
     {
-        FindElement(By.Id("addPersonButton")).Click(); 
+        InvokeAction("addPerson"); 
         return new PersonAmountControlObject(this, 
-            FindElement(By.CssSelector("#addedPeople > div:last-of-type")));
-    }
-
-    public void AddPerson()
-    {
-        InvokeAction("addPerson");
+            FindElement("addedPeople").FindElement(By.CssSelector("div:last-of-type")));
     }
 
     public void ClickSplitBill()
     {
-        FindElement(By.Id("splitBillButton")).Click();
+        InvokeAction("splitBill");
     }
 
     public PersonAmountControlObject[] GetPersonAmounts()
     {
-        return FindElements(By.CssSelector("#addedPeople > div > .text"))
+        return FindElement("addedPeople").FindElements(By.CssSelector("div > .text"))
                .Select(e => new PersonAmountControlObject(this, e))
                .ToArray();
     }
 
     public List<string> GetSelection()
     {
-        var selectElement = FindElement(By.Id("billPeople"));
+        var selectElement = FindElement("billPeople");
         var options = selectElement.FindElements(By.TagName("option"));
         return options.Select(e => e.Text).ToList();
     }

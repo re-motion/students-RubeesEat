@@ -18,6 +18,6 @@ public class PersonAmountControlObject : ControlObject
 
     public void ClickRemoveButton()
     {
-        FindElement(By.CssSelector(".removePeople")).Click();
+        InvokeAction("removePeople");
     }
 }

@@ -10,8 +10,8 @@ public class BalanceChangeControlObject : ControlObject
     }
     
     public string Amount => FindElement("amount").Text;
-    public string Date => Me.FindElement(By.CssSelector(".date")).Text;
-    public string Description => Me.FindElement(By.CssSelector(".description")).Text;
+    public string Date => FindElement("date").Text;
+    public string Description => FindElement("description").Text;
     public string Text => Me.Text;
     
     public BillDetailsPageObject ClickBillDetails()

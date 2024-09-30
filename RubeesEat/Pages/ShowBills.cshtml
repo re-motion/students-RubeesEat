@@ -29,11 +29,11 @@
                     <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="amount">
                         @item.Amount€
                     </span>
-                    <span class="description">
+                    <span class="description" t-id="description">
                         @item.Description
                     </span>
                 </div>
-                <div class="date">
+                <div class="date" t-id="date">
                     @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
                 </div>
             </a>
