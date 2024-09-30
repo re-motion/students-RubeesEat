@@ -12,21 +12,21 @@
     var displayClass = isPositive ? "positive-amount" : "negative-amount";
 }
 
-<span id="balance" class="@displayClass">@amountAsString</span>
+<span id="balance" t-id="balance" class="@displayClass">@amountAsString</span>
 
 <ul class="entryLines">
     @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 1, 5))
     {
-        <li class = "@(item.Amount < 0 ? "negative-amount" : "positive-amount")">
+        <li class = "@(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="entryLines > li">
             <a class="clickBillDetails" t-action="showBillDetails" href="BillDetails/@item.BillId">
                 <div class="amount-description">
                     <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="amount">
                         @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
                     </span>
-                    <span class="description">
+                    <span class="description" t-id="description">
                         @item.Description
                     </span>
-                    <span class="date">
+                    <span class="date" t-id="date">
                         @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
                     </span>
                 </div>

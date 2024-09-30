@@ -15,19 +15,19 @@
     {
         var item = billRepository.GetById(billId);
         <div class="bill-summary">
-            <div class="description">@item.Description</div>
-            <div class="personWhoPayed">Paid by: @(item.EntryLines[0].Person.FirstName)
+            <div t-id="description">@item.Description</div>
+            <div t-id="personWhoPaid">Paid by: @(item.EntryLines[0].Person.FirstName)
                 @(item.EntryLines[0].Person.LastName) </div>
-            <div class="date">@item.Date.ToString("D")</div>
-            <div class="amount">Total amount: @item.EntryLines[0].Amount€</div>
+            <div t-id="date">@item.Date.ToString("D")</div>
+            <div t-id="amount">Total amount: @item.EntryLines[0].Amount€</div>
         </div>
         <div class="bill">
             @for (int i = 1; i < item.EntryLines.Length; i++)
             {
-                <div class="entryLine">
-                    <div class="person">@(item.EntryLines[i].Person.FirstName)
+                <div t-id="entryLine">
+                    <div t-id="person">@(item.EntryLines[i].Person.FirstName)
                         @(item.EntryLines[i].Person.LastName): </div>
-                    <div class="amountPerPerson">@(-item.EntryLines[i].Amount)€ </div>
+                    <div t-id="amountPerPerson">@(-item.EntryLines[i].Amount)€ </div>
                 </div>
             }
         </div>

@@ -21,6 +21,6 @@ public class UserHomepagePageObject : PageObject
 
     public string GetAccountBalance()
     {
-        return FindElement(By.Id("balance")).Text;
+        return FindElement("balance").Text;
     }
 }

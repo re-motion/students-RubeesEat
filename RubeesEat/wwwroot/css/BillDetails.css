@@ -35,24 +35,6 @@ div.bill > div {
     padding-left: 1em;
 }
 
-.description, 
-.date,
-.amount {
-    margin-bottom: 10px;
-}
-
-.amount,
-.person
-{
-    font-weight: bold;
-    display: inline;
-}
-
-.amountPerPerson {
-    display: inline;
-    margin-left: 10px;
-}
-
 @media (min-width: 1800px) {
     div.bill > div {
         width: 1800px;
