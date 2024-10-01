@@ -17,7 +17,7 @@
 <ul class="entryLines">
     @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 1, 5))
     {
-        <li class = "@(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="entryLines > li">
+        <li class = "@(item.Amount < 0 ? "negative-amount" : "positive-amount")">
             <a class="clickBillDetails" t-action="showBillDetails" href="BillDetails/@item.BillId">
                 <div class="amount-description">
                     <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="amount">
