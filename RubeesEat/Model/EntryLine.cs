@@ -12,6 +12,14 @@ public class EntryLine
         Amount = amount;
     }
     
+    public EntryLine With(decimal? amount = null, Person? person = null)
+    {
+        return new EntryLine(
+            person ?? this.Person,
+            amount ?? this.Amount
+        );
+    }
+    
     public override string ToString()
     {
         return $"EntryLine: Person = {Person}, Amount = {Amount}";
