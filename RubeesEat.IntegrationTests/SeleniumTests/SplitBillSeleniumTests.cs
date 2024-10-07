@@ -119,5 +119,20 @@ public class SplitBillSeleniumTests() : SeleniumIntegrationTestBase("SplitBill")
         Assert.That(page.GetPersonAmountAndNames().Length, Is.EqualTo(0));
         Assert.That(page.GetSelection(), Is.EqualTo(expectedSelections));
     }
+
+    [Test]
+    public void OnlyShowActivePersons()
+    {
+        var page = Start<SplitBillPageObject>();
+        
+        var selectionsStart = page.GetSelection();
+        
+        Assert.That(selectionsStart.Count, Is.EqualTo(5));
+        Assert.That(selectionsStart[0], Is.EqualTo("DefaultFirstName DefaultLastName"));
+        Assert.That(selectionsStart[1], Is.EqualTo("Item Arslan"));
+        Assert.That(selectionsStart[2], Is.EqualTo("Patrick Widener"));
+        Assert.That(selectionsStart[3], Is.EqualTo("Lilli Grubber"));
+        Assert.That(selectionsStart[4], Is.EqualTo("Mich Ludwig"));
+    }
 }
 

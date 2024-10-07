@@ -22,6 +22,13 @@ public class InMemoryPersonRepository : IPersonRepository
     {
         return _persons.Values.ToList();
     }
+    
+    public IReadOnlyList<Person> GetAllActive()
+    {
+        return _persons.Values
+                       .Where(person => person.IsActive)
+                       .ToList();
+    }
 
     public void Add(Person person)
     {

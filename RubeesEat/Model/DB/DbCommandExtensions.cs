@@ -30,6 +30,11 @@ public static class DbCommandExtensions
         return AddParameterHelper(command, name, value);
     }
 
+    public static DbParameter AddParameter(this DbCommand command, string name, bool isActive)
+    {
+        return AddParameterHelper(command, name, isActive);
+    }
+
     private static DbParameter AddParameterHelper(this DbCommand command, string name, object value)
     {
         var parameter = command.CreateParameter();

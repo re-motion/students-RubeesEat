@@ -54,6 +54,7 @@ public class SeleniumIntegrationTestBase
         personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener"));
         personRepository.Add(new Person(Guid.NewGuid(), "Lilli", "Grubber"));
         personRepository.Add(new Person(Guid.NewGuid(), "Mich", "Ludwig"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Inactive", "User", false));
 
         var persons = personRepository.GetAll().ToImmutableList();
         var billRepository = new InMemoryBillRepository();

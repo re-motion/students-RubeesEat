@@ -4,12 +4,13 @@ namespace RubeesEat.Model;
 
 public class Person
 {
-    public static Person Create(string firstName, string lastName) => new(Guid.NewGuid(), firstName, lastName);
+    public static Person Create(string firstName, string lastName) => new(Guid.NewGuid(), firstName, lastName, true);
     public Guid Id { get; }
     public string FirstName { get; }
     public string LastName { get; }
+    public bool IsActive { get; }
 
-    public Person(Guid id, string firstName, string lastName)
+    public Person(Guid id, string firstName, string lastName, bool isActive = true)
     {
         ArgumentNullException.ThrowIfNull(firstName);
         ArgumentNullException.ThrowIfNull(lastName);
@@ -21,6 +22,7 @@ public class Person
         Id = id;
         FirstName = firstName;
         LastName = lastName;
+        IsActive = isActive;
     }
 
     private static bool IsValidName(params string[] words)

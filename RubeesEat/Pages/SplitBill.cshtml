@@ -14,7 +14,7 @@ Split bill:
     <div id="addPerson">
         <label for="billPeople">Add Person:</label>
         <select name="billPeople" id="billPeople" t-id="billPeople">
-            @foreach (Person person in PersonRepository.GetAll())
+            @foreach (Person person in PersonRepository.GetAllActive())
             {
                 <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
             }
