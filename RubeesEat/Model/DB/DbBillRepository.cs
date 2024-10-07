@@ -110,7 +110,8 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
                                                           SUM(el.Amount) AS TotalAmount, 
                                                           b.Date AS Date,
                                                           b.Description AS Description,
-                                                          b.BillID AS BillID
+                                                          b.BillID AS BillID,
+                                                          COUNT(*) OVER () AS TotalEntryLines
                                                       FROM 
                                                           EntryLines el
                                                       JOIN
@@ -132,6 +133,7 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
         using var reader = command.ExecuteReader();
 
         var balanceChanges = new List<BalanceChange>();
+        int totalNumberBalanceChanges  = 0;
         while (reader.Read())
         {
             balanceChanges.Add(new BalanceChange
@@ -141,8 +143,9 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
                 reader.GetString(2),
                 reader.GetGuid(3)
             ));
+            totalNumberBalanceChanges  = reader.GetInt32(4);
         }
-        int totalPages = (int)Math.Ceiling(balanceChanges.Count / (double)pageSize);
+        int totalPages = (int)Math.Ceiling(totalNumberBalanceChanges  / (double)pageSize);
 
         return new PaginatedView<BalanceChange>(
             [..balanceChanges],
