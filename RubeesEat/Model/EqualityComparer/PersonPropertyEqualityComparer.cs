@@ -12,7 +12,8 @@ public class PersonPropertyEqualityComparer : IEqualityComparer<Person>
             return false;
         return x.Id == y.Id &&
                x.FirstName == y.FirstName &&
-               x.LastName == y.LastName;
+               x.LastName == y.LastName &&
+               x.IsActive == y.IsActive;
     }
 
     public int GetHashCode([DisallowNull] Person person)
@@ -22,6 +23,7 @@ public class PersonPropertyEqualityComparer : IEqualityComparer<Person>
         hash.Add(person.Id);
         hash.Add(person.FirstName);
         hash.Add(person.LastName);
+        hash.Add(person.IsActive);
 
         return hash.ToHashCode();
     }
