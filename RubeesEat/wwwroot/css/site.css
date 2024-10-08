@@ -62,6 +62,9 @@ nav > ul > li > a {
     text-decoration: none;
     font-weight: bold;
 }
+nav > ul > li > a:hover {
+    color: #FFF5EE;
+}
 
 nav > ul > li:hover {
     transform: scale(1.15);
