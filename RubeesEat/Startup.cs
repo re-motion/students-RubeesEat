@@ -26,9 +26,9 @@ public class Startup
                 .AddOpenIdConnect(options =>
                 {
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.ClientId = "BdOG7g762eoAF7sXkoH2Gu2UXBVwzViJ";
-                    options.ClientSecret = "_pIXrOgfWvvFhOqUvuBMSASLhL2RpryArgEGdDRfWWCxnFVp7aqEGRt7_8lcBHkF";
-                    options.Authority = "https://dev-amcvh6f04mjr767m.us.auth0.com";
+                    options.ClientId = Configuration["OpenId:ClientId"];
+                    options.ClientSecret = Configuration["OpenId:ClientSecret"];
+                    options.Authority = Configuration["OpenId:Authority"];
                     options.GetClaimsFromUserInfoEndpoint = true;
                 });
         services.AddAuthorization(option =>
