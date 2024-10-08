@@ -7,7 +7,7 @@ public class ShowBillsPageObject : PageObject
 {
     public BalanceChangeControlObject[] GetBalanceChanges()
     {
-        return FindElements("entryLines > li")
+        return FindElements("entryLine")
                .Select(e => new BalanceChangeControlObject(this, e))
                .ToArray();
     }

@@ -5,57 +5,59 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-<h1>Your Bills</h1>
+<h1 class="text-center">Your Bills:</h1>
+    @{
+        var currentUser = personRepository.GetOrCreateUser(HttpContext.User);
+        int pageSize = Configuration.GetValue<int>("PageSize");
 
-@{
-    var currentUser = personRepository.GetOrCreateUser(HttpContext.User);
-    int pageSize  = Configuration.GetValue<int>("PageSize");
+        int page;
 
-    int page;
-    
-    if (!Int32.TryParse(Request.Query["page"], out page) || page <= 0)
-    {
-        page = 1;
-    }    
-    var billsPaginated = billRepository.GetRecentBalanceChanges(currentUser, page, pageSize);
-}
+        if (!Int32.TryParse(Request.Query["page"], out page) || page <= 0)
+        {
+            page = 1;
+        }
 
-<ul class="entryLines">
-    @foreach (var item in billsPaginated.Items)
-    {
-        <li t-id="entryLines > li">
-            <a class="clickBillDetails" href="../BillDetails/@item.BillId">
+        var billsPaginated = billRepository.GetRecentBalanceChanges(currentUser, page, pageSize);
+    }
+
+    <div class="entryLines list-group mx-auto">
+        @foreach (var item in billsPaginated.Items)
+        {
+            <a t-id="entryLine" class="list-group-item list-group-item-action text-decoration-none text-dark w-100" t-action="showBillDetails" href="BillDetails/@item.BillId">
                 <div class="amount-description">
-                    <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="amount">
-                        @item.Amount€
-                    </span>
-                    <span class="description" t-id="description">
-                        @item.Description
-                    </span>
-                </div>
-                <div class="date" t-id="date">
-                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                    <div class="row">
+                        <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
+                            @(item.Amount)€
+                        </div>
+                        <div class="col-5" t-id="description">
+                            @item.Description
+                        </div>
+                        <div class="col-4 text-end fst-italic" t-id="date">
+                            @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                        </div>
+                    </div>
                 </div>
             </a>
-        </li>
-    }
-</ul>
+        }
+    </div>
+    
+    <br>
+    
+    <div class="pagination justify-content-center">
+        @if (billsPaginated.HasPreviousPage)
+        {
+            <a href="../ShowBills/?page=@(page - 1)" t-action="prevButton" t-click-behavior="Click">Prev</a>
+        }
 
-<div class="pagination">
-    @if (billsPaginated.HasPreviousPage)
+        <span class="pageInfo">Viewing page @(page)/@billsPaginated.TotalPages</span>
+
+        @if (billsPaginated.HasNextPage)
+        {
+            <a href="../ShowBills/?page=@(page + 1)" t-action="nextButton" t-click-behavior="Click">Next</a>
+        }
+    </div>
+
+    @if (!billsPaginated.Items.Any())
     {
-        <a href="../ShowBills/?page=@(page - 1)" t-action="prevButton" t-click-behavior="Click">Prev</a>
+        <div class="errorMessage">No bills found for this page.</div>
     }
-
-    <span class="pageInfo">Viewing page @(page)/@billsPaginated.TotalPages</span>
-
-    @if (billsPaginated.HasNextPage)
-    {
-        <a href="../ShowBills/?page=@(page + 1)" t-action="nextButton" t-click-behavior="Click">Next</a>
-    }
-</div>
-
-@if (!billsPaginated.Items.Any())
-{
-    <div class="errorMessage">No bills found for this page.</div>
-}

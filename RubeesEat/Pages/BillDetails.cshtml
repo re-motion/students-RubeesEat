@@ -2,33 +2,42 @@
 @using System.Globalization
 @inject IBillRepository billRepository
 
-@section Styles {
-<link rel="stylesheet" href="/css/BillDetails.css" />
-}
 @{
-    var billId = Guid.Parse(RouteData.Values["guid"].ToString());
-    if (billRepository.GetById(billId) is null)
+    Guid.TryParse(RouteData.Values["guid"].ToString(), out var billId);
+    var currentBill = billRepository.GetById(billId);
+    if (currentBill is null)
     {
-        <div id="errorText" style="color:red"> Bill was not found!</div>
+        <div class="alert alert-danger text-center">
+            Bill was not found!
+        </div>
     }
     else
     {
-        var item = billRepository.GetById(billId);
-        <div class="bill-summary">
-            <div t-id="description">@item.Description</div>
-            <div t-id="personWhoPaid">Paid by: @(item.EntryLines[0].Person.FirstName)
-                @(item.EntryLines[0].Person.LastName) </div>
-            <div t-id="date">@item.Date.ToString("D")</div>
-            <div t-id="amount">Total amount: @item.EntryLines[0].Amount€</div>
+        <h1 class="text-center">Bill Details</h1>
+        var item = currentBill;
+        <div class="p-3 border rounded mx-auto" style ="background-color: #f7f7f7">
+            <dl class="row">
+                <dt class="col-12 col-sm-6">Description:</dt>
+                <dd t-id="description" class="col-12 col-sm-6 text-sm-end">@item.Description</dd>
+
+                <dt class="col-12 col-sm-6">Paid by:</dt>
+                <dd t-id="personWhoPaid" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Person.FirstName @item.EntryLines[0].Person.LastName</dd>
+
+                <dt class="col-12 col-sm-6">Date:</dt>
+                <dd t-id="date" class="col-12 col-sm-6 text-sm-end">@item.Date.ToString("D")</dd>
+
+                <dt class="col-12 col-sm-6">Total amount:</dt>
+                <dd t-id="amount" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Amount€</dd>
+            </dl>
         </div>
-        <div class="bill">
+
+        <div class="p-3 border rounded mx-auto bg-white">
             @for (int i = 1; i < item.EntryLines.Length; i++)
             {
-                <div t-id="entryLine">
-                    <div t-id="person">@(item.EntryLines[i].Person.FirstName)
-                        @(item.EntryLines[i].Person.LastName): </div>
-                    <div t-id="amountPerPerson">@(-item.EntryLines[i].Amount)€ </div>
-                </div>
+                <dl t-id="entryLine" class="row">
+                    <dt class="col-12 col-sm-6" t-id="person">@item.EntryLines[i].Person.FirstName @item.EntryLines[i].Person.LastName:</dt>
+                    <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(Math.Abs(item.EntryLines[i].Amount))€</dd>
+                </dl>
             }
         </div>
     }

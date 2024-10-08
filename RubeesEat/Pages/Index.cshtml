@@ -9,28 +9,44 @@
     var amount = billRepository.GetBalance(personRepository.GetOrCreateUser(HttpContext.User));
     var isPositive = amount >= 0;
     var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
-    var displayClass = isPositive ? "positive-amount" : "negative-amount";
+    var displayClass = isPositive ? "text-success" : "text-danger";
 }
 
-<span id="balance" t-id="balance" class="@displayClass">@amountAsString</span>
+<div class="container">
+    <br>
 
-<ul class="entryLines">
+    <div class="row justify-content-center">
+        <div class="col-auto text-center">
+            <span t-id="balance" class="p-3 border rounded @displayClass" style ="background-color: #f7f7f7">
+                <span class="text-dark">Your balance:</span> @amountAsString
+            </span>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="list-group">
     @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetOrCreateUser(HttpContext.User), 1, 5))
-    {
-        <li class = "@(item.Amount < 0 ? "negative-amount" : "positive-amount")">
-            <a class="clickBillDetails" t-action="showBillDetails" href="BillDetails/@item.BillId">
-                <div class="amount-description">
-                    <span class="amount @(item.Amount < 0 ? "negative-amount" : "positive-amount")" t-id="amount">
-                        @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
-                    </span>
-                    <span class="description" t-id="description">
-                        @item.Description
-                    </span>
-                    <span class="date" t-id="date">
-                        @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
-                    </span>
-                </div>
-            </a>
-        </li>
-    }
-</ul>
+                {
+                    <div t-id="entryLine">
+                        <a class="list-group-item list-group-item-action text-decoration-none text-dark" t-action="showBillDetails" href="BillDetails/@item.BillId">
+                            <div class="row">
+                                <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
+                                    @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
+                                </div>
+                                <div class="col-5" t-id="description">
+                                    @item.Description
+                                </div>
+                                <div class="col-4 text-end fst-italic" t-id="date">
+                                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,28 +1,53 @@
 @page
 @inject IPersonRepository PersonRepository
 
-Split bill:
-<form id="splitBillForm" method="post" action="/api/bills">
-
-    <label for="billDescription">Description:</label>
-    <input id="billDescription" t-id="billDescription" type="text" name="billDescription" required="required"></input><br>
-
-    <label for="billAmount">Total Price:</label>
-    <input id="billAmount" t-id="billAmount" type="number" step=".01" name="billAmount" required="required"></input><br>
-
-    <div id="addedPeople" t-id="addedPeople"></div>
-    <div id="addPerson">
-        <label for="billPeople">Add Person:</label>
-        <select name="billPeople" id="billPeople" t-id="billPeople">
-            @foreach (Person person in PersonRepository.GetAllActive())
-            {
-                <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
-            }
-        </select>
-        <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>
+<h1 class="text-center">Split bill:</h1>
+<form id="splitBillForm" method="post" action="/api/bills" class="mx-auto">
+    <div class="row">
+        <div class="col-12">
+            <label for="billDescription">Description:</label>
+            <input class="form-control" id="billDescription" t-id="billDescription" type="text" name="billDescription" required="required"></input>
+        </div>
     </div>
 
-    <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate()">Split the bill</button><br>
-    <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
+    <div class="row">
+        <div class="col-12">
+            <label for="billAmount">Total Price:</label>
+            <input class="form-control" id="billAmount" t-id="billAmount" type="number" step="1.0" name="billAmount" required="required"></input>
+        </div>
+    </div>
+
+
+    <div id="addedPeople" t-id="addedPeople"></div>
+
+    <div class="row" id="addPerson">
+        <div class="col-12">
+            <label for="billPeople">Add Person:</label>
+            <div class="d-flex">
+                <select class="form-select me-2" name="billPeople" id="billPeople" t-id="billPeople">
+                    @foreach (Person person in PersonRepository.GetAll())
+                    {
+                        <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
+                    }
+                </select>
+                <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Add Person"></input>
+            </div>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="row">
+        <div class="col-12">
+            <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate()" class="btn btn-primary">Split the bill</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
+        </div>
+    </div>
 </form>
+
 <script type="text/javascript" src="js/SplitBill.js"></script>

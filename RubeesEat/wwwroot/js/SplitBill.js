@@ -8,30 +8,34 @@ function AddPerson() {
     const selectedId = selectElement.selectedOptions[0].dataset["id"];
 
     const personDiv = document.createElement('div');
-    personDiv.className = 'personDiv';
-
-    const textDiv = document.createElement('div');
-    textDiv.className = 'text';
-    textDiv.textContent = selectedPerson + " ";
-    personDiv.appendChild(textDiv);
-
+    personDiv.className = 'personDiv'; 
+    
     const personIdElement = document.createElement("input");
     personIdElement.type = "hidden";
     personIdElement.name = "id" + counter;
     personIdElement.value = selectedId;
     document.querySelector("#addedPeople").append(personIdElement);
 
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'text mb-1';
+    nameDiv.textContent = selectedPerson;
+    personDiv.appendChild(nameDiv);
+
+    const inputGroup = document.createElement('div');
+    inputGroup.className = 'd-flex align-items-center';
+
     const amountElement = document.createElement("input");
     amountElement.name = "amount" + counter;
     amountElement.type = "number";
-    amountElement.step = ".01";
-    if (isTest) 
+    amountElement.step = "1.0";
+    amountElement.className = "form-control me-2"; 
+    if (isTest)
         amountElement.setAttribute("data-test-id", "input");
-    personDiv.append(amountElement);
-    personDiv.append(document.createElement("br"));
+    inputGroup.appendChild(amountElement);
 
     const button = document.createElement("button");
     button.innerText = "Remove";
+    button.className = "btn btn-danger"; 
     button.onclick = function () {
         personDiv.remove();
         let addToOptions = document.createElement("option");
@@ -42,17 +46,18 @@ function AddPerson() {
 
         addPerson.hidden = false;
     }
-    if (isTest)
-    {
+    if (isTest) {
         button.setAttribute("data-test-action", "removePeople");
         button.setAttribute("data-test-click-behavior", "Click");
     }
-    personDiv.appendChild(button);
+    inputGroup.appendChild(button);
+
+    personDiv.appendChild(inputGroup);
     document.getElementById("addedPeople").appendChild(personDiv);
-    
+
     counter++;
 
-    dropdown.remove(dropdown.selectedIndex)
+    dropdown.remove(dropdown.selectedIndex);
     if (selectElement.options.length === 0) {
         addPerson.hidden = true;
     }

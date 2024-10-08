@@ -40,9 +40,9 @@ public class RubeesEatSeleniumTests() : WithTestBills("Index")
         var balanceChange = balanceChanges[0];
         using var billDetailPage = balanceChange.ClickBillDetails();
 
-        Assert.That(billDetailPage.PersonWhoPaid, Is.EqualTo("Paid by: DefaultFirstName DefaultLastName"));
+        Assert.That(billDetailPage.PersonWhoPaid, Is.EqualTo("DefaultFirstName DefaultLastName"));
         Assert.That(billDetailPage.Description, Is.EqualTo("Default user paid lunch 2025"));
-        Assert.That(billDetailPage.Amount, Is.EqualTo("Total amount: 3000\u20ac"));
+        Assert.That(billDetailPage.Amount, Is.EqualTo("3000\u20ac"));
         Assert.That(billDetailPage.Date, Is.AnyOf("Dienstag, 19. August 2025", "Tuesday, 19 August 2025", "19 August 2025"));
         Assert.That(billDetailPage.GetEntryLines()[0].Person, Is.EqualTo("DefaultFirstName DefaultLastName:"));
         Assert.That(billDetailPage.GetEntryLines()[0].AmountPerPerson, Is.EqualTo("2000€"));
@@ -58,6 +58,6 @@ public class RubeesEatSeleniumTests() : WithTestBills("Index")
         var page = Start<UserHomepagePageObject>();
         Assert.That(
             page.GetAccountBalance(),
-            Is.EqualTo("998.600,50 \u20ac"));
+            Is.EqualTo("Your balance: 998.600,50 \u20ac"));
     }
 }
