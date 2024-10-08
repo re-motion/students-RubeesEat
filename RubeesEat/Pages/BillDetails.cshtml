@@ -2,34 +2,60 @@
 @using System.Globalization
 @inject IBillRepository billRepository
 
-@section Styles {
-<link rel="stylesheet" href="/css/BillDetails.css" />
-}
-@{
-    var billId = Guid.Parse(RouteData.Values["guid"].ToString());
-    if (billRepository.GetById(billId) is null)
-    {
-        <div id="errorText" style="color:red"> Bill was not found!</div>
-    }
-    else
-    {
-        var item = billRepository.GetById(billId);
-        <div class="bill-summary">
-            <div t-id="description">@item.Description</div>
-            <div t-id="personWhoPaid">Paid by: @(item.EntryLines[0].Person.FirstName)
-                @(item.EntryLines[0].Person.LastName) </div>
-            <div t-id="date">@item.Date.ToString("D")</div>
-            <div t-id="amount">Total amount: @item.EntryLines[0].Amount€</div>
-        </div>
-        <div class="bill">
-            @for (int i = 1; i < item.EntryLines.Length; i++)
-            {
-                <div t-id="entryLine">
-                    <div t-id="person">@(item.EntryLines[i].Person.FirstName)
-                        @(item.EntryLines[i].Person.LastName): </div>
-                    <div t-id="amountPerPerson">@(-item.EntryLines[i].Amount)€ </div>
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<div class="container mt-3">
+    @{
+        var billId = Guid.Parse(RouteData.Values["guid"].ToString());
+        if (billRepository.GetById(billId) is null)
+        {
+            <div class="alert alert-danger text-center">
+                Bill was not found!
+            </div>
+        }
+        else
+        {
+            <h1 class="text-center mb-4">Bill Details</h1>
+            var item = billRepository.GetById(billId);
+            <div class="p-3 border rounded mx-auto" style="max-width: 900px;">
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <strong>Description:</strong>
+                    </div>
+                    <div t-id="description" class="col-6 text-end">@item.Description</div>
                 </div>
-            }
-        </div>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <strong>Paid by:</strong>
+                    </div>
+                    <div t-id="personWhoPaid" class="col-6 text-end">@item.EntryLines[0].Person.FirstName @item.EntryLines[0].Person.LastName</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <strong>Date:</strong>
+                    </div>
+                    <div t-id="date" class="col-6 text-end">@item.Date.ToString("D")</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <strong>Total amount:</strong>
+                    </div>
+                    <div t-id="amount" class="col-6 text-end">@item.EntryLines[0].Amount€</div>
+                </div>
+            </div>
+            <ul class="bill list-group mt-5 mx-auto" style="max-width: 900px;">
+                @for (int i = 1; i < item.EntryLines.Length; i++)
+                {
+                    <li t-id="entryLine" class="list-group-item d-flex justify-content-between">
+                        <strong t-id="person" >@item.EntryLines[i].Person.FirstName @item.EntryLines[i].Person.LastName:</strong>
+                        <span t-id="amountPerPerson" >@(-item.EntryLines[i].Amount)€</span>
+                    </li>
+                }
+            </ul>
+        }
     }
-}
+</div>
