@@ -1,0 +1,44 @@
+DROP TABLE IF EXISTS Excel_Persons;
+DROP TABLE IF EXISTS Excel_Bills;
+DROP TABLE IF EXISTS EntryLines;
+DROP TABLE IF EXISTS Bills;
+DROP TABLE IF EXISTS Persons;
+
+CREATE TABLE Persons
+(
+    PersonID  VARCHAR(64) PRIMARY KEY,
+    FirstName VARCHAR(64) NOT NULL,
+    LastName  VARCHAR(64) NOT NULL,
+    IsActive  BOOLEAN     NOT NULL DEFAULT TRUE,
+    LoginName VARCHAR(64)
+);
+
+CREATE TABLE Bills
+(
+    BillID      VARCHAR(64) PRIMARY KEY,
+    Description VARCHAR(256) NOT NULL,
+    Date        DATETIME     NOT NULL
+);
+CREATE TABLE EntryLines
+(
+    EntryLineID INT AUTO_INCREMENT PRIMARY KEY,
+    Amount      DECIMAL(15, 2) NOT NULL,
+    PersonID    VARCHAR(64)    NOT NULL,
+    BillID      VARCHAR(64)    NOT NULL,
+    FOREIGN KEY (PersonID) REFERENCES Persons (PersonID),
+    FOREIGN KEY (BillID) REFERENCES Bills (BillID)
+);
+
+CREATE TABLE Excel_Persons
+(
+    PersonID VARCHAR(64) PRIMARY KEY,
+    Initials VARCHAR(64) NOT NULL,
+    FOREIGN KEY (PersonID) REFERENCES Persons (PersonID)
+);
+
+CREATE TABLE Excel_Bills
+(
+    BillID VARCHAR(64) PRIMARY KEY,
+    Row    INT NOT NULL,
+    FOREIGN KEY (BillID) REFERENCES Bills (BillID)
+);
