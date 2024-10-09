@@ -3,41 +3,39 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-<div class="container mt-3">
-    <h1 class="text-center">Hello, @personRepository.GetCurrentUser().FirstName!</h1>
+<h1 class="text-center">Hello, @personRepository.GetCurrentUser().FirstName!</h1>
 
-    @{
-        var amount = billRepository.GetBalance(personRepository.GetCurrentUser());
-        var isPositive = amount >= 0;
-        var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
-        var displayClass = isPositive ? "text-success" : "text-danger";
-    }
+@{
+    var amount = billRepository.GetBalance(personRepository.GetCurrentUser());
+    var isPositive = amount >= 0;
+    var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
+    var displayClass = isPositive ? "text-success" : "text-danger";
+}
 
-    <div class="text-center mt-5">
-        <span t-id="balance" class="p-3 border rounded @displayClass">
-            <span class="text-dark">Your balance:</span> @amountAsString
-        </span>
-    </div>
+<div class="text-center mt-5">
+    <span t-id="balance" class="p-3 border rounded @displayClass">
+        <span class="text-dark">Your balance:</span> @amountAsString
+    </span>
+</div>
 
 
-    <div class="entryLines list-group mt-5 mx-auto" style="max-width: 900px;">
-        @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 1, 5))
-        {
-            <a class="list-group-item list-group-item-action text-decoration-none text-dark w-100" t-action="showBillDetails" href="BillDetails/@item.BillId">
-                <div class="amount-description">
-                    <div class="row">
-                        <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
-                            @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
-                        </div>
-                        <div class="col-5" t-id="description">
-                            @item.Description
-                        </div>
-                        <div class="col-4 text-end fst-italic" t-id="date">
-                            @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
-                        </div>
+<div class="entryLines list-group mt-5 mx-auto" style="max-width: 900px;">
+    @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 1, 5))
+    {
+        <a class="list-group-item list-group-item-action text-decoration-none text-dark w-100" t-action="showBillDetails" href="BillDetails/@item.BillId">
+            <div class="amount-description">
+                <div class="row">
+                    <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
+                        @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
+                    </div>
+                    <div class="col-5" t-id="description">
+                        @item.Description
+                    </div>
+                    <div class="col-4 text-end fst-italic" t-id="date">
+                        @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
                     </div>
                 </div>
-            </a>
-        }
-    </div>
+            </div>
+        </a>
+    }
 </div>

@@ -2,45 +2,42 @@
 @using System.Globalization
 @inject IBillRepository billRepository
 
-<div class="container mt-3" style="max-width: 900px;">
-    @{
-        var billId = Guid.Parse(RouteData.Values["guid"].ToString());
-        if (billRepository.GetById(billId) is null)
-        {
-            <div class="alert alert-danger text-center">
-                Bill was not found!
-            </div>
-        }
-        else
-        {
-            <h1 class="text-center mb-4">Bill Details</h1>
-            var item = billRepository.GetById(billId);
-            <div class="p-3 border rounded mx-auto">
-                <dl class="row">
-                    <dt class="col-12 col-sm-6">Description:</dt>
-                    <dd t-id="description" class="col-12 col-sm-6 text-sm-end">@item.Description</dd>
-            
-                    <dt class="col-12 col-sm-6">Paid by:</dt>
-                    <dd t-id="personWhoPaid" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Person.FirstName @item.EntryLines[0].Person.LastName</dd>
-            
-                    <dt class="col-12 col-sm-6">Date:</dt>
-                    <dd t-id="date" class="col-12 col-sm-6 text-sm-end">@item.Date.ToString("D")</dd>
-            
-                    <dt class="col-12 col-sm-6">Total amount:</dt>
-                    <dd t-id="amount" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Amount€</dd>
-                </dl>
-            </div>
-            
-            <div class="p-3 border rounded mx-auto bg-white">
-                @for (int i = 1; i < item.EntryLines.Length; i++)
-                {
-                    <dl t-id="entryLine" class="row">
-                        <dt class="col-12 col-sm-6" t-id="person">@item.EntryLines[i].Person.FirstName @item.EntryLines[i].Person.LastName:</dt>
-                        <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(-item.EntryLines[i].Amount)€</dd>
-                    </dl>
-                }
-            </div>
-        }
-
+@{
+    var billId = Guid.Parse(RouteData.Values["guid"].ToString());
+    if (billRepository.GetById(billId) is null)
+    {
+        <div class="alert alert-danger text-center">
+            Bill was not found!
+        </div>
     }
-</div>
+    else
+    {
+        <h1 class="text-center mb-4">Bill Details</h1>
+        var item = billRepository.GetById(billId);
+        <div class="p-3 border rounded mx-auto">
+            <dl class="row">
+                <dt class="col-12 col-sm-6">Description:</dt>
+                <dd t-id="description" class="col-12 col-sm-6 text-sm-end">@item.Description</dd>
+
+                <dt class="col-12 col-sm-6">Paid by:</dt>
+                <dd t-id="personWhoPaid" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Person.FirstName @item.EntryLines[0].Person.LastName</dd>
+
+                <dt class="col-12 col-sm-6">Date:</dt>
+                <dd t-id="date" class="col-12 col-sm-6 text-sm-end">@item.Date.ToString("D")</dd>
+
+                <dt class="col-12 col-sm-6">Total amount:</dt>
+                <dd t-id="amount" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Amount€</dd>
+            </dl>
+        </div>
+
+        <div class="p-3 border rounded mx-auto bg-white">
+            @for (int i = 1; i < item.EntryLines.Length; i++)
+            {
+                <dl t-id="entryLine" class="row">
+                    <dt class="col-12 col-sm-6" t-id="person">@item.EntryLines[i].Person.FirstName @item.EntryLines[i].Person.LastName:</dt>
+                    <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(-item.EntryLines[i].Amount)€</dd>
+                </dl>
+            }
+        </div>
+    }
+}

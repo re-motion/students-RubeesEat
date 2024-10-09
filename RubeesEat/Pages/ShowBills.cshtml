@@ -5,8 +5,7 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-<div class="container mt-3">
-    <h1 class="text-center">Your Bills:</h1>
+<h1 class="text-center">Your Bills:</h1>
     @{
         var currentUser = personRepository.GetCurrentUser();
         int pageSize = Configuration.GetValue<int>("PageSize");
@@ -60,4 +59,3 @@
     {
         <div class="errorMessage">No bills found for this page.</div>
     }
-</div>

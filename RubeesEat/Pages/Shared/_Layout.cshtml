@@ -14,32 +14,34 @@
     <script type="text/javascript">const isTest = @(!Environment.IsProduction() ? "true" : "false");</script>
 </head>
 <body>
-<nav>
-    <div>
-        <a href="/./">
-            <img src="/logo_dark.png" alt="Rubees Eat logo " class="logo"/>
-        </a>
-    </div>
-    <ul>
-        <li>
-            <a href="/./">Home</a>
-        </li>
-        <li>
-            <a href="/SplitBill">Split a bill</a>
-        </li>
-        <li>
-            <a href="/ShowBills">Show bills</a>
-        </li>
-    </ul>
-    <button class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
+
+<nav class="navbar navbar-expand-lg navbar-light" style ="background-color: #fbbf00">
+    <a href="/./">
+        <img src="/logo_dark.png" alt="Rubees Eat logo" class="logo" style="width: 40px; height: auto;"/>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
     </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/./">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/SplitBill">Split a bill</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/ShowBills">Show bills</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <div>
+    <div class="container mt-3" style="max-width: 900px;">
     @RenderBody()
+    </div>
 </div>
 
 <script src="/js/site.js"></script>
