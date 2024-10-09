@@ -18,7 +18,8 @@ public abstract class IntegrationTestBase
     {
         TestServer = new TestServer(new WebHostBuilder()
                                     .UseStartup<Startup>()
-                                    .ConfigureTestServices(ConfigureServices));
+                                    .ConfigureTestServices(ConfigureServices)
+                                    .UseEnvironment("Test"));
         HttpClient = TestServer.CreateClient();
     }
     
