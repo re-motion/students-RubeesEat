@@ -41,6 +41,7 @@ public class Startup
                 option.FallbackPolicy = option.DefaultPolicy;
             });
         }
+        services.AddHttpContextAccessor();
 
     
         services.AddRazorPages();
@@ -48,12 +49,9 @@ public class Startup
         var connectionString = Configuration["ConnectionStrings:DefaultConnectionString"];
         var sqlConnectionFactory = new SqlConnectionFactory(connectionString);
         services.AddSingleton<IDbConnectionFactory>(sqlConnectionFactory);
-
-        var dbPersonRepository = new DbPersonRepository(sqlConnectionFactory);
-        services.AddSingleton<IPersonRepository>(dbPersonRepository);
-
-        var dbBillRepository = new DbBillRepository(sqlConnectionFactory);
-        services.AddSingleton<IBillRepository>(dbBillRepository);
+        
+        services.AddScoped<IPersonRepository, DbPersonRepository>();
+        services.AddScoped<IBillRepository, DbBillRepository>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

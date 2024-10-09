@@ -8,8 +8,9 @@ public class Person
     public Guid Id { get; }
     public string FirstName { get; }
     public string LastName { get; }
+    public string LoginName { get; }
 
-    public Person(Guid id, string firstName, string lastName)
+    public Person(Guid id, string firstName, string lastName, string loginName = null)
     {
         ArgumentNullException.ThrowIfNull(firstName);
         ArgumentNullException.ThrowIfNull(lastName);
@@ -21,6 +22,7 @@ public class Person
         Id = id;
         FirstName = firstName;
         LastName = lastName;
+        LoginName = loginName;
     }
 
     private static bool IsValidName(params string[] words)

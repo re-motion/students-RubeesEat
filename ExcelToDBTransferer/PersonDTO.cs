@@ -9,14 +9,16 @@ public class PersonDTO
     public string LastName { get; }
     public string Initials { get;}
     public bool IsActive { get; }
+    public string LoginName { get; }
 
-    public PersonDTO(string firstName, string lastName, string initials, bool isActive)
+    public PersonDTO(string firstName, string lastName, string initials, bool isActive, string loginName)
     {
         Id = Guid.NewGuid();
         FirstName = firstName;
         LastName = lastName;
         Initials = initials;
         IsActive = isActive;
+        LoginName = loginName;
     }
     
     public Person MapToPerson()
