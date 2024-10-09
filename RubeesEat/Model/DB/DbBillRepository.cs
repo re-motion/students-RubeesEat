@@ -162,15 +162,14 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
 
         connection.Open();
 
-        using var reader = command.ExecuteReader();
-
-        decimal sum = 0;
-        while (reader.Read())
+        var result = command.ExecuteScalar();
+        
+        if (result == DBNull.Value)
         {
-            sum += reader.GetDecimal(0);
+            return 0m;
         }
 
-        return sum;
+        return Convert.ToDecimal(result);
     }
 
     public Bill GetById(Guid guid)
