@@ -58,6 +58,6 @@ public class RubeesEatSeleniumTests() : SeleniumIntegrationTestBase("Index")
         var page = Start<UserHomepagePageObject>();
         Assert.That(
             page.GetAccountBalance(),
-            Is.EqualTo("998.600,50 \u20ac"));
+            Is.EqualTo("Your balance: 998.600,50 \u20ac"));
     }
 }

@@ -30,7 +30,7 @@
             <div class="list-group">
                 @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 1, 5))
                 {
-                    <a class="list-group-item list-group-item-action text-decoration-none text-dark" t-action="showBillDetails" href="BillDetails/@item.BillId">
+                    <a t-id="entryLines > li" class="list-group-item list-group-item-action text-decoration-none text-dark" t-action="showBillDetails" href="BillDetails/@item.BillId">
                         <div class="row">
                             <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
                                 @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
