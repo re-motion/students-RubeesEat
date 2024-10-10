@@ -20,7 +20,7 @@
         var billsPaginated = billRepository.GetRecentBalanceChanges(currentUser, page, pageSize);
     }
 
-    <div class="entryLines list-group mx-auto" style="max-width: 900px;">
+    <div class="entryLines list-group mx-auto">
         @foreach (var item in billsPaginated.Items)
         {
             <a t-id="entryLines > li" class="list-group-item list-group-item-action text-decoration-none text-dark w-100" t-action="showBillDetails" href="BillDetails/@item.BillId">
