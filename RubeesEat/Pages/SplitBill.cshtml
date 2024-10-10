@@ -24,11 +24,11 @@
                     <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
                 }
             </select>
-            <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>
+            <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Add Person"></input><br/>
         </div>
     </div>
 
-    <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate()">Split the bill</button><br>
+    <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate()" class="btn btn-primary">Split the bill</button><br>
 
     <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
 </form>
