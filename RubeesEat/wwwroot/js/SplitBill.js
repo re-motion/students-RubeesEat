@@ -8,7 +8,7 @@ function AddPerson() {
     const selectedId = selectElement.selectedOptions[0].dataset["id"];
 
     const personDiv = document.createElement('div');
-    personDiv.className = 'personDiv mb-3'; 
+    personDiv.className = 'personDiv'; 
     
     const personIdElement = document.createElement("input");
     personIdElement.type = "hidden";

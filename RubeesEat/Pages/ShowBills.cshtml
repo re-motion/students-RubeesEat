@@ -20,7 +20,7 @@
         var billsPaginated = billRepository.GetRecentBalanceChanges(currentUser, page, pageSize);
     }
 
-    <div class="entryLines list-group mt-5 mx-auto" style="max-width: 900px;">
+    <div class="entryLines list-group mx-auto" style="max-width: 900px;">
         @foreach (var item in billsPaginated.Items)
         {
             <a class="list-group-item list-group-item-action text-decoration-none text-dark w-100" t-action="showBillDetails" href="BillDetails/@item.BillId">
@@ -40,8 +40,10 @@
             </a>
         }
     </div>
-
-    <div class="pagination justify-content-center mt-3">
+    
+    <br>
+    
+    <div class="pagination justify-content-center">
         @if (billsPaginated.HasPreviousPage)
         {
             <a href="../ShowBills/?page=@(page - 1)" t-action="prevButton" t-click-behavior="Click">Prev</a>
