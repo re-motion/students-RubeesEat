@@ -4,56 +4,55 @@
 @inject IBillRepository billRepository
 
 @{
-    var billId = Guid.Parse(RouteData.Values["guid"].ToString());
-    if (billRepository.GetById(billId) is null)
-    {
-        <div id="errorText" style="color:red">Bill was not found!</div>
-    }
-    else
-    {
-        <div>
-            @{ var currentBill = billRepository.GetById(billId);}
-            Edit bill:
-            <form id="editBillForm" method="post" action="/api/bills">
-                <label for="billDescription">Description:</label>
-                <input id="billDescription" type="text" name="billDescription" default="@currentBill?.Description" required/><br/>
+var billId = Guid.Parse(RouteData.Values["guid"].ToString());
+var currentBill = billRepository.GetById(billId);
+if (currentBill is null)
+{
+<div id="errorText" style="color:red">Bill was not found!</div>
+}
+else
+{
+<div>
+    <h2>Edit Bill:</h2>
+    <form id="editBillForm" method="post" action="/api/bills/@billId">
+        <label for="billDescription">Description:</label>
+        <input id="billDescription" type="text" name="billDescription" value="@currentBill.Description" required/><br/>
 
-                <label for="billAmount">Total Price:</label>
+        <label for="billAmount">Total Price:</label>
+        @{
+        string totalAmountWithDot = currentBill.EntryLines[0].Amount.ToString(CultureInfo.InvariantCulture);
+        }
+        <input id="billAmount" type="number" step=".01" name="billAmount" value="@totalAmountWithDot" required/><br/>
+
+        <div id="addedPeople">
+            @foreach (var entryLine in currentBill.EntryLines)
+            {
+            <div class="personDiv">
+                <div class="text">@entryLine.Person.FirstName @entryLine.Person.LastName</div>
                 @{
-                    string totalAmountWithDot = currentBill?.EntryLines[0].Amount.ToString(CultureInfo.InvariantCulture);
+                string amountWithDot = entryLine.Amount.ToString(CultureInfo.InvariantCulture);
                 }
-                <input id="billAmount" type="number" step=".01" name="billAmount" value="@totalAmountWithDot" required/><br/>
-
-                <div id="addedPeople">
-                    @foreach (EntryLine entryLine in currentBill.EntryLines)
-                    {
-                        <div class="personDiv">
-                            <div class="text">@entryLine.Person.FirstName @entryLine.Person.LastName </div>
-                            @{
-                            string amountWithDot = entryLine.Amount.ToString(CultureInfo.InvariantCulture);
-                            }
-                            <input type="number" step=".01" value ="@amountWithDot"><br>
-                            <button>Remove</button>
-                        </div>
-                    }
-                </div>
-                <div id="addPerson">
-                    <label for="billPeople">Added Persons:</label>
-                    <select name="billPeople" id="billPeople">
-                        @foreach (Person person in PersonRepository.GetAllActive())
-                        {
-                            <option value="@person.FirstName @person.LastName" data-id="@person.Id">
-                                @person.FirstName @person.LastName
-                            </option>
-                        }
-                    </select>
-                    <input type="button" onclick="AddPerson()" value="Add Person"/><br/>
-                </div>
-
-                <button type="button" onclick="validate()">Split the bill</button><br/>
-                <text id="placeForErrorMessage" style="color: red;"></text>
-            </form>
-            <script type="text/javascript" src="js/SplitBill.js"></script>
+                <input type="hidden" name="id@entryLine.Person.Id" value="@entryLine.Person.Id" />
+                <input type="number" step=".01" name="amount@entryLine.Person.Id" value="@amountWithDot"/><br/>
+                <button type="button" onclick="RemovePerson('@entryLine.Person.Id')">Remove</button>
+            </div>
+            }
         </div>
-    }
+        <div id="addPerson">
+            <label for="billPeople">Add Person:</label>
+            <select name="billPeople" id="billPeople">
+                @foreach (var person in PersonRepository.GetAllActive())
+                {
+                <option value="@person.Id">@person.FirstName @person.LastName</option>
+                }
+            </select>
+            <input type="button" onclick="AddPerson()" value="Add Person"/><br/>
+        </div>
+
+        <button type="submit">Save Changes</button><br/>
+        <text id="placeForErrorMessage" style="color: red;"></text>
+    </form>
+    <script type="text/javascript" src="js/EditBill.js"></script>
+</div>
+}
 }
