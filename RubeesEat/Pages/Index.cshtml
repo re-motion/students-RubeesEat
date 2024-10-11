@@ -30,19 +30,21 @@
             <div class="list-group">
                 @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 1, 5))
                 {
-                    <a t-id="entryline" class="list-group-item list-group-item-action text-decoration-none text-dark" t-action="showBillDetails" href="BillDetails/@item.BillId">
-                        <div class="row">
-                            <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
-                                @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
+                    <div t-id="entryLine">
+                        <a class="list-group-item list-group-item-action text-decoration-none text-dark" t-action="showBillDetails" href="BillDetails/@item.BillId">
+                            <div class="row">
+                                <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
+                                    @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
+                                </div>
+                                <div class="col-5" t-id="description">
+                                    @item.Description
+                                </div>
+                                <div class="col-4 text-end fst-italic" t-id="date">
+                                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                                </div>
                             </div>
-                            <div class="col-5" t-id="description">
-                                @item.Description
-                            </div>
-                            <div class="col-4 text-end fst-italic" t-id="date">
-                                @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
-                            </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 }
             </div>
         </div>
