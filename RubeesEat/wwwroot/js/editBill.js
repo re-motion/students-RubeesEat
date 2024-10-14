@@ -1,47 +1,59 @@
 function AddPerson() {
-    const personSelect = document.getElementById("billPeople");
-    const selectedOption = personSelect.options[personSelect.selectedIndex];
-    const personId = selectedOption.value;
-    const personName = selectedOption.text;
+    const dropdown = document.getElementById("billPeople");
+    const addPerson = document.getElementById("addPerson");
+    const selectElement = document.getElementById('billPeople');
+    const selectedPerson = selectElement.value;
+    const selectedId = selectElement.selectedOptions[0].dataset["id"];
 
-    if (document.getElementById("person-" + personId)) {
-        alert("Diese Person ist bereits hinzugefügt.");
-        return;
+    const personDiv = document.createElement('div');
+    personDiv.className = 'personDiv';
+
+    const textDiv = document.createElement('div');
+    textDiv.className = 'text';
+    textDiv.textContent = selectedPerson + " ";
+    personDiv.appendChild(textDiv);
+
+    const personIdElement = document.createElement("input");
+    personIdElement.type = "hidden";
+    personIdElement.name = "id" + counter;
+    personIdElement.value = selectedId;
+    document.querySelector("#addedPeople").append(personIdElement);
+
+    const amountElement = document.createElement("input");
+    amountElement.name = "amount" + counter;
+    amountElement.type = "number";
+    amountElement.step = ".01";
+    if (isTest)
+        amountElement.setAttribute("data-test-id", "input");
+    personDiv.append(amountElement);
+    personDiv.append(document.createElement("br"));
+
+    const button = document.createElement("button");
+    button.innerText = "Remove";
+    button.onclick = function () {
+        personDiv.remove();
+        let addToOptions = document.createElement("option");
+        addToOptions.value = selectedPerson;
+        addToOptions.dataset.id = selectedId;
+        addToOptions.textContent = selectedPerson;
+        selectElement.appendChild(addToOptions);
+
+        addPerson.hidden = false;
     }
+    if (isTest)
+    {
+        button.setAttribute("data-test-action", "removePeople");
+        button.setAttribute("data-test-click-behavior", "Click");
+    }
+    personDiv.appendChild(button);
+    document.getElementById("addedPeople").appendChild(personDiv);
 
-    const addedPeopleDiv = document.getElementById("addedPeople");
-    const personDiv = document.createElement("div");
-    personDiv.classList.add("personDiv");
-    personDiv.id = "person-" + personId;
+    counter++;
 
-    const personLabel = document.createElement("div");
-    personLabel.classList.add("text");
-    personLabel.innerText = personName;
-
-    const amountInput = document.createElement("input");
-    amountInput.type = "number";
-    amountInput.step = ".01";
-    amountInput.name = "amount" + personId;
-    amountInput.required = true;
-    amountInput.placeholder = "Betrag eingeben";
-
-    const personIdInput = document.createElement("input");
-    personIdInput.type = "hidden";
-    personIdInput.name = "id" + personId;
-    personIdInput.value = personId;
-
-    const removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.innerText = "Remove";
-    removeButton.onclick = function () {
-        removePerson(personId);
-    };
-
-    personDiv.appendChild(personLabel);
-    personDiv.appendChild(personIdInput);
-    personDiv.appendChild(amountInput);
-    personDiv.appendChild(removeButton);
-    addedPeopleDiv.appendChild(personDiv);
+    dropdown.remove(dropdown.selectedIndex)
+    if (selectElement.options.length === 0) {
+        addPerson.hidden = true;
+    }
 }
 
 function RemovePerson(personId) {
@@ -49,4 +61,65 @@ function RemovePerson(personId) {
     if (personDiv) {
         personDiv.remove();
     }
+}
+
+function validate() {
+    const description = document.getElementById("billDescription");
+
+    const amounts = document.getElementById("addedPeople").querySelectorAll("input[name^='amount']");
+
+    for (let i = 0; i < amounts.length; i++) {
+        if (!amounts[i].value) {
+            document.getElementById("placeForErrorMessage").textContent = "Your input is not valid. Please enter a positive number";
+            return;
+        }
+        if (amounts[i].value <= 0) {
+            document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " is not valid. Please enter a positive number";
+            return;
+        }
+        const amountSplitted = amounts[i].value.split(".");
+        if (amountSplitted[1] && amountSplitted[1].length > 2) {
+            document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " is not valid. Please only enter 2 digits after the comma";
+            return;
+        }
+    }
+
+    const sum = [...amounts]
+        .map((amount) => parseFloat(amount.value))
+        .reduce((acc, value) => acc + value, 0);
+
+    const totalAmount = parseFloat(document.getElementById("billAmount").value);
+
+    if (!description.value) {
+        document.getElementById("placeForErrorMessage").textContent = "Please enter a description.";
+        return;
+    }
+
+    if (counter === 0) {
+        document.getElementById("placeForErrorMessage").textContent = "Please add a person.";
+        return;
+    }
+
+    if (isNaN(totalAmount)) {
+        document.getElementById("placeForErrorMessage").textContent = "Please enter a valid number for total amount.";
+        return;
+    }
+
+    if (totalAmount <= 0) {
+        document.getElementById("placeForErrorMessage").textContent = totalAmount + " is not valid. Please enter a valid number for total amount.";
+        return;
+    }
+
+    const totalAmountSplitted = totalAmount.toString().split(".");
+    if (totalAmountSplitted[1] && totalAmountSplitted[1].length > 2) {
+        document.getElementById("placeForErrorMessage").textContent = totalAmount + " is not valid. Please only enter 2 digits after the comma.";
+        return;
+    }
+
+    if (totalAmount !== sum) {
+        document.getElementById("placeForErrorMessage").textContent = "The sum of individual amounts doesn't match the total bill amount.";
+        return;
+    }
+
+    document.getElementById("splitBillForm").submit();
 }
