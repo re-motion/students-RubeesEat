@@ -92,4 +92,17 @@ public class InMemoryBillRepository : IBillRepository
                      .Where(e => e.Person == user)
                      .Sum(e => e.Amount);
     }
+    
+    public IReadOnlyList<Person> GetRecentBillParticipants(Person user, int limit)
+    {
+        IReadOnlyList<Bill> recentBillsWithUser = GetAllForUser(user).Take(limit).ToList();
+        return recentBillsWithUser
+               .SelectMany(b => b.EntryLines)
+               .Select(e => e.Person)
+               .Where(p => p.IsActive)
+               .Distinct()
+               .OrderBy(p => p.FirstName)
+               .ThenBy(p => p.LastName)
+               .ToList();
+    }
 }

@@ -1,6 +1,11 @@
 @page
 @using System.Globalization
+@using RubeesEat.Model.EqualityComparer
 @inject IPersonRepository PersonRepository
+@inject IBillRepository BillRepository
+@{
+var recentPersons = BillRepository.GetRecentBillParticipants(PersonRepository.GetCurrentUser(), 10);
+}
 
 <h1 class="text-center">Rechnung aufteilen:</h1>
 <form id="splitBillForm" method="post" action="/api/bills" class="mx-auto">
@@ -30,19 +35,30 @@
     </div>
 
 
-    <div id="addedPeople" t-id="addedPeople"></div>
+    <div id="recentPeople" t-id="recentPeople">
+        @foreach (Person person in recentPersons)
+        {
+            <button type="button" class="btn btn-sm" id="btn-@person.Id" t-id="addPersonButton"
+                onclick="AddPersonByButton('@person.Id', '@person.FirstName @person.LastName')"
+                data-id="@person.Id">
+            @person.FirstName @person.LastName
+        </button>
+        }
+    </div>
 
     <div class="row" id="addPerson">
         <div class="col-12">
             <label for="billPeople">Person hinzufügen:</label>
             <div class="d-flex">
                 <select class="form-select me-2" name="billPeople" id="billPeople" t-id="billPeople">
-                    @foreach (Person person in PersonRepository.GetAll())
+            @foreach (Person person in PersonRepository.GetAll().Except(recentPersons, new PersonPropertyEqualityComparer()))
                     {
-                        <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
+            <option value="@person.FirstName @person.LastName" data-id="@person.Id">
+                @person.FirstName @person.LastName
+            </option>
                     }
                 </select>
-                <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Person hinzufügen"></input>
+        <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPersonByDropdown()" class="btn btn-secondary" value="Person hinzufügen"></input><br/>
             </div>
         </div>
     </div>
