@@ -174,7 +174,7 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
 
         var bill = Bill.Create(description, entryLines.ToArray());
 
-        billRepository.Add(bill);
+        billRepository.Update(bill);
 
         return TypedResults.Redirect("/EditBill");
     }
