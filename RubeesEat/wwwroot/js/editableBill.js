@@ -1,5 +1,9 @@
 let counter = 0;
 function addExistingEntries(entryLines) {
+    debugger;
+    if (!entryLines)
+        return;
+
     for (let i = 1; i < entryLines.length; i++) {
         const entryLine = entryLines[i];
         const selectElement = document.getElementById('billPeople');
@@ -58,6 +62,7 @@ function addExistingEntries(entryLines) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    const existingEntryLines = window["existingEntryLines"];
     console.log(existingEntryLines);
     addExistingEntries(existingEntryLines);  
 });
@@ -83,72 +88,92 @@ function updateTotalAmount() {
 }
 
 
-function AddPerson() {
-    const dropdown = document.getElementById("billPeople");
-    const addPerson = document.getElementById("addPerson");
+function AddPersonByDropdown() {
     const selectElement = document.getElementById('billPeople');
     const selectedPerson = selectElement.value;
     const selectedId = selectElement.selectedOptions[0].dataset["id"];
     const personDiv = document.createElement('div');
-    personDiv.className = 'personDiv'; 
-    
+    const removeButton = document.createElement("button");
+
+    AddPerson(selectedId, selectedPerson, personDiv, removeButton);
+
+    const addPerson = document.getElementById("addPerson");
+    removeButton.onclick = function () {
+        personDiv.remove();
+        updateTotalAmount();
+        let addToOptions = document.createElement("option");
+        addToOptions.value = selectedPerson;
+        addToOptions.dataset.id = selectedId;
+        addToOptions.textContent = selectedPerson;
+        selectElement.appendChild(addToOptions);
+        addPerson.hidden = false;
+    }
+
+    const dropdown = document.getElementById("billPeople");
+    dropdown.remove(dropdown.selectedIndex)
+    if (selectElement.options.length === 0) {
+        addPerson.hidden = true;
+    }
+}
+
+function AddPersonByButton(selectedId, selectedPerson) {
+    const personDiv = document.createElement('div');
+    const removeButton = document.createElement("button");
+
+    AddPerson(selectedId, selectedPerson, personDiv, removeButton);
+
+    removeButton.onclick = function () {
+        personDiv.remove();
+        document.getElementById('btn-' + selectedId).disabled = false;
+    }
+    document.getElementById('btn-' + selectedId).disabled = true;
+}
+
+function AddPerson(selectedId, selectedPerson, personDiv, removeButton){
+    personDiv.className = 'personDiv mb-3';
+
+    const textDiv = document.createElement('div');
+    textDiv.className = 'mb-1';
+    textDiv.textContent = selectedPerson + " ";
+    personDiv.appendChild(textDiv);
+
     const personIdElement = document.createElement("input");
     personIdElement.type = "hidden";
     personIdElement.name = "id" + counter;
     personIdElement.value = selectedId;
     document.querySelector("#addedPeople").append(personIdElement);
 
-    const nameDiv = document.createElement('div');
-    nameDiv.className = 'text mb-1';
-    nameDiv.textContent = selectedPerson;
-    personDiv.appendChild(nameDiv);
-
-    const inputGroup = document.createElement('div');
-    inputGroup.className = 'd-flex align-items-center';
+    const amountGroup = document.createElement('div');
+    amountGroup.className = 'd-flex algin-items-center';
+    personDiv.appendChild(amountGroup);
 
     const amountElement = document.createElement("input");
     amountElement.name = "amount" + counter;
     amountElement.type = "number";
-    amountElement.step = "1.0";
+    amountElement.step = ".01";
     amountElement.className = "form-control me-2";
+    if (isTest) {
+        amountElement.setAttribute("data-test-id", "input");
+    }
+    amountGroup.appendChild(amountElement);
 
     amountElement.addEventListener('input', updateTotalAmount);
 
-    if (isTest)
-        amountElement.setAttribute("data-test-id", "input");
-    inputGroup.appendChild(amountElement);
+    removeButton.innerText = "Entfernen";
+    removeButton.className = "btn btn-danger";
+    removeButton.type = "button";
+    amountGroup.appendChild(removeButton);
 
-    const button = document.createElement("button");
-    button.innerText = "Entfernen";
-    button.className = "btn btn-danger"; 
-    button.onclick = function () {
-        personDiv.remove();
-        let addToOptions = document.createElement("option");
-        addToOptions.value = selectedPerson;
-        addToOptions.dataset.id = selectedId;
-        addToOptions.textContent = selectedPerson;
-        selectElement.appendChild(addToOptions);
-
-        addPerson.hidden = false;
-    }
+    document.getElementById("addedPeople").appendChild(personDiv);
 
     updateTotalAmount()
 
-    if (isTest) {
-        button.setAttribute("data-test-action", "removePeople");
-        button.setAttribute("data-test-click-behavior", "Click");
+    if (isTest)
+    {
+        removeButton.setAttribute("data-test-action", "removePeople");
+        removeButton.setAttribute("data-test-click-behavior", "Click");
     }
-    inputGroup.appendChild(button);
-
-    personDiv.appendChild(inputGroup);
-    document.getElementById("addedPeople").appendChild(personDiv);
-
     counter++;
-
-    dropdown.remove(dropdown.selectedIndex);
-    if (selectElement.options.length === 0) {
-        addPerson.hidden = true;
-    }
 }
 
 function validate(formName) {
@@ -156,7 +181,12 @@ function validate(formName) {
 
     const description = document.getElementById("billDescription");
 
-    const amounts = document.getElementById("addedPeople").querySelectorAll("input[name^='amount']");
+    const  addedPeople = document.getElementById("addedPeople");
+
+    if (!addedPeople)
+        return;
+
+    const amounts = addedPeople.querySelectorAll("input[name^='amount']");
 
     for (let i = 0; i < amounts.length; i++) {
         if (!amounts[i].value) {

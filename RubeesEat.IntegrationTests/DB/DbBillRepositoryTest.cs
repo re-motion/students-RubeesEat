@@ -148,4 +148,19 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
         Assert.That(bill.Date.ToString(CultureInfo.InvariantCulture), Is.EqualTo("09/09/2024 10:34:09"));
         Assert.That(bill.EntryLines.Length, Is.EqualTo(4));
     }
+
+    [Test]
+    public void GetRecentBillParticipants_WithLimitIs2_ReturnsLast2Participants()
+    {
+        var bill = _dbBillRepository.GetRecentBillParticipants(_dbPersonRepository.GetOrCreateUser(new ClaimsPrincipal()), 2);
+
+        Assert.That(bill.Count, Is.EqualTo(2));
+        Assert.That(bill[0].Id, Is.EqualTo(Guid.Parse("a05764e0-c2f5-4a3f-8f04-746aee8b355b")));
+        Assert.That(bill[0].FirstName, Is.EqualTo("Item"));
+        Assert.That(bill[0].LastName, Is.EqualTo("Arslan"));
+
+        Assert.That(bill[1].Id, Is.EqualTo(Guid.Parse("544febd0-05f8-471a-bafc-ca7135538031")));
+        Assert.That(bill[1].FirstName, Is.EqualTo("Lilli"));
+        Assert.That(bill[1].LastName, Is.EqualTo("Grubber"));
+    }
 }

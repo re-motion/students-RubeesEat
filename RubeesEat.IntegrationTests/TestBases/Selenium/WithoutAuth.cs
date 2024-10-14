@@ -19,7 +19,8 @@ public class WithoutAuth : SeleniumIntegrationTestBase
         {
             {"OpenID:Authority", "https://mockAuthority"},
             {"OpenID:ClientID", "mockClientID"},
-            {"OpenID:ClientSecret", "mockClientSecret"}
+            {"OpenID:ClientSecret", "mockClientSecret"},
+            {"OpenID:MetadataAddress", "https://mockMetadataAddress"}
         };
         var config = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
         hostBuilder.ConfigureAppConfiguration((context, builder) =>

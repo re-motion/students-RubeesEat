@@ -47,7 +47,7 @@
                         <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
                         }
                     </select>
-                    <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Person hinzufügen"/>
+                    <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPersonByDropdown()" class="btn btn-secondary" value="Person hinzufügen"/>
                 </div><br/>
             </div>
         </div>
@@ -70,7 +70,7 @@
         </div>
     </form>
     <script>
-        const existingEntryLines = @Html.Raw(Json.Serialize(currentBill.EntryLines));
+        window["existingEntryLines"] = @Html.Raw(Json.Serialize(currentBill.EntryLines));
     </script>
     <script type="text/javascript" src="../js/editableBill.js"></script>
 </div>

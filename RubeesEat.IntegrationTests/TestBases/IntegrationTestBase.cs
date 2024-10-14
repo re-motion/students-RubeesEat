@@ -24,7 +24,8 @@ public abstract class IntegrationTestBase
         {
             {"OpenID:Authority", "https://mockAuthority"},
             {"OpenID:ClientID", "mockClientID"},
-            {"OpenID:ClientSecret", "mockClientSecret"}
+            {"OpenID:ClientSecret", "mockClientSecret"},
+            {"OpenID:MetadataAddress", "https://mockMetadataAddress"}
         };
         TestServer = new TestServer(new WebHostBuilder()
                                     .ConfigureAppConfiguration((hostingContext, config) => config.AddInMemoryCollection(configSettings))

@@ -2,7 +2,7 @@ using RubeesEat.IntegrationTests.PageObjects;
 namespace RubeesEat.IntegrationTests.SeleniumTests;
 
 [TestFixture]
-public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
+public class SplitBillSeleniumTests() : WithTestPersons("SplitBill")
 {
     [Test]
     public void AddPerson()
@@ -11,7 +11,7 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         
         page.ClickAddPerson();
         
-        Assert.That(page.GetPersonAmountAndNames()[0], Is.EqualTo("DefaultFirstName DefaultLastName"));
+        Assert.That(page.GetPersonAmountAndNames()[0], Is.EqualTo("Patrick Widener"));
     }
     
     [Test]
@@ -55,11 +55,62 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         
         var selectionsStart = page.GetSelection();
         
-        Assert.That(selectionsStart.Count, Is.EqualTo(5));
-        Assert.That(selectionsStart[0], Is.EqualTo("DefaultFirstName DefaultLastName"));
-        Assert.That(selectionsStart[1], Is.EqualTo("Item Arslan"));
-        Assert.That(selectionsStart[2], Is.EqualTo("Patrick Widener"));
-        Assert.That(selectionsStart[3], Is.EqualTo("Lilli Grubber"));
-        Assert.That(selectionsStart[4], Is.EqualTo("Mich Ludwig"));
+        Assert.That(selectionsStart.Count, Is.EqualTo(2));
+        Assert.That(selectionsStart[0], Is.EqualTo("Patrick Widener"));
+        Assert.That(selectionsStart[1], Is.EqualTo("Lilli Grubber"));
+    }
+
+    [Test]
+    public void ShowPreviousBillParticipantAsButton()
+    {
+        var page = Start<SplitBillPageObject>();
+        page.SetNewDesciptionText("Test");
+        var person = page.ClickAddPerson();
+        person.SetAmountForPerson("5");
+        page.ClickSplitBill();
+        page = Start<SplitBillPageObject>();
+        var recentPeople = page.GetRecentPeople();
+        var buttons = recentPeople.GetAllButtons();
+
+        Assert.That(buttons[0].Me.Text, Is.EqualTo("DefaultFirstName DefaultLastName"));
+    }
+
+    [Test]
+    public void ClickPreviousBillParticipantAsButton_ButtonDisabledAndAddsPerson()
+    {
+        var page = Start<SplitBillPageObject>();
+        page.SetNewDesciptionText("Test");
+        var person = page.ClickAddPerson();
+        person.SetAmountForPerson("5");
+        page.ClickSplitBill();
+        page = Start<SplitBillPageObject>();
+        var recentPeople = page.GetRecentPeople();
+        var buttons = recentPeople.GetAllButtons();
+
+        Assert.That(page.GetPersonAmounts().Length, Is.EqualTo(0));
+
+        buttons[0].Me.Click();
+
+        Assert.That(buttons[0].Me.Enabled, Is.False);
+        Assert.That(page.GetPersonAmounts().Length, Is.EqualTo(1));
+        Assert.That(page.GetPersonAmounts()[0].Me.Text, Is.EqualTo("DefaultFirstName DefaultLastName"));
+    }
+
+    [Test]
+    public void RemovePreviousBillParticipantAsButton_ButtonEnabled()
+    {
+        var page = Start<SplitBillPageObject>();
+        page.SetNewDesciptionText("Test");
+        var person = page.ClickAddPerson();
+        person.SetAmountForPerson("5");
+        page.ClickSplitBill();
+        page = Start<SplitBillPageObject>();
+        var recentPeople = page.GetRecentPeople();
+        var buttons = recentPeople.GetAllButtons();
+        buttons[0].Me.Click();
+        var lastPerson = page.GetPersons()[0];
+        lastPerson.ClickRemoveButton();
+
+        Assert.That(buttons[0].Me.Enabled, Is.True);
     }
 }

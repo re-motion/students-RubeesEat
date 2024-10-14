@@ -22,11 +22,6 @@ public class SplitBillPageObject : PageObject
         FindElement("billDescription").SendKeys(value);
     }
 
-    public void SetNewTotalPriceText(string value)
-    {
-        FindElement("billAmount").SendKeys(value);
-    }
-
     public PersonAmountControlObject ClickAddPerson()
     {
         InvokeAction("addPerson"); 
@@ -46,11 +41,23 @@ public class SplitBillPageObject : PageObject
                .Select(e => new PersonAmountControlObject(this, e))
                .ToArray();
     }
+    
+    public PersonControlObject[] GetPersons()
+    {
+        return FindElement("addedPeople").FindElements(By.CssSelector("div"))
+                                         .Select(e => new PersonControlObject(this, e))
+                                         .ToArray();
+    }
 
     public List<string> GetSelection()
     {
         var selectElement = FindElement("billPeople");
         var options = selectElement.FindElements(By.TagName("option"));
         return options.Select(e => e.Text).ToList();
+    }
+
+    public RecentPeopleControlObject GetRecentPeople()
+    {
+        return new RecentPeopleControlObject(this, FindElement("recentPeople"));
     }
 }

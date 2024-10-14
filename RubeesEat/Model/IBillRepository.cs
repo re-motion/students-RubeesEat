@@ -9,4 +9,5 @@ public interface IBillRepository
     decimal GetBalance(Person user);
     Bill? GetById(Guid guid);
     void Update(Bill bill);
+    IReadOnlyList<Person> GetRecentBillParticipants(Person user, int limit);
 }

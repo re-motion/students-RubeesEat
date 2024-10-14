@@ -303,4 +303,48 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
             billBuilder.EntryLines.Clear();
         }
     }
+    
+    public IReadOnlyList<Person> GetRecentBillParticipants(Person user, int limit)
+    {
+        using var connection = connectionFactory.CreateDbConnection();
+
+        using var command = connection.CreateCommand(
+            @"SELECT DISTINCT p.PersonID, p.FirstName, p.LastName, p.LoginName, p.Email, p.IsActive
+                    FROM EntryLines e
+                    JOIN Bills b ON e.BillID = b.BillID
+                    JOIN Persons p ON e.PersonID = p.PersonID
+                    WHERE e.BillID IN (
+                        SELECT BillID
+                        FROM EntryLines
+                        WHERE PersonID = @PersonID
+                    )
+                    AND IsActive = true
+                    ORDER BY p.FirstName ASC, p.LastName ASC
+                    LIMIT @Limit;");
+        
+        command.AddParameter("@PersonID", user.Id);
+        command.AddParameter("@Limit", limit);
+
+        connection.Open();
+
+        using var reader = command.ExecuteReader();
+
+        var persons = new List<Person>();
+        while (reader.Read())
+        {
+            persons.Add(new Person
+            (
+                reader.GetGuid(0),
+                reader.GetString(1),
+                reader.GetString(2),
+                reader.GetString(3),
+                reader.GetString(4),
+                reader.GetBoolean(5)
+            ));
+        }
+
+        Console.WriteLine($"{user}: {persons.Count} recent");
+
+        return persons.AsReadOnly();
+    }
 }
