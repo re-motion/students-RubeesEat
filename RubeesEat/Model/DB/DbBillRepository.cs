@@ -64,6 +64,41 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
         }
     }
 
+    public void Update(Bill bill)
+    {
+        using (var connection = connectionFactory.CreateDbConnection())
+        {
+            connection.Open();
+            using var transaction = (MySqlTransaction)connection.BeginTransaction(IsolationLevel.ReadCommitted);
+            {
+                var command = transaction.CreateCommand(
+                    $"UPDATE Bills SET Description = @Description WHERE BillID = @BillId;")!;
+                command.AddParameter("@BillID", bill.Id);
+                command.AddParameter("@Description", bill.Description);
+                command.ExecuteNonQuery();
+
+                var deleteEntryLineCommand = transaction.CreateCommand(
+                    $"DELETE FROM EntryLines WHERE BillID = @BillID;")!;
+                deleteEntryLineCommand.AddParameter("@BillID", bill.Id);
+                deleteEntryLineCommand.ExecuteNonQuery();
+
+
+                for (var i = 0; i < bill.EntryLines.Length; i++)
+                {
+                    var entryLine = bill.EntryLines[i];
+                    var entryLineCommand = transaction.CreateCommand(
+                        $"INSERT INTO EntryLines (Amount, PersonID, BillID) VALUES (@Amount{i}, @PersonID{i}, @EntryLineBillID{i})")!;
+                    entryLineCommand.AddParameter($"@Amount{i}", entryLine.Amount);
+                    entryLineCommand.AddParameter($"@PersonID{i}", entryLine.Person.Id);
+                    entryLineCommand.AddParameter($"@EntryLineBillID{i}", bill.Id);
+                    entryLineCommand.ExecuteNonQuery();
+                }
+                
+                transaction.Commit();
+            }
+        }
+    }
+    
     public IReadOnlyList<Bill> GetAllForUser(Person user)
     {
         using var connection = connectionFactory.CreateDbConnection();
