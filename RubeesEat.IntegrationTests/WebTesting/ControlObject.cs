@@ -33,6 +33,11 @@ namespace RubeesEat.IntegrationTests.WebTesting
             return WebTestElementFinder.FindElement(Me, id);
         }
         
+        public IReadOnlyCollection<IWebElement> FindElements(string id)
+        {
+            return WebTestElementFinder.FindElements(Me, id);
+        }
+        
         public void InvokeAction(string action)
         {
             WebTestElementFinder.InvokeAction(Me, action);
