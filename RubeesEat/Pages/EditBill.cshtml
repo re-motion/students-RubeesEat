@@ -16,18 +16,18 @@ else
     <h2>Edit Bill:</h2>
     <form id="editBillForm" method="post" action="/api/bills/@billId">
         <label for="billDescription">Description:</label>
-        <input id="billDescription" type="text" name="billDescription" value="@currentBill.Description" required/><br/>
+        <input id="billDescription" t-id="billDescription" type="text" name="billDescription" value="@currentBill.Description" required/><br/>
 
         <label for="billAmount">Total Price:</label>
         @{
         string totalAmountWithDot = currentBill.EntryLines[0].Amount.ToString(CultureInfo.InvariantCulture);
         }
-        <input id="billAmount" type="number" step=".01" name="billAmount" value="@totalAmountWithDot" required/><br/>
+        <input id="billAmount" t-id="billAmount" type="number" step=".01" name="billAmount" value="@totalAmountWithDot" required/><br/>
 
         <div id="addedPeople">
             @foreach (var entryLine in currentBill.EntryLines)
             {
-            <div class="personDiv">
+            <div class="personDiv" t-id="addedPeople">>
                 <div class="text">@entryLine.Person.FirstName @entryLine.Person.LastName</div>
                 @{
                 string amountWithDot = entryLine.Amount.ToString(CultureInfo.InvariantCulture);
@@ -40,19 +40,19 @@ else
         </div>
         <div id="addPerson">
             <label for="billPeople">Add Person:</label>
-            <select name="billPeople" id="billPeople">
-                @foreach (var person in PersonRepository.GetAllActive())
+            <select name="billPeople" id="billPeople" t-id="billPeople">
+                @foreach (Person person in PersonRepository.GetAllActive())
                 {
-                <option value="@person.Id">@person.FirstName @person.LastName</option>
+                <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
                 }
             </select>
-            <input type="button" onclick="AddPerson()" value="Add Person"/><br/>
+            <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>
         </div>
 
-        <button type="submit">Save Changes</button><br/>
-        <text id="placeForErrorMessage" style="color: red;"></text>
+        <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate()">Split the bill</button><br>
+        <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
     </form>
-    <script type="text/javascript" src="js/EditBill.js"></script>
+    <script type="text/javascript" src="js/editableBill.js"></script>
 </div>
 }
 }
