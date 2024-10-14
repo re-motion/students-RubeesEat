@@ -75,7 +75,7 @@ function RemovePerson(personName, personId, buttonElement) {
 }
 
 
-function validate() {
+function validate(formName) {
     const description = document.getElementById("billDescription");
 
     const amounts = document.getElementById("addedPeople").querySelectorAll("input[name^='amount']");
@@ -133,5 +133,5 @@ function validate() {
         return;
     }
 
-    document.getElementById("splitBillForm").submit();
+    document.getElementById(formName).submit();
 }
