@@ -29,6 +29,7 @@
                         @(item.EntryLines[i].Person.LastName): </div>
                     <div t-id="amountPerPerson">@(-item.EntryLines[i].Amount)€ </div>
                 </div>
+                <button type="button" onclick="window.location.href='../EditBill/@item.Id'">Edit Bill</button>  
             }
         </div>
     }
