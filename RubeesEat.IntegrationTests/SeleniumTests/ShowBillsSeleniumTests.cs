@@ -3,7 +3,7 @@ using RubeesEat.IntegrationTests.PageObjects;
 namespace RubeesEat.IntegrationTests.SeleniumTests;
 
 [TestFixture]
-public class ShowBillsSeleniumTests() : SeleniumIntegrationTestBase("ShowBills")
+public class ShowBillsSeleniumTests() : WithTestBills("ShowBills")
 {
     [Test]
     public void ShowBills_FirstPage()
