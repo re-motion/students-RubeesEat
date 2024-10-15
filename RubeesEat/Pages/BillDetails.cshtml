@@ -14,7 +14,7 @@
     {
         <h1 class="text-center">Bill Details</h1>
         var item = billRepository.GetById(billId);
-        <div class="p-3 border rounded mx-auto">
+        <div class="p-3 border rounded mx-auto" style ="background-color: #f7f7f7">
             <dl class="row">
                 <dt class="col-12 col-sm-6">Description:</dt>
                 <dd t-id="description" class="col-12 col-sm-6 text-sm-end">@item.Description</dd>
