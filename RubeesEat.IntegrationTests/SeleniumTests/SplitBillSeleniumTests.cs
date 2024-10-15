@@ -2,7 +2,7 @@ using RubeesEat.IntegrationTests.PageObjects;
 namespace RubeesEat.IntegrationTests.SeleniumTests;
 
 [TestFixture]
-public class SplitBillSeleniumTests() : SeleniumIntegrationTestBase("SplitBill")
+public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
 {
     [Test]
     public void AddPerson()
