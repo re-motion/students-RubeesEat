@@ -23,24 +23,10 @@
                     string totalAmountWithDot = currentBill.EntryLines[0].Amount.ToString(CultureInfo.InvariantCulture);
                 }
                 <input id="billAmount" t-id="billAmount" type="number" step=".01" name="billAmount" value="@totalAmountWithDot" required/><br/>
-
-                <div id="addedPeople">
-                    @for (int i = 1; i < currentBill.EntryLines.Length; i++)
-                    {
-                        var entryLine = currentBill.EntryLines[i];
-
-                        <div class="personDiv" t-id="addedPeople">
-                            <div class="text">@entryLine.Person.FirstName @entryLine.Person.LastName</div>
-                            @{
-                                string amountWithDot = (-entryLine.Amount).ToString(CultureInfo.InvariantCulture);
-                            }
-                            <input type="hidden" name="id@entryLine.Person.Id" value="@entryLine.Person.Id"/>
-                            <input type="number" step=".01" name="amount@entryLine.Person.Id" value="@amountWithDot"/><br/>
-                            <button type="button" onclick="RemovePerson('@entryLine.Person.FirstName @entryLine.Person.LastName', '@entryLine.Person.Id', this)">Remove</button>
-                        </div>
-                    }
-
-                </div>
+                <input type="hidden" id = "billId" name="billId" value="@billId"/>
+                
+                <div id="addedPeople"></div>
+                
                 <div id="addPerson">
                     <label for="billPeople">Add Person:</label>
                     <select name="billPeople" id="billPeople" t-id="billPeople">
@@ -66,6 +52,9 @@
                 <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate('editBillForm')">Split the bill</button><br>
                 <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
             </form>
+            <script>
+                const existingEntryLines = @Html.Raw(Json.Serialize(currentBill.EntryLines));
+            </script>
             <script type="text/javascript" src="../js/editableBill.js"></script>
         </div>
     }
