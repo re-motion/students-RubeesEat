@@ -5,13 +5,13 @@ namespace RubeesEat.UnitTests.Model;
 
 public static class TestDomain
 {
-    public static readonly Person Jack = Person.Create("Jack", "Frost");
-    public static readonly Person Erwin = Person.Create("Erwin", "Smith");
-    public static readonly Person Sasha = Person.Create("Sasha", "Braus");
-    public static readonly Person Eren = Person.Create("Eren", "Jaeger");
-    public static readonly Person Mikasa = Person.Create("Mikasa", "Ackermann");
-    public static readonly Person Levi = Person.Create("Levi", "Ackermann");
-    public static readonly Person Yusuke = Person.Create("Yusuke", "Kitagawa");
+    public static readonly Person Jack = Person.Create("Jack", "Frost", "jack.frost");
+    public static readonly Person Erwin = Person.Create("Erwin", "Smith", "erwin.smith");
+    public static readonly Person Sasha = Person.Create("Sasha", "Braus", "sasha.braus");
+    public static readonly Person Eren = Person.Create("Eren", "Jaeger", "eren.jaeger");
+    public static readonly Person Mikasa = Person.Create("Mikasa", "Ackermann", "mikasa.ackermann");
+    public static readonly Person Levi = Person.Create("Levi", "Ackermann", "levi.ackermann");
+    public static readonly Person Yusuke = Person.Create("Yusuke", "Kitagawa", "yusuke.kitagawa");
 
     public static readonly List<Person> AllPeople =
     [

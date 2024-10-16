@@ -35,13 +35,13 @@ public abstract class IntegrationTestBase
     
      protected virtual void ConfigureServices(IServiceCollection services)
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "defaultLoginName");
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
-        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Lilli", "Grubber"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Mich", "Ludwig"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan", "item.arslan"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener", "patrick.widener"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Lilli", "Grubber", "lilli.grubber"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Mich", "Ludwig", "mich.ludwig"));
 
         var persons = personRepository.GetAll().ToImmutableList();
         var billRepository = new InMemoryBillRepository();

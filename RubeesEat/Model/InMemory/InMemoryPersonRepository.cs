@@ -1,4 +1,6 @@
 
+using System.Security.Claims;
+
 namespace RubeesEat.Model;
 
 public class InMemoryPersonRepository : IPersonRepository
@@ -37,7 +39,7 @@ public class InMemoryPersonRepository : IPersonRepository
         _persons.Add(person.Id, person);
     }
 
-    public Person GetCurrentUser()
+    public Person GetOrCreateUser(ClaimsPrincipal user)
     {
         return _persons.TryGetValue(CurrentUser, out var person) 
             ? person 

@@ -14,9 +14,9 @@ public class BillTests
         DateTime expectedTime = DateTime.Now;
         ImmutableArray<EntryLine> entryLines =
         [
-            new EntryLine(new Person(Guid.NewGuid(), "Max", "Ackermann"), 100),
-            new EntryLine(new Person(Guid.NewGuid(), "Minecraft", "Steve"), -50),
-            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax"), -50)
+            new EntryLine(new Person(Guid.NewGuid(), "Max", "Ackermann", "max.ackermann"), 100),
+            new EntryLine(new Person(Guid.NewGuid(), "Minecraft", "Steve", "minecraft.steve"), -50),
+            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax", "schmoes.relax"), -50)
         ];
         
         Bill bill = new Bill(expectedGuid, expectedTime, "Going to Macdonal", entryLines);
@@ -32,8 +32,8 @@ public class BillTests
     {
         ImmutableArray<EntryLine> entryLines =
         [
-            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax"), 100),
-            new EntryLine(new Person(Guid.NewGuid(), "Klara", "Malernachzahler"), -50)
+            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax", "schmoes.relax"), 100),
+            new EntryLine(new Person(Guid.NewGuid(), "Klara", "Malernachzahler", "klara.malernachzahler"), -50)
         ];
 
         Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Bolognese Flade in der Fladerei", entryLines),
@@ -45,7 +45,7 @@ public class BillTests
     {
         ImmutableArray<EntryLine> entryLines =
         [
-            new EntryLine(new Person(Guid.NewGuid(), "Doctor", "Doofenshmirtz"), 100)
+            new EntryLine(new Person(Guid.NewGuid(), "Doctor", "Doofenshmirtz", "doctor.doofenschmirtz"), 100)
         ];
 
         Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Alleine bei seiner Geburt", entryLines),
