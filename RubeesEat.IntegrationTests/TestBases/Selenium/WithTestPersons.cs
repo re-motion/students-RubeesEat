@@ -23,5 +23,7 @@ public class WithTestPersons : WithoutAuth
         PersonRepository.Add(new Person(Guid.NewGuid(), "Mich", "Ludwig"));
 
         services.Replace(ServiceDescriptor.Singleton<IPersonRepository>(PersonRepository));
+        var billRepository = new InMemoryBillRepository();
+        services.Replace(ServiceDescriptor.Singleton<IBillRepository>(billRepository));
     }
 }
