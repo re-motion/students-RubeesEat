@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Globalization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -172,10 +173,10 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
             return TypedResults.BadRequest("Persons should not appear multiple times (other than the buyer)");
         }
 
-        var bill = Bill.Create(description, entryLines.ToArray());
+        var bill = new Bill(existingBill.Id, existingBill.Date, description, entryLines.ToImmutableArray());
 
         billRepository.Update(bill);
 
-        return TypedResults.Redirect("/EditBill");
+        return TypedResults.Redirect("/Index");
     }
 }
