@@ -83,6 +83,14 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
     }
     
     [Test]
+    public void GetBalanceWhenNoBills_ReturnsBalanceOfUser()
+    {
+        var user = _dbPersonRepository.GetById(Guid.Parse("8e3edf3b-7dcd-4815-bf16-4bc9b9d6dd3b"));
+        decimal balance = _dbBillRepository.GetBalance(user);
+        Assert.That(balance, Is.EqualTo(0m));
+    }
+    
+    [Test]
     public void GetById_ReturnsBalanceOfUser()
     {
         var bill = _dbBillRepository.GetById(Guid.Parse("91CD57E6-418E-4628-82CC-09D471153CF6"));

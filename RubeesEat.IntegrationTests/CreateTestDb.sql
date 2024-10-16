@@ -34,6 +34,8 @@ INSERT INTO Persons (PersonID, FirstName, LastName)
 VALUES ('544FEBD0-05F8-471A-BAFC-CA7135538031', 'Lilli', 'Grubber');
 INSERT INTO Persons (PersonID, FirstName, LastName)
 VALUES ('7DBF157B-CBFF-43CE-BFDD-B367611BB1A5', 'Mich', 'Ludwig');
+INSERT INTO Persons (PersonID, FirstName, LastName)
+VALUES ('8e3edf3b-7dcd-4815-bf16-4bc9b9d6dd3b', 'No', 'Bills');
 
 INSERT INTO Bills(BillID, Description, Date)
 VALUES ('91CD57E6-418E-4628-82CC-09D471153CF6', 'Mittagessen auf Patrick sein Nacken', '2024-09-09 10:34:09');
