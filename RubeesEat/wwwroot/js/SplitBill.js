@@ -63,7 +63,6 @@ function AddPerson() {
     }
 }
 
-
 function validate() {
     const description = document.getElementById("billDescription");
 
