@@ -24,7 +24,7 @@ public class EditBillSeleniumTests() : SeleniumIntegrationTestBase("Index")
         
         Assert.That(updatedBillDetailPage.Description, Is.EqualTo("New description"));
     }
-   /* 
+
     [Test]
     public void UpdateTotalAmount()
     {
@@ -46,6 +46,6 @@ public class EditBillSeleniumTests() : SeleniumIntegrationTestBase("Index")
         var updatedBalanceChange = updatedBalanceChanges[0];
         using var updatedBillDetailPage = updatedBalanceChange.ClickBillDetails();
         
-        Assert.That(updatedBillDetailPage.Amount, Is.EqualTo("Total amount: 3010\\u20ac"));
-    }*/
+        Assert.That(updatedBillDetailPage.Amount, Is.EqualTo("Total amount: 3010\u20ac"));
+    }
 }
