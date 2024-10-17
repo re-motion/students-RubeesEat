@@ -33,7 +33,7 @@
                 </div>
             }
             @if (personRepository.GetCurrentUser().Id == item.EntryLines[0].Person.Id) {
-                <button type="button" onclick="window.location.href='../EditBill/@item.Id'">Edit Bill</button>
+                <a href="../EditBill/@item.Id" t-action="editBillButton" t-click-behavior="Click"> Edit Bill</a>
             }
         </div>
     }
