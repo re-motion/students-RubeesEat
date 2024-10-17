@@ -37,13 +37,13 @@ public class InMemoryBillRepositoryTests
     [Test]
     public void GetAllFromUser_EntriesExist_ReturnsUserEntries()
     {
-        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName");
+        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName", "defaulLoginName");
         var billRepository = new InMemoryBillRepository();
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
-        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan", "item.arslan"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener", "patrick.widener"));
         var persons = personRepository.GetAll().ToImmutableList();
         var firstBill = new Bill(Guid.NewGuid(), new DateTime(2024, 9, 9), "Mittagessen auf Patrick sein Nacken",
         [
@@ -68,13 +68,13 @@ public class InMemoryBillRepositoryTests
     [Test]
     public void GetRecentBalanceChanges_OneBalanceChange_ReturnsOneBalanceChange()
     {
-        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName");
+        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName", "defaulLoginName");
         var billRepository = new InMemoryBillRepository();
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
-        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan", "item.arslan"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener", "patrick.widener"));
         var persons = personRepository.GetAll().ToImmutableList();
         DateTime firstDate = new DateTime(2024, 9, 9);
         string firstDescription = "Mittagessen auf Patrick sein Nacken";
@@ -103,13 +103,13 @@ public class InMemoryBillRepositoryTests
     [Test]
     public void GetRecentBalanceChanges_ALotOfBalanceChecks_OnlyReturnsACertainAmount()
     {
-        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName");
+        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName", "defaulLoginName");
         var billRepository = new InMemoryBillRepository();
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
-        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan", "item.arslan"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener", "patrick.widener"));
         var persons = personRepository.GetAll().ToImmutableList();
         var dateTime = new DateTime(2024, 9, 9);
         DateTime firstDate = dateTime;
@@ -139,13 +139,13 @@ public class InMemoryBillRepositoryTests
     [Test]
     public void GetRecentBalanceChanges_ZeroBalanceChangesFromUser_ReturnsEmpty()
     {
-        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName");
+        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName", "defaulLoginName");
         var billRepository = new InMemoryBillRepository();
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
-        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan", "item.arslan"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener", "patrick.widener"));
         var persons = personRepository.GetAll().ToImmutableList();
         DateTime firstDate = new DateTime(2024, 9, 9);
         string firstDescription = "Mittagessen auf Patrick sein Nacken";
@@ -177,13 +177,13 @@ public class InMemoryBillRepositoryTests
     [Test]
     public void GetRecentBalanceChanges_EntriesExist_OrderedByDate()
     {
-        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName");
+        Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName", "defaulLoginName");
         var billRepository = new InMemoryBillRepository();
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
-        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan"));
-        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Item", "Arslan", "item.arslan"));
+        personRepository.Add(new Person(Guid.NewGuid(), "Patrick", "Widener", "patrick.widener"));
         var persons = personRepository.GetAll().ToImmutableList();
         var firstBill = new Bill(Guid.NewGuid(), new DateTime(2024, 9, 9), "Mittagessen auf Patrick sein Nacken",
         [

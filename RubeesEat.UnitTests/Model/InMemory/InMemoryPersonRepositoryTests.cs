@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using RubeesEat.Model;
 
 namespace RubeesEat.UnitTests.Model.InMemory;
@@ -40,24 +42,24 @@ public class InMemoryPersonRepositoryTests
     [Test]
     public void GetCurrentUser_IsInDictionary_ReturnsCurrentUser()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
 
-        Assert.That(personRepository.GetCurrentUser(),
+        Assert.That(personRepository.GetOrCreateUser(new ClaimsPrincipal()),
             Is.EqualTo(defaultUser));
     }
 
     [Test]
     public void GetCurrentUser_IsNotInDictionary_ThrowsException()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
 
         Assert.That(
-            () => personRepository.GetCurrentUser(),
+            () => personRepository.GetOrCreateUser(new ClaimsPrincipal()),
             Throws.TypeOf<ArgumentException>().With.Message
                   .EqualTo("default User is not in the dictionary"));
     }
@@ -65,7 +67,7 @@ public class InMemoryPersonRepositoryTests
     [Test]
     public void GetById_IsInDictionary_ReturnsUser()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
@@ -75,7 +77,7 @@ public class InMemoryPersonRepositoryTests
     [Test]
     public void GetById_IsNotInDictionary_ReturnsNull()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         Assert.That(personRepository.GetById(defaultUser.Id), Is.Null);

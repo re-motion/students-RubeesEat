@@ -8,7 +8,7 @@
 <h1>Your Bills</h1>
 
 @{
-    var currentUser = personRepository.GetCurrentUser();
+    var currentUser = personRepository.GetOrCreateUser(HttpContext.User);
     int pageSize  = Configuration.GetValue<int>("PageSize");
 
     int page;

@@ -3,10 +3,10 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-<h1>Hello, @personRepository.GetCurrentUser().FirstName!</h1>
+<h1>Hello, @personRepository.GetOrCreateUser(HttpContext.User).FirstName!</h1>
 
 @{
-    var amount = billRepository.GetBalance(personRepository.GetCurrentUser());
+    var amount = billRepository.GetBalance(personRepository.GetOrCreateUser(HttpContext.User));
     var isPositive = amount >= 0;
     var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
     var displayClass = isPositive ? "positive-amount" : "negative-amount";
@@ -15,7 +15,7 @@
 <span id="balance" t-id="balance" class="@displayClass">@amountAsString</span>
 
 <ul class="entryLines">
-    @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetCurrentUser(), 1, 5))
+    @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetOrCreateUser(HttpContext.User), 1, 5))
     {
         <li class = "@(item.Amount < 0 ? "negative-amount" : "positive-amount")">
             <a class="clickBillDetails" t-action="showBillDetails" href="BillDetails/@item.BillId">

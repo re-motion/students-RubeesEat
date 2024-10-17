@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using RubeesEat.Model;
 using RubeesEat.Model.DB;
 
@@ -40,7 +41,7 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
     public void Add_AddsNewPerson()
     {
         Guid personId = Guid.NewGuid();
-        Person person = new Person(personId, "Joel", "Fredericka");
+        Person person = new Person(personId, "Joel", "Fredericka", "joel.fredericka");
         _dbPersonRepository.Add(person);
         var persons = _dbPersonRepository.GetAll().ToList();
         Assert.That(persons[1].FirstName, Is.EqualTo("Joel"));
@@ -51,7 +52,7 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
     [Test]
     public void GetCurrentUser_ReturnsCurrentUser()
     {
-        var person = _dbPersonRepository.GetCurrentUser();
+        var person = _dbPersonRepository.GetOrCreateUser(new ClaimsPrincipal());
         Assert.That(person.FirstName, Is.EqualTo("Patrick"));
         Assert.That(person.LastName, Is.EqualTo("Widener"));
         Assert.That(person.Id, Is.EqualTo(Guid.Parse("883703f3-eea8-4bce-bacd-4a77ffe0c294")));
