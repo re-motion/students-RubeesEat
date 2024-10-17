@@ -85,7 +85,7 @@ public class DbPersonRepository: IPersonRepository
         var firstName = splitNickName[0];
         var lastName = splitNickName[1];
         if (loginName == null)
-            throw new NullReferenceException("User is inactive");
+            throw new InvalidOperationException("User is inactive");
         var person = GetByLoginName(loginName);
         if (person != null)
             return person;
