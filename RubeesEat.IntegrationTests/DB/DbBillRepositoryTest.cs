@@ -50,6 +50,29 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
         _dbBillRepository.Add(bill);
         Assert.That(_dbBillRepository.GetAll()[0], Is.EqualTo(bill).Using(_billPropertyComparer));
     }
+
+    [Test]
+    public void Update_UpdatesBill()
+    {
+        var persons = _dbPersonRepository.GetAll();
+        var bill = new Bill(Guid.NewGuid(), new DateTime(2025, 9, 9), "Mittagessen auf Item sein Nacken",
+        [
+            new EntryLine(persons[1], 1_000_000.50m),
+            new EntryLine(persons[2], -500_000.50m),
+            new EntryLine(persons[3], -500_000m)
+        ]);
+        _dbBillRepository.Add(bill);
+        Assert.That(_dbBillRepository.GetAll()[0], Is.EqualTo(bill).Using(_billPropertyComparer));
+
+        var updatedBill = new Bill(bill.Id, bill.Date, "Updated description.",
+        [
+            new EntryLine(persons[1], 10m),
+            new EntryLine(persons[2], -5m),
+            new EntryLine(persons[3], -5m)
+        ]);
+        _dbBillRepository.Update(updatedBill);
+        Assert.That(_dbBillRepository.GetAll()[0], Is.EqualTo(updatedBill).Using(_billPropertyComparer));
+    }
     
     [Test]
     public void GetAllForUserTest()
