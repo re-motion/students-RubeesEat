@@ -1,4 +1,5 @@
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using RubeesEat.IntegrationTests.WebTesting;
 
 namespace RubeesEat.IntegrationTests.PageObjects;
@@ -26,15 +27,15 @@ public class EditBillPageObject : PageObject
 
     public void SetNewTotalPriceText(string value)
     {
-        FindElement("billAmount").SendKeys(value);
+        var element = FindElement("billAmount");
+        element.Clear();
+        element.SendKeys(value);
     }
-
     public PersonAmountControlObject ClickAddPerson()
-    {
-        var element = FindElement("addPerson");
+    { 
         InvokeAction("addPerson");
-        return new PersonAmountControlObject(this,
-            FindElement("addedPeople").FindElement(By.CssSelector("div:last-of-type")));
+        return new PersonAmountControlObject(this, 
+            FindElement("addedPeople").FindElement(By.CssSelector(".personDiv:last-child")));
     }
 
     public void ClickUpdateBill()

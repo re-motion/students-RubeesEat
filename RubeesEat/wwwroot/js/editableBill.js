@@ -56,11 +56,7 @@ function addExistingEntries(entryLines)
 
         counter++;
 
-        dropdown.remove(dropdown.selectedIndex)
-        if (selectElement.options.length === 0) {
-            addPerson.hidden = true;
-        }
-        
+
     };
 }
 
