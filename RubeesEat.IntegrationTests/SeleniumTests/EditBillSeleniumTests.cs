@@ -2,7 +2,7 @@ using RubeesEat.IntegrationTests.PageObjects;
 
 namespace RubeesEat.IntegrationTests.SeleniumTests;
 
-public class EditBillSeleniumTests() : SeleniumIntegrationTestBase("Index")
+public class EditBillSeleniumTests() : WithTestBills("Index")
 {
     [Test]
     public void UpdateDescription()
