@@ -22,7 +22,7 @@ Split bill:
         <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>
     </div>
 
-    <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate()">Split the bill</button><br>
+    <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate('splitBillForm')">Split the bill</button><br>
     <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
 </form>
-<script type="text/javascript" src="js/SplitBill.js"></script>
+<script type="text/javascript" src="js/editableBill.js"></script>

@@ -1,6 +1,8 @@
 @page "{guid}"
 @using System.Globalization
 @inject IBillRepository billRepository
+@inject IPersonRepository personRepository
+
 
 @section Styles {
 <link rel="stylesheet" href="/css/BillDetails.css" />
@@ -29,6 +31,9 @@
                         @(item.EntryLines[i].Person.LastName): </div>
                     <div t-id="amountPerPerson">@(-item.EntryLines[i].Amount)€ </div>
                 </div>
+            }
+            @if (personRepository.GetCurrentUser().Id == item.EntryLines[0].Person.Id) {
+                <a href="../EditBill/@item.Id" t-action="editBillButton" t-click-behavior="Click"> Edit Bill</a>
             }
         </div>
     }

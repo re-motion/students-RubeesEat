@@ -20,4 +20,10 @@ public class BillDetailsPageObject : PageObject
                .Select(e => new EntryLineControlObject(this, e))
                .ToArray();
     }
+    
+    public EditBillPageObject ClickUpdate()
+    {
+        InvokeAction("editBillButton");
+        return CreatePageObject<EditBillPageObject>();
+    }
 }
