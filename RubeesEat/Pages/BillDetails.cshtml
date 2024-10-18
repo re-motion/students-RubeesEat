@@ -4,7 +4,8 @@
 
 @{
     var billId = Guid.Parse(RouteData.Values["guid"].ToString());
-    if (billRepository.GetById(billId) is null)
+    var currentBill = billRepository.GetById(billId);
+    if (currentBill is null)
     {
         <div class="alert alert-danger text-center">
             Bill was not found!
@@ -13,7 +14,7 @@
     else
     {
         <h1 class="text-center">Bill Details</h1>
-        var item = billRepository.GetById(billId);
+        var item = currentBill;
         <div class="p-3 border rounded mx-auto" style ="background-color: #f7f7f7">
             <dl class="row">
                 <dt class="col-12 col-sm-6">Description:</dt>
@@ -35,7 +36,7 @@
             {
                 <dl t-id="entryLine" class="row">
                     <dt class="col-12 col-sm-6" t-id="person">@item.EntryLines[i].Person.FirstName @item.EntryLines[i].Person.LastName:</dt>
-                    <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(-item.EntryLines[i].Amount)€</dd>
+                    <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(Math.Abs(item.EntryLines[i].Amount))€</dd>
                 </dl>
             }
         </div>

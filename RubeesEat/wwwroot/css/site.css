@@ -24,7 +24,7 @@ body {
     --secondary-color: #2d332f;
 }
 
-@media (min-width: 992px)
+@media (min-width: 900px)
 {
     nav {
         justify-content: start;

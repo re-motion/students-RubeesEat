@@ -27,7 +27,7 @@ function AddPerson() {
     const amountElement = document.createElement("input");
     amountElement.name = "amount" + counter;
     amountElement.type = "number";
-    amountElement.step = ".01";
+    amountElement.step = "1.0";
     amountElement.className = "form-control me-2"; 
     if (isTest)
         amountElement.setAttribute("data-test-id", "input");
