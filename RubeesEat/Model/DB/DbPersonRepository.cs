@@ -84,7 +84,7 @@ public class DbPersonRepository: IPersonRepository
         var firstName = splitNickName[0];
         var lastName = splitNickName[1];
         if (loginName == null)
-            throw new InvalidOperationException("User is inactive");
+            throw new InvalidOperationException("User's claim is missing name field");
         var person = GetByLoginName(loginName);
         if (person != null)
             return person;
