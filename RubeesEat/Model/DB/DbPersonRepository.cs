@@ -56,7 +56,6 @@ public class DbPersonRepository: IPersonRepository
                 reader.GetString(2),
                 reader.IsDBNull(3) ? null : reader.GetString(3),
                 reader.GetBoolean(4)
-
             ));
         }
 
