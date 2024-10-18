@@ -56,7 +56,6 @@ public class DbPersonRepository: IPersonRepository
                 reader.GetString(2),
                 reader.IsDBNull(3) ? null : reader.GetString(3),
                 reader.GetBoolean(4)
-
             ));
         }
 
@@ -81,11 +80,15 @@ public class DbPersonRepository: IPersonRepository
     {
         var loginName = user.FindFirst("name")?.Value;
         var nickName = user.FindFirst("nickname")?.Value;
+        if (loginName == null)
+            throw new InvalidOperationException("User's claim is missing name field");
+        if (nickName == null)
+            throw new InvalidOperationException("User's claim is missing nickname field");
+        if (!nickName.Contains('.'))
+            throw new InvalidOperationException("Nickname in User's claim has unexpected formating (does not contain '.')");
         var splitNickName = nickName.Split(".");
         var firstName = splitNickName[0];
         var lastName = splitNickName[1];
-        if (loginName == null)
-            throw new InvalidOperationException("User is inactive");
         var person = GetByLoginName(loginName);
         if (person != null)
             return person;
