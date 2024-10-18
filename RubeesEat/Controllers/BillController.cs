@@ -34,7 +34,7 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
         {
             return TypedResults.BadRequest("Total amount must be a number.");
         }
-        entryLines.Add(new EntryLine(personRepository.GetCurrentUser(), totalAmount));
+        entryLines.Add(new EntryLine(personRepository.GetOrCreateUser(HttpContext.User), totalAmount));
 
         for (var i = 0;; i++)
         {

@@ -37,7 +37,7 @@ public class InMemoryPersonRepository : IPersonRepository
         _persons.Add(person.Id, person);
     }
 
-    public Person GetCurrentUser()
+    public Person GetOrCreateUser()
     {
         return _persons.TryGetValue(CurrentUser, out var person) 
             ? person 

@@ -43,7 +43,7 @@ public class DbTransferer
         
         foreach (var personDto in _personsToBeAdded.Values)
         {
-            var person = new Person(personDto.Id, personDto.FirstName, personDto.LastName, personDto.IsActive);
+            var person = new Person(personDto.Id, personDto.FirstName, personDto.LastName, personDto.LoginName, personDto.IsActive);
             _personRepository.Add(person);
             using var insertCommand = _connection.CreateCommand("INSERT INTO Excel_Persons (PersonID, Initials) VALUES (@PersonID, @Initials);");
             insertCommand.AddParameter("@PersonID", personDto.Id);
