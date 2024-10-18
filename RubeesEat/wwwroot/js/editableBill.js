@@ -122,23 +122,6 @@ function AddPerson() {
     }
 }
 
-function RemovePerson(personName, personId, buttonElement) {
-    const personDiv = buttonElement.parentElement;
-    personDiv.remove(); 
-
-    const selectElement = document.getElementById("billPeople");
-
-    let addToOptions = document.createElement("option");
-    addToOptions.value = personName;
-    addToOptions.dataset.id = personId;
-    addToOptions.textContent = personName;
-    selectElement.appendChild(addToOptions);
-
-    const addPersonDiv = document.getElementById("addPerson");
-    addPersonDiv.hidden = false;
-}
-
-
 function validate(formName) {
     const description = document.getElementById("billDescription");
 

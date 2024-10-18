@@ -34,20 +34,9 @@
                 <div id="addPerson">
                     <label for="billPeople">Add Person:</label>
                     <select name="billPeople" id="billPeople" t-id="billPeople">
-                        @foreach (Person person in PersonRepository.GetAllActive())
+                        @foreach (Person person in PersonRepository.GetAllActive().Except(currentBill.EntryLines.Select(entryLine => entryLine.Person).ToList()))
                         {
-                            var checkIfPersonAlreadySelected = false;
-                            @for (int i = 1; i < currentBill.EntryLines.Length; i++)
-                            {
-                                var entryLine = currentBill.EntryLines[i];
-                                if (person.Id == entryLine.Person.Id)  
-                                    checkIfPersonAlreadySelected = true;
-                            }
-
-                            if (!checkIfPersonAlreadySelected)
-                            {
-                                <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
-                            }
+                        <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
                         }
                     </select>
                     <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>

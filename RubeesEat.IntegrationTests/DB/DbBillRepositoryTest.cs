@@ -75,6 +75,30 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
     }
     
     [Test]
+    public void Update_EntriesNotInDatabase_ThrowsKeyNotFoundException()
+    {
+        var persons = _dbPersonRepository.GetAll();
+
+        var nonExistingBill = new Bill(Guid.NewGuid(), new DateTime(2025, 9, 9), "Not existing bill",
+        [
+            new EntryLine(persons[1], 1_000_000.50m),
+            new EntryLine(persons[2], -500_000.50m),
+            new EntryLine(persons[3], -500_000m)
+        ]);
+
+        var updatedBill = new Bill(nonExistingBill.Id, nonExistingBill.Date, "Updated description",
+        [
+            new EntryLine(persons[1], 10m),
+            new EntryLine(persons[2], -5m),
+            new EntryLine(persons[3], -5m)
+        ]);
+
+        Assert.That(() => _dbBillRepository.Update(updatedBill), 
+            Throws.TypeOf<KeyNotFoundException>().With.Message.EqualTo("Bill not found"));
+    }
+
+    
+    [Test]
     public void GetAllForUserTest()
     {
         var currentUser = _dbPersonRepository.GetCurrentUser();

@@ -69,6 +69,9 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
         using (var connection = connectionFactory.CreateDbConnection())
         {
             connection.Open();
+            
+            GetById(bill.Id);
+            
             using var transaction = (MySqlTransaction)connection.BeginTransaction(IsolationLevel.ReadCommitted);
             {
                 var command = transaction.CreateCommand(
@@ -235,7 +238,14 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
         command.AddParameter("@BillID", guid);
         connection.Open();
         using var reader = command.ExecuteReader();
-        return CreateBillsFromReader(reader)[0];
+        var bills = CreateBillsFromReader(reader);
+    
+        if (bills.Count == 0)
+        {
+            throw new KeyNotFoundException("Bill not found");
+        }
+
+        return bills[0];    
     }
     
     private IReadOnlyList<Bill> CreateBillsFromReader(DbDataReader reader)

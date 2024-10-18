@@ -21,7 +21,7 @@ public class BillDetailsPageObject : PageObject
                .ToArray();
     }
     
-    public EditBillPageObject ClickUpdate()
+    public EditBillPageObject ClickEdit()
     {
         InvokeAction("editBillButton");
         return CreatePageObject<EditBillPageObject>();

@@ -14,7 +14,7 @@ public class EditBillSeleniumTests() : SeleniumIntegrationTestBase("Index")
         
         Assert.That(billDetailPage.Description, Is.EqualTo("Default user paid lunch 2025"));
 
-        using var editBillPage = billDetailPage.ClickUpdate();
+        using var editBillPage = billDetailPage.ClickEdit();
         editBillPage.SetNewDesciptionText("New description");
         editBillPage.ClickUpdateBill();
 
@@ -36,7 +36,7 @@ public class EditBillSeleniumTests() : SeleniumIntegrationTestBase("Index")
         
         Assert.That(billDetailPage.Amount, Is.EqualTo("Total amount: 3000\u20ac"));
         
-        using var editBillPage = billDetailPage.ClickUpdate();
+        using var editBillPage = billDetailPage.ClickEdit();
         var person = editBillPage.ClickAddPerson();
         editBillPage.SetNewTotalPriceText("3010");
         person.SetAmountForPerson("10");
