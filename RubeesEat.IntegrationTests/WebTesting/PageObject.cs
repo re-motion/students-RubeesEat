@@ -62,8 +62,17 @@ public abstract class PageObject : IDisposable
         Driver.SwitchTo().Window(Driver.WindowHandles.First());
     }
     
-    public string GetCurrentUrl()
+	public string GetCurrentUrl()
     {
         return Driver.Url;
+    }
+	
+	public TPageObject CreatePageObject<TPageObject>()
+        where TPageObject : PageObject, new()
+    {
+        var page = new TPageObject();
+        page.SetDriver(_driver);
+
+        return page;
     }
 }

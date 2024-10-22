@@ -32,6 +32,17 @@ public class InMemoryBillRepository : IBillRepository
         ArgumentNullException.ThrowIfNull(bill);
         _bills.Add(bill.Id, bill);
     }
+
+    public void Update(Bill bill)
+    {
+        ArgumentNullException.ThrowIfNull(bill);
+        if (!_bills.ContainsKey(bill.Id))
+        {
+            throw new KeyNotFoundException("Bill not found");
+        }
+        
+        _bills[bill.Id] = bill;
+    }
         
     public PaginatedView<BalanceChange> GetRecentBalanceChanges(Person currentUser, int page, int pageSize)
     {
