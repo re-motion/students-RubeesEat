@@ -1,5 +1,10 @@
 @page
+@using RubeesEat.Model.EqualityComparer
 @inject IPersonRepository PersonRepository
+@inject IBillRepository BillRepository
+@{
+var recentPersons = BillRepository.GetRecentBillParticipants(PersonRepository.GetCurrentUser(), 10);
+}
 
 Split bill:
 <form id="splitBillForm" method="post" action="/api/bills">
@@ -10,19 +15,34 @@ Split bill:
     <label for="billAmount">Total Price:</label>
     <input id="billAmount" t-id="billAmount" type="number" step=".01" name="billAmount" required="required"></input><br>
 
-    <div id="addedPeople" t-id="addedPeople"></div>
+    <div id="recentPeople" t-id="recentPeople">
+        @foreach (Person person in recentPersons)
+        {
+            <button type="button" class="btn btn-sm" id="btn-@person.Id" t-id="addPersonButton"
+                onclick="AddPersonByButton('@person.Id', '@person.FirstName @person.LastName')"
+                data-id="@person.Id">
+            @person.FirstName @person.LastName
+        </button>
+        }
+    </div>
+
     <div id="addPerson">
         <label for="billPeople">Add Person:</label>
         <select name="billPeople" id="billPeople" t-id="billPeople">
-            @foreach (Person person in PersonRepository.GetAllActive())
+            @foreach (Person person in PersonRepository.GetAllActive().Except(recentPersons, new PersonPropertyEqualityComparer()))
             {
-                <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
+            <option value="@person.FirstName @person.LastName" data-id="@person.Id">
+                @person.FirstName @person.LastName
+            </option>
             }
         </select>
-        <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>
+        <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPersonByDropdown()" value="Add Person"></input><br/>
     </div>
+
+    <div id="addedPeople" t-id="addedPeople"></div>
 
     <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate()">Split the bill</button><br>
     <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
 </form>
+
 <script type="text/javascript" src="js/SplitBill.js"></script>
