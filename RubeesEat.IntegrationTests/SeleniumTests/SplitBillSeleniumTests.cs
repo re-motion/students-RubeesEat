@@ -18,14 +18,16 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
     public void CorrectInput()
     {
         var page = Start<SplitBillPageObject>();
-        
+
         page.SetNewDesciptionText("Test");
         page.SetNewTotalPriceText("5");
         var person = page.ClickAddPerson();
         person.SetAmountForPerson("5");
-        page.ClickSplitBill();
-        
-        Assert.That(page.GetPersonAmountAndNames(), Is.Empty);
+
+        var pageObject = page.ClickSplitBill();
+        var balanceChanges = pageObject.GetBalanceChanges();
+
+        Assert.That(balanceChanges[1].Description, Is.EqualTo("Test"));
     }
     
     [Test]

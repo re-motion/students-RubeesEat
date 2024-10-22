@@ -66,4 +66,13 @@ public abstract class PageObject : IDisposable
     {
         return Driver.Url;
     }
+
+    public TPageObject CreatePageObject<TPageObject>()
+        where TPageObject : PageObject, new()
+    {
+        var page = new TPageObject();
+        page.SetDriver(_driver);
+
+        return page;
+    }
 }

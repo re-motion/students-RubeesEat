@@ -41,10 +41,7 @@ namespace RubeesEat.IntegrationTests.WebTesting
         public TPageObject CreatePageObject<TPageObject>()
             where TPageObject : PageObject, new()
         {
-            var page = new TPageObject();
-            page.SetDriver(Page.Driver);
-
-            return page;
+            return Page.CreatePageObject<TPageObject>();
         }
 
         public ChromeDriver Driver { get; set; }

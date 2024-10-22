@@ -34,9 +34,10 @@ public class SplitBillPageObject : PageObject
             FindElement("addedPeople").FindElement(By.CssSelector("div:last-of-type")));
     }
 
-    public void ClickSplitBill()
+    public UserHomepagePageObject ClickSplitBill()
     {
         InvokeAction("splitBill");
+        return CreatePageObject<UserHomepagePageObject>();
     }
 
     public PersonAmountControlObject[] GetPersonAmounts()

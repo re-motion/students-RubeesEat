@@ -91,6 +91,6 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
 
         billRepository.Add(bill);
 
-        return TypedResults.Redirect("/SplitBill");
+        return TypedResults.Redirect("/");
     }
 }
