@@ -11,5 +11,5 @@ public class OpenIDSettings
     public string ClientSecret { get; set; }
 
     [Required]
-    public string Authority { get; set; }
+    public string MetadataAddress { get; set; }
 }

@@ -31,10 +31,10 @@ public class Startup
                     .AddCookie()
                     .AddOpenIdConnect(options =>
                     {
+                        options.MetadataAddress = openIdSettings.MetadataAddress;
                         options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                         options.ClientId = openIdSettings.ClientId;
                         options.ClientSecret = openIdSettings.ClientSecret;
-                        options.Authority = openIdSettings.Authority;
                         options.GetClaimsFromUserInfoEndpoint = true;
                     });
             services.AddAuthorization(option =>
