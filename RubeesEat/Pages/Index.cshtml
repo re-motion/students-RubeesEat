@@ -34,3 +34,16 @@
         </li>
     }
 </ul>
+
+User details:
+<dl>
+    <dd>IsAuthenticated</dd>
+    <dt>@(User.Identity?.IsAuthenticated ?? false)</dt>
+    <dd>Name</dd>
+    <dt>@User.Identity?.Name</dt>
+    @foreach (var claim in User.Claims)
+    {
+        <dd>@claim.Type</dd>
+        <dt>@claim.Value</dt>
+    }
+</dl>
