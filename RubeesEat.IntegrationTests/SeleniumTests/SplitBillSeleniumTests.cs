@@ -41,7 +41,7 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         person.SetAmountForPerson("5.5");
         page.ClickSplitBill();
         
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("Please enter a valid number for total amount."));
+        Assert.That(page.GetErrorMessage(), Is.EqualTo("Bitte eine gültige Zahl für den Gesamtbetrag eingeben."));
     }
     
     [Test]
@@ -55,7 +55,7 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         person.SetAmountForPerson("10");
         page.ClickSplitBill();
         
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("-10 is not valid. Please enter a valid number for total amount."));
+        Assert.That(page.GetErrorMessage(), Is.EqualTo("-10 ist ungültig. Bitte eine gültige Zahl für den Gesamtbetrag eingeben."));
     }
     
     [Test]
@@ -69,7 +69,7 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         person.SetAmountForPerson("10");
         page.ClickSplitBill();
         
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("10.00002 is not valid. Please only enter 2 digits after the comma."));
+        Assert.That(page.GetErrorMessage(), Is.EqualTo("10.00002 ist ungültig. Bitte nur 2 Nachkommastellen eingeben."));
     }
 
     
@@ -84,7 +84,7 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         person.SetAmountForPerson("e");
         page.ClickSplitBill();
         
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("Your input is not valid. Please enter a positive number"));
+        Assert.That(page.GetErrorMessage(), Is.EqualTo("Deine Eingabe ist ungültig. Bitte eine positive Zahl eingeben."));
     }
     
     [Test]
@@ -98,7 +98,7 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         person.SetAmountForPerson("5");
         page.ClickSplitBill();
         
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("The sum of individual amounts doesn't match the total bill amount."));
+        Assert.That(page.GetErrorMessage(), Is.EqualTo("Die Summe von den einzelnen Beträgen stimmt nicht mit dem Gesamtbetrag überein."));
     }
 
     [Test]
@@ -137,4 +137,3 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         Assert.That(selectionsStart[4], Is.EqualTo("Mich Ludwig"));
     }
 }
-
