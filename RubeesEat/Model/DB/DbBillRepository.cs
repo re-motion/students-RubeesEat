@@ -241,7 +241,7 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
     
         if (bills.Count == 0)
         {
-            throw new KeyNotFoundException("Bill not found");
+            return null;
         }
 
         return bills[0];    
