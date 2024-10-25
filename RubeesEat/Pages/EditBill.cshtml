@@ -1,0 +1,54 @@
+@page "{guid}"
+@using System.Globalization
+@inject IPersonRepository PersonRepository
+@inject IBillRepository billRepository
+
+@{
+    var billId = Guid.Parse(RouteData.Values["guid"].ToString());
+    var currentBill = billRepository.GetById(billId);
+    if (currentBill is null)
+    {
+        <div id="errorText" style="color:red">Bill was not found!</div>
+    }
+    else if (PersonRepository.GetOrCreateUser(HttpContext.User).Id != currentBill.EntryLines[0].Person.Id)
+    {
+        <div id="errorText" style="color:red">Bills can only be edited by owners!</div>
+    }
+    else
+    {
+        <div>
+            <h2>Edit Bill:</h2>
+            <form id="editBillForm" method="post" action="/api/bills/@billId">
+                <label for="billDescription">Description:</label>
+                <input id="billDescription" t-id="billDescription" type="text" name="billDescription" value="@currentBill.Description" required/><br/>
+
+                <label for="billAmount">Total Price:</label>
+                @{
+                    string totalAmountWithDot = currentBill.EntryLines[0].Amount.ToString(CultureInfo.InvariantCulture);
+                }
+                <input id="billAmount" t-id="billAmount" type="number" step=".01" name="billAmount" value="@totalAmountWithDot" required/><br/>
+                <input type="hidden" id = "billId" name="billId" value="@billId"/>
+                
+                <div id="addedPeople" t-id="addedPeople"></div>
+                
+                <div id="addPerson">
+                    <label for="billPeople">Add Person:</label>
+                    <select name="billPeople" id="billPeople" t-id="billPeople">
+                        @foreach (Person person in PersonRepository.GetAllActive().Except(currentBill.EntryLines.Select(entryLine => entryLine.Person).ToList()))
+                        {
+                        <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
+                        }
+                    </select>
+                    <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Add Person"></input><br/>
+                </div>
+
+                <button t-action="updateBill" t-click-behavior="Click" type="button" onclick="validate('editBillForm')">Update the bill</button><br>
+                <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
+            </form>
+            <script>
+                const existingEntryLines = @Html.Raw(Json.Serialize(currentBill.EntryLines));
+            </script>
+            <script type="text/javascript" src="../js/editableBill.js"></script>
+        </div>
+    }
+}

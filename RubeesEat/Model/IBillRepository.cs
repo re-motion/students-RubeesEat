@@ -8,4 +8,5 @@ public interface IBillRepository
     PaginatedView<BalanceChange> GetRecentBalanceChanges(Person currentUser, int page, int pageSize);
     decimal GetBalance(Person user);
     Bill? GetById(Guid guid);
+    void Update(Bill bill);
 }

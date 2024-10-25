@@ -35,6 +35,41 @@ public class InMemoryBillRepositoryTests
     }
 
     [Test]
+    public void Update_EntriesInDictionary_EntriesSuccessfullyUpdated()
+    {
+        var storage = new Dictionary<Guid, Bill>();
+        var billRepository = new InMemoryBillRepository(storage);
+        
+        billRepository.Add(TestDomain.BillCafeLeBlanc);
+        billRepository.Add(TestDomain.BillMaidCafe);
+        
+        Assert.That(billRepository.GetById(TestDomain.BillCafeLeBlanc.Id), Is.EqualTo(TestDomain.BillCafeLeBlanc));
+        Assert.That(billRepository.GetById(TestDomain.BillMaidCafe.Id), Is.EqualTo(TestDomain.BillMaidCafe));
+        
+        var updatedBill = new Bill(TestDomain.BillCafeLeBlanc.Id, TestDomain.BillCafeLeBlanc.Date, "New Description", TestDomain.BillMaidCafe.EntryLines);
+        
+        billRepository.Update(updatedBill);
+        
+        Assert.That(billRepository.GetById(updatedBill.Id), Is.EqualTo(updatedBill));
+    }
+
+    [Test]
+    public void Update_EntriesNotInDictionary_ThrowsKeyNotFoundException()
+    {
+        var storage = new Dictionary<Guid, Bill>();
+        var billRepository = new InMemoryBillRepository(storage);
+        
+        billRepository.Add(TestDomain.BillMaidCafe);
+        
+        Assert.That(billRepository.GetById(TestDomain.BillMaidCafe.Id), Is.EqualTo(TestDomain.BillMaidCafe));
+        
+        var updatedBill = new Bill(TestDomain.BillCafeLeBlanc.Id, TestDomain.BillCafeLeBlanc.Date, "New Description", TestDomain.BillMaidCafe.EntryLines);
+        
+        Assert.That(() => billRepository.Update(updatedBill), 
+            Throws.TypeOf<KeyNotFoundException>().With.Message.EqualTo("Bill not found"));
+    }
+
+    [Test]
     public void GetAllFromUser_EntriesExist_ReturnsUserEntries()
     {
         Person defaultUser = Person.Create("DefaultFirstName", "DefaultLastName", "defaulLoginName");

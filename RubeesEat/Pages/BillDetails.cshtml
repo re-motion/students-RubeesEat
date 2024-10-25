@@ -1,6 +1,8 @@
 @page "{guid}"
 @using System.Globalization
 @inject IBillRepository billRepository
+@inject IPersonRepository personRepository
+
 
 @{
     Guid.TryParse(RouteData.Values["guid"].ToString(), out var billId);
@@ -38,6 +40,9 @@
                     <dt class="col-12 col-sm-6" t-id="person">@item.EntryLines[i].Person.FirstName @item.EntryLines[i].Person.LastName:</dt>
                     <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(Math.Abs(item.EntryLines[i].Amount))€</dd>
                 </dl>
+            }
+            @if (personRepository.GetOrCreateUser(HttpContext.User).Id == item.EntryLines[0].Person.Id) {
+                <a href="../EditBill/@item.Id" t-action="editBillButton" t-click-behavior="Click"> Edit Bill</a>
             }
         </div>
     }

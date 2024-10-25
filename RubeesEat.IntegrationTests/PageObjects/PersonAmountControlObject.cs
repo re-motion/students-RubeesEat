@@ -13,7 +13,9 @@ public class PersonAmountControlObject : ControlObject
 
     public void SetAmountForPerson(string value)
     {
-        FindElement("input").SendKeys(value);
+        var element = FindElement("input");
+        element.Clear();
+        element.SendKeys(value);
     }
 
     public void ClickRemoveButton()
