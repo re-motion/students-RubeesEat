@@ -128,6 +128,8 @@ function AddPerson() {
 }
 
 function validate(formName) {
+    const date = document.getElementById("billDate");
+
     const description = document.getElementById("billDescription");
 
     const amounts = document.getElementById("addedPeople").querySelectorAll("input[name^='amount']");
@@ -153,6 +155,11 @@ function validate(formName) {
         .reduce((acc, value) => acc + value, 0);
 
     const totalAmount = parseFloat(document.getElementById("billAmount").value);
+
+    if (!date.value) {
+        document.getElementById("placeForErrorMessage").textContent = "Please select a date.";
+        return;
+    }
 
     if (!description.value) {
         document.getElementById("placeForErrorMessage").textContent = "Please enter a description.";

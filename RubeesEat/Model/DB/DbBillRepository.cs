@@ -75,9 +75,10 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
             using var transaction = (MySqlTransaction)connection.BeginTransaction(IsolationLevel.ReadCommitted);
             {
                 var command = transaction.CreateCommand(
-                    $"UPDATE Bills SET Description = @Description WHERE BillID = @BillId;")!;
+                    $"UPDATE Bills SET Description = @Description, Date = @Date WHERE BillID = @BillId;")!;
                 command.AddParameter("@BillID", bill.Id);
                 command.AddParameter("@Description", bill.Description);
+                command.AddParameter("@Date", bill.Date);
                 command.ExecuteNonQuery();
 
                 var deleteEntryLineCommand = transaction.CreateCommand(

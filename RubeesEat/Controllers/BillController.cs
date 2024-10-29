@@ -30,6 +30,11 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
             return TypedResults.BadRequest("Description was empty.");
         }
 
+        if (!DateTime.TryParseExact(form["billDate"], "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
+        {
+            return TypedResults.BadRequest("Invalid date format. Date must be in yyyy-MM-dd format.");
+        }
+
         List<EntryLine> entryLines = [];
         if (!decimal.TryParse(form["billAmount"], culture, out decimal totalAmount))
         {
@@ -88,7 +93,7 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
             return TypedResults.BadRequest("Persons should not appear multiple times (other than the buyer)");
         }
 
-        var bill = Bill.Create(description, entryLines.ToArray());
+        var bill = Bill.Create(date, description, entryLines.ToArray());
 
         billRepository.Add(bill);
 
@@ -102,6 +107,7 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
     {
         var form = HttpContext.Request.Form;
         string? description = form["billDescription"];
+        var date = DateTime.Parse(form["billDate"]);
         var existingBill = billRepository.GetById(Guid.Parse(form["billId"]));
         CultureInfo culture = new CultureInfo("en-EN");
 
@@ -173,7 +179,7 @@ public class BillController(IBillRepository billRepository, IPersonRepository pe
             return TypedResults.BadRequest("Persons should not appear multiple times (other than the buyer)");
         }
 
-        var bill = new Bill(existingBill.Id, existingBill.Date, description, entryLines.ToImmutableArray());
+        var bill = new Bill(existingBill.Id, date, description, entryLines.ToImmutableArray());
 
         billRepository.Update(bill);
 

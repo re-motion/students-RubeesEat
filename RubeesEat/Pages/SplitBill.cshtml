@@ -1,8 +1,20 @@
 @page
+@using System.Globalization
 @inject IPersonRepository PersonRepository
 
 <h1 class="text-center">Split bill:</h1>
 <form id="splitBillForm" method="post" action="/api/bills" class="mx-auto">
+
+    @{
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
+    }
+    <div class="row">
+        <div class="col-12">
+            <label for="billDate">Date:</label>
+            <input id="billDate" t-id="billDate" type="date" name="billDate" value="@today" required="required"></input><br>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <label for="billDescription">Description:</label>

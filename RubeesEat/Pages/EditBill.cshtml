@@ -19,6 +19,9 @@
         <div>
             <h2>Edit Bill:</h2>
             <form id="editBillForm" method="post" action="/api/bills/@billId">
+                <label for="billDate">Date:</label>
+                <input id="billDate" t-id="billDate" type="date" name="billDate" value="@currentBill.Date.ToString("yyyy-MM-dd")" required="required"></input><br>
+
                 <label for="billDescription">Description:</label>
                 <input id="billDescription" t-id="billDescription" type="text" name="billDescription" value="@currentBill.Description" required/><br/>
 

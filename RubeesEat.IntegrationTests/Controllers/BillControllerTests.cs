@@ -18,6 +18,7 @@ public class BillControllerTest : IntegrationTestBase
         var content = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("billDescription", "test234"),
+            new KeyValuePair<string, string>("billDate", "2024-10-29"),
             new KeyValuePair<string, string>("billAmount", "10"),
 
             new KeyValuePair<string, string>("id0", persons[0].Id.ToString()),
@@ -37,6 +38,7 @@ public class BillControllerTest : IntegrationTestBase
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
         Assert.That(billsAfter.Length, Is.EqualTo(bills.Length + 1));
         Assert.That(billsAfter[^1].Description, Is.EqualTo("test234"));
+        Assert.That(billsAfter[^1].Date.ToString(), Is.EqualTo("29.10.2024 00:00:00"));
     }
 
     [Test]
@@ -55,6 +57,7 @@ public class BillControllerTest : IntegrationTestBase
         {
             new KeyValuePair<string, string>("billId", existingBill.Id.ToString()),
             new KeyValuePair<string, string>("billDescription", newDescription),
+            new KeyValuePair<string, string>("billDate", DateTime.Today.ToString("yyyy-MM-dd")),
             new KeyValuePair<string, string>("billAmount", "20.00"),
             
             new KeyValuePair<string, string>("id0", persons[0].Id.ToString()),
