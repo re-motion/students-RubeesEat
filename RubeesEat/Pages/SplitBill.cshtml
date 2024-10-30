@@ -2,7 +2,7 @@
 @using System.Globalization
 @inject IPersonRepository PersonRepository
 
-<h1 class="text-center">Split bill:</h1>
+<h1 class="text-center">Rechnung aufteilen:</h1>
 <form id="splitBillForm" method="post" action="/api/bills" class="mx-auto">
 
     @{
@@ -10,21 +10,21 @@
     }
     <div class="row">
         <div class="col-12">
-            <label for="billDate">Date:</label>
+            <label for="billDate">Datum:</label>
             <input id="billDate" t-id="billDate" type="date" name="billDate" value="@today" required="required"></input><br>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
-            <label for="billDescription">Description:</label>
+            <label for="billDescription">Beschreibung:</label>
             <input class="form-control" id="billDescription" t-id="billDescription" type="text" name="billDescription" required="required"></input>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
-            <label for="billAmount">Total Price:</label>
+            <label for="billAmount">Gesamtbetrag:</label>
             <input class="form-control" id="billAmount" t-id="billAmount" type="number" step="1.0" name="billAmount" required="required"></input>
         </div>
     </div>
@@ -34,7 +34,7 @@
 
     <div class="row" id="addPerson">
         <div class="col-12">
-            <label for="billPeople">Add Person:</label>
+            <label for="billPeople">Person hinzufügen:</label>
             <div class="d-flex">
                 <select class="form-select me-2" name="billPeople" id="billPeople" t-id="billPeople">
                     @foreach (Person person in PersonRepository.GetAll())
@@ -42,7 +42,7 @@
                         <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
                     }
                 </select>
-                <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Add Person"></input>
+                <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Person hinzufügen"></input>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
 
     <div class="row">
         <div class="col-12">
-            <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate('splitBillForm')" class="btn btn-primary">Split the bill</button>
+            <button t-action="splitBill" t-click-behavior="Click" type="button" onclick="validate('splitBillForm')" class="btn btn-primary">Rechnung aufteilen</button>
         </div>
     </div>
 

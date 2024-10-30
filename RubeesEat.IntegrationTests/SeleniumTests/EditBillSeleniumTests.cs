@@ -34,7 +34,7 @@ public class EditBillSeleniumTests() : WithTestBills("Index")
 
         using var billDetailPage = balanceChange.ClickBillDetails();
         
-        Assert.That(billDetailPage.Amount, Is.EqualTo("3000€"));
+        Assert.That(billDetailPage.Amount, Is.EqualTo("3 000,00 €"));
         
         using var editBillPage = billDetailPage.ClickEdit();
         var person = editBillPage.ClickAddPerson();
@@ -46,6 +46,6 @@ public class EditBillSeleniumTests() : WithTestBills("Index")
         var updatedBalanceChange = updatedBalanceChanges[0];
         using var updatedBillDetailPage = updatedBalanceChange.ClickBillDetails();
         
-        Assert.That(updatedBillDetailPage.Amount, Is.EqualTo("3010€"));
+        Assert.That(updatedBillDetailPage.Amount, Is.EqualTo("3 010,00 €"));
     }
 }

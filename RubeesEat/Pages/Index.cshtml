@@ -3,12 +3,12 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-<h1>Hello, @personRepository.GetOrCreateUser(HttpContext.User).FirstName!</h1>
+<h1>Hallo, @personRepository.GetOrCreateUser(HttpContext.User).FirstName!</h1>
 
 @{
     var amount = billRepository.GetBalance(personRepository.GetOrCreateUser(HttpContext.User));
     var isPositive = amount >= 0;
-    var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"));
+    var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("fr-FR"));
     var displayClass = isPositive ? "text-success" : "text-danger";
 }
 
@@ -18,7 +18,7 @@
     <div class="row justify-content-center">
         <div class="col-auto text-center">
             <span t-id="balance" class="p-3 border rounded @displayClass" style ="background-color: #f7f7f7">
-                <span class="text-dark">Your balance:</span> @amountAsString
+                <span class="text-dark">Dein Guthaben:</span> @amountAsString
             </span>
         </div>
     </div>
@@ -34,13 +34,13 @@
                         <a class="list-group-item list-group-item-action text-decoration-none text-dark" t-action="showBillDetails" href="BillDetails/@item.BillId">
                             <div class="row">
                                 <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
-                                    @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("de-DE"))
+                                    @item.Amount.ToString("C", CultureInfo.CreateSpecificCulture("fr-FR"))
                                 </div>
                                 <div class="col-5" t-id="description">
                                     @item.Description
                                 </div>
                                 <div class="col-4 text-end fst-italic" t-id="date">
-                                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                                    @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("de-AT"))
                                 </div>
                             </div>
                         </a>

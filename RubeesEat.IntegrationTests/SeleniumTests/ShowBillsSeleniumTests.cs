@@ -14,15 +14,15 @@ public class ShowBillsSeleniumTests() : WithTestBills("ShowBills")
         Assert.That(balanceChanges.Length, Is.LessThan(4));
 
         Assert.That(balanceChanges[0].Amount, Is.EqualTo("1000€"));
-        Assert.That(balanceChanges[0].Date, Is.EqualTo("Tuesday, August 19, 2025"));
+        Assert.That(balanceChanges[0].Date, Is.EqualTo("Dienstag, 19. August 2025"));
         Assert.That(balanceChanges[0].Description, Is.EqualTo("Default user paid lunch 2025"));
 
-        Assert.That(balanceChanges[1].Amount, Is.AnyOf("1000000,50\u20ac", "1000000.50\u20ac"));
-        Assert.That(balanceChanges[1].Date, Is.EqualTo("Monday, September 9, 2024"));
+        Assert.That(balanceChanges[1].Amount, Is.AnyOf("1000000,50€", "1000000.50€"));
+        Assert.That(balanceChanges[1].Date, Is.EqualTo("Montag, 9. September 2024"));
         Assert.That(balanceChanges[1].Description, Is.EqualTo("Mittagessen auf Patrick sein Nacken"));
 
         Assert.That(balanceChanges[2].Amount, Is.EqualTo("-800€"));
-        Assert.That(balanceChanges[2].Date, Is.EqualTo("Sunday, April 28, 2024"));
+        Assert.That(balanceChanges[2].Date, Is.EqualTo("Sonntag, 28. April 2024"));
         Assert.That(balanceChanges[2].Description, Is.EqualTo("Lunch with default user in 2024"));
     }
     
@@ -36,11 +36,11 @@ public class ShowBillsSeleniumTests() : WithTestBills("ShowBills")
         Assert.That(balanceChanges.Length, Is.LessThan(4));
 
         Assert.That(balanceChanges[0].Amount, Is.EqualTo("-800€"));
-        Assert.That(balanceChanges[0].Date, Is.EqualTo("Friday, April 28, 2023"));
+        Assert.That(balanceChanges[0].Date, Is.EqualTo("Freitag, 28. April 2023"));
         Assert.That(balanceChanges[0].Description, Is.EqualTo("Lunch with default user in 2023"));
 
         Assert.That(balanceChanges[1].Amount, Is.EqualTo("-800€"));
-        Assert.That(balanceChanges[1].Date, Is.EqualTo("Thursday, April 28, 2022"));
+        Assert.That(balanceChanges[1].Date, Is.EqualTo("Donnerstag, 28. April 2022"));
         Assert.That(balanceChanges[1].Description, Is.EqualTo("Lunch with default user 2022"));
     }
     
@@ -55,15 +55,15 @@ public class ShowBillsSeleniumTests() : WithTestBills("ShowBills")
         Assert.That(balanceChanges.Length, Is.LessThan(4));
 
         Assert.That(balanceChanges[0].Amount, Is.EqualTo("1000€"));
-        Assert.That(balanceChanges[0].Date, Is.EqualTo("Tuesday, August 19, 2025"));
+        Assert.That(balanceChanges[0].Date, Is.EqualTo("Dienstag, 19. August 2025"));
         Assert.That(balanceChanges[0].Description, Is.EqualTo("Default user paid lunch 2025"));
 
-        Assert.That(balanceChanges[1].Amount, Is.AnyOf("1000000,50\u20ac", "1000000.50\u20ac"));
-        Assert.That(balanceChanges[1].Date, Is.EqualTo("Monday, September 9, 2024"));
+        Assert.That(balanceChanges[1].Amount, Is.AnyOf("1000000,50€", "1000000.50€"));
+        Assert.That(balanceChanges[1].Date, Is.EqualTo("Montag, 9. September 2024"));
         Assert.That(balanceChanges[1].Description, Is.EqualTo("Mittagessen auf Patrick sein Nacken"));
 
         Assert.That(balanceChanges[2].Amount, Is.EqualTo("-800€"));
-        Assert.That(balanceChanges[2].Date, Is.EqualTo("Sunday, April 28, 2024"));
+        Assert.That(balanceChanges[2].Date, Is.EqualTo("Sonntag, 28. April 2024"));
         Assert.That(balanceChanges[2].Description, Is.EqualTo("Lunch with default user in 2024"));
     }
     

@@ -35,7 +35,7 @@ function addExistingEntries(entryLines)
         personDiv.append(document.createElement("br"));
 
         const button = document.createElement("button");
-        button.innerText = "Remove";
+        button.innerText = "Entfernen";
         button.onclick = function () {
             personDiv.remove();
             let addToOptions = document.createElement("option");
@@ -98,7 +98,7 @@ function AddPerson() {
     inputGroup.appendChild(amountElement);
 
     const button = document.createElement("button");
-    button.innerText = "Remove";
+    button.innerText = "Entfernen";
     button.className = "btn btn-danger"; 
     button.onclick = function () {
         personDiv.remove();
@@ -136,16 +136,16 @@ function validate(formName) {
 
     for (let i = 0; i < amounts.length; i++) {
         if (!amounts[i].value) {
-            document.getElementById("placeForErrorMessage").textContent = "Your input is not valid. Please enter a positive number";
+            document.getElementById("placeForErrorMessage").textContent = "Deine Eingabe ist ungültig. Bitte eine positive Zahl eingeben.";
             return;
         }
         if (amounts[i].value <= 0) {
-            document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " is not valid. Please enter a positive number";
+            document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " ist ungültig. Bitte eine positive Zahl eingeben.";
             return;
         }
         const amountSplitted = amounts[i].value.split(".");
         if (amountSplitted[1] && amountSplitted[1].length > 2) {
-            document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " is not valid. Please only enter 2 digits after the comma";
+            document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " ist ungültig. Bitte nur 2 Nachkommastellen eingeben.";
             return;
         }
     }
@@ -157,38 +157,38 @@ function validate(formName) {
     const totalAmount = parseFloat(document.getElementById("billAmount").value);
 
     if (!date.value) {
-        document.getElementById("placeForErrorMessage").textContent = "Please select a date.";
+        document.getElementById("placeForErrorMessage").textContent = "Bitte ein Datum wählen.";
         return;
     }
 
     if (!description.value) {
-        document.getElementById("placeForErrorMessage").textContent = "Please enter a description.";
+        document.getElementById("placeForErrorMessage").textContent = "Bitte eine Beschreibung eingeben.";
         return;
     }
 
     if (counter === 0) {
-        document.getElementById("placeForErrorMessage").textContent = "Please add a person.";
+        document.getElementById("placeForErrorMessage").textContent = "Bitte eine Person hinzufügen.";
         return;
     }
 
     if (isNaN(totalAmount)) {
-        document.getElementById("placeForErrorMessage").textContent = "Please enter a valid number for total amount.";
+        document.getElementById("placeForErrorMessage").textContent = "Bitte eine gültige Zahl für den Gesamtbetrag eingeben.";
         return;
     }
 
     if (totalAmount <= 0) {
-        document.getElementById("placeForErrorMessage").textContent = totalAmount + " is not valid. Please enter a valid number for total amount.";
+        document.getElementById("placeForErrorMessage").textContent = totalAmount + " ist ungültig. Bitte eine gültige Zahl für den Gesamtbetrag eingeben.";
         return;
     }
 
     const totalAmountSplitted = totalAmount.toString().split(".");
     if (totalAmountSplitted[1] && totalAmountSplitted[1].length > 2) {
-        document.getElementById("placeForErrorMessage").textContent = totalAmount + " is not valid. Please only enter 2 digits after the comma.";
+        document.getElementById("placeForErrorMessage").textContent = totalAmount + " ist ungültig. Bitte nur 2 Nachkommastellen eingeben.";
         return;
     }
 
     if (totalAmount !== sum) {
-        document.getElementById("placeForErrorMessage").textContent = "The sum of individual amounts doesn't match the total bill amount.";
+        document.getElementById("placeForErrorMessage").textContent = "Die Summe von den einzelnen Beträgen stimmt nicht mit dem Gesamtbetrag überein.";
         return;
     }
 

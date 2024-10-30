@@ -5,7 +5,7 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-<h1 class="text-center">Your Bills:</h1>
+<h1 class="text-center">Deine Rechnungen:</h1>
     @{
         var currentUser = personRepository.GetOrCreateUser(HttpContext.User);
         int pageSize = Configuration.GetValue<int>("PageSize");
@@ -33,7 +33,7 @@
                             @item.Description
                         </div>
                         <div class="col-4 text-end fst-italic" t-id="date">
-                            @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("en-US"))
+                            @item.Date.ToString("D", CultureInfo.CreateSpecificCulture("de-AT"))
                         </div>
                     </div>
                 </div>
@@ -46,18 +46,18 @@
     <div class="pagination justify-content-center">
         @if (billsPaginated.HasPreviousPage)
         {
-            <a href="../ShowBills/?page=@(page - 1)" t-action="prevButton" t-click-behavior="Click">Prev</a>
+            <a href="../ShowBills/?page=@(page - 1)" t-action="prevButton" t-click-behavior="Click">Zurück</a>
         }
 
-        <span class="pageInfo">Viewing page @(page)/@billsPaginated.TotalPages</span>
+        <span class="pageInfo">&nbsp;Seite @(page)/@billsPaginated.TotalPages&nbsp;</span>
 
         @if (billsPaginated.HasNextPage)
         {
-            <a href="../ShowBills/?page=@(page + 1)" t-action="nextButton" t-click-behavior="Click">Next</a>
+            <a href="../ShowBills/?page=@(page + 1)" t-action="nextButton" t-click-behavior="Click">Vor</a>
         }
     </div>
 
     @if (!billsPaginated.Items.Any())
     {
-        <div class="errorMessage">No bills found for this page.</div>
+        <div class="errorMessage">Keine Rechnung für diese Seite gefunden.</div>
     }

@@ -15,21 +15,21 @@
     }
     else
     {
-        <h1 class="text-center">Bill Details</h1>
+        <h1 class="text-center">Rechnungsdetails</h1>
         var item = currentBill;
         <div class="p-3 border rounded mx-auto" style ="background-color: #f7f7f7">
             <dl class="row">
-                <dt class="col-12 col-sm-6">Description:</dt>
+                <dt class="col-12 col-sm-6">Beschreibung:</dt>
                 <dd t-id="description" class="col-12 col-sm-6 text-sm-end">@item.Description</dd>
 
-                <dt class="col-12 col-sm-6">Paid by:</dt>
+                <dt class="col-12 col-sm-6">Gezahlt von:</dt>
                 <dd t-id="personWhoPaid" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Person.FirstName @item.EntryLines[0].Person.LastName</dd>
 
-                <dt class="col-12 col-sm-6">Date:</dt>
-                <dd t-id="date" class="col-12 col-sm-6 text-sm-end">@item.Date.ToString("D")</dd>
+                <dt class="col-12 col-sm-6">Datum:</dt>
+                <dd t-id="date" class="col-12 col-sm-6 text-sm-end">@item.Date.ToString("D", CultureInfo.CreateSpecificCulture("de-AT"))</dd>
 
-                <dt class="col-12 col-sm-6">Total amount:</dt>
-                <dd t-id="amount" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Amount€</dd>
+                <dt class="col-12 col-sm-6">Gesamtbetrag:</dt>
+                <dd t-id="amount" class="col-12 col-sm-6 text-sm-end">@item.EntryLines[0].Amount.ToString("C", CultureInfo.CreateSpecificCulture("fr-FR"))</dd>
             </dl>
         </div>
 
@@ -38,11 +38,11 @@
             {
                 <dl t-id="entryLine" class="row">
                     <dt class="col-12 col-sm-6" t-id="person">@item.EntryLines[i].Person.FirstName @item.EntryLines[i].Person.LastName:</dt>
-                    <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(Math.Abs(item.EntryLines[i].Amount))€</dd>
+                    <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(Math.Abs(item.EntryLines[i].Amount).ToString("C", CultureInfo.CreateSpecificCulture("fr-FR")))</dd>
                 </dl>
             }
             @if (personRepository.GetOrCreateUser(HttpContext.User).Id == item.EntryLines[0].Person.Id) {
-                <a href="../EditBill/@item.Id" t-action="editBillButton" t-click-behavior="Click"> Edit Bill</a>
+                <a href="../EditBill/@item.Id" t-action="editBillButton" t-click-behavior="Click"> Rechnung bearbeiten</a>
             }
         </div>
     }
