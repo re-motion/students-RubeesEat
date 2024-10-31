@@ -300,7 +300,7 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
         using var connection = connectionFactory.CreateDbConnection();
 
         using var command = connection.CreateCommand(
-            @"SELECT DISTINCT p.PersonID, p.FirstName, p.LastName
+            @"SELECT DISTINCT p.PersonID, p.FirstName, p.LastName, p.LoginName, p.IsActive
                     FROM entrylines e
                     JOIN bills b ON e.BillID = b.BillID
                     JOIN persons p ON e.PersonID = p.PersonID
@@ -327,7 +327,9 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
             (
                 reader.GetGuid(0),
                 reader.GetString(1),
-                reader.GetString(2)
+                reader.GetString(2),
+                reader.GetString(3),
+                reader.GetBoolean(4)
             ));
         }
 

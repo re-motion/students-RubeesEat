@@ -4,7 +4,7 @@
 @inject IPersonRepository PersonRepository
 @inject IBillRepository BillRepository
 @{
-var recentPersons = BillRepository.GetRecentBillParticipants(PersonRepository.GetCurrentUser(), 10);
+var recentPersons = BillRepository.GetRecentBillParticipants(PersonRepository.GetOrCreateUser(HttpContext.User), 10);
 }
 
 <h1 class="text-center">Rechnung aufteilen:</h1>
