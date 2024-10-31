@@ -13,65 +13,6 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         
         Assert.That(page.GetPersonAmountAndNames()[0], Is.EqualTo("DefaultFirstName DefaultLastName"));
     }
-
-    [Test]
-    public void CorrectInput()
-    {
-        var page = Start<SplitBillPageObject>();
-
-        page.SetNewDesciptionText("Test");
-        page.SetNewTotalPriceText("5");
-        var person = page.ClickAddPerson();
-        person.SetAmountForPerson("5");
-
-        var pageObject = page.ClickSplitBill();
-        var balanceChanges = pageObject.GetBalanceChanges();
-
-        Assert.That(balanceChanges[1].Description, Is.EqualTo("Test"));
-    }
-    
-    [Test]
-    public void InvalidTotalAmount()
-    {
-        var page = Start<SplitBillPageObject>();
-        
-        page.SetNewDesciptionText("Test");
-        page.SetNewTotalPriceText("e");
-        var person = page.ClickAddPerson();
-        person.SetAmountForPerson("5.5");
-        page.ClickSplitBill();
-        
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("Bitte eine gültige Zahl für den Gesamtbetrag eingeben."));
-    }
-    
-    [Test]
-    public void NegativeTotalAmount()
-    {
-        var page = Start<SplitBillPageObject>();
-        
-        page.SetNewDesciptionText("Test");
-        page.SetNewTotalPriceText("-10");
-        var person = page.ClickAddPerson();
-        person.SetAmountForPerson("10");
-        page.ClickSplitBill();
-        
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("-10 ist ungültig. Bitte eine gültige Zahl für den Gesamtbetrag eingeben."));
-    }
-    
-    [Test]
-    public void TotalAmountHasTooManyDigitsAfterComma()
-    {
-        var page = Start<SplitBillPageObject>();
-        
-        page.SetNewDesciptionText("Test");
-        page.SetNewTotalPriceText("10.00002");
-        var person = page.ClickAddPerson();
-        person.SetAmountForPerson("10");
-        page.ClickSplitBill();
-        
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("10.00002 ist ungültig. Bitte nur 2 Nachkommastellen eingeben."));
-    }
-
     
     [Test]
     public void InvalidAmountPerPerson()
@@ -79,26 +20,11 @@ public class SplitBillSeleniumTests() : WithTestBills("SplitBill")
         var page = Start<SplitBillPageObject>();
         
         page.SetNewDesciptionText("Test");
-        page.SetNewTotalPriceText("5.5");
         var person = page.ClickAddPerson();
         person.SetAmountForPerson("e");
         page.ClickSplitBill();
         
         Assert.That(page.GetErrorMessage(), Is.EqualTo("Deine Eingabe ist ungültig. Bitte eine positive Zahl eingeben."));
-    }
-    
-    [Test]
-    public void WrongAmountPerPerson()
-    {
-        var page = Start<SplitBillPageObject>();
-        
-        page.SetNewDesciptionText("Test");
-        page.SetNewTotalPriceText("10");
-        var person = page.ClickAddPerson();
-        person.SetAmountForPerson("5");
-        page.ClickSplitBill();
-        
-        Assert.That(page.GetErrorMessage(), Is.EqualTo("Die Summe von den einzelnen Beträgen stimmt nicht mit dem Gesamtbetrag überein."));
     }
 
     [Test]

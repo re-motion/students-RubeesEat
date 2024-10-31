@@ -15,4 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.remove('active');
         }
     });
+
+
+
+    const inputField = document.getElementById('myInput');
+
+    inputField.addEventListener('input', function() {
+    });
 });

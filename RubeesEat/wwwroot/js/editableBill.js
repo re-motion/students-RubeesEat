@@ -1,21 +1,18 @@
 let counter = 0;
-function addExistingEntries(entryLines)
-{
-    for (let i = 1; i < entryLines.length; i++)
-    {
+function addExistingEntries(entryLines) {
+    for (let i = 1; i < entryLines.length; i++) {
         const entryLine = entryLines[i];
-        const dropdown = document.getElementById("billPeople");
-        const addPerson = document.getElementById("addPerson");
         const selectElement = document.getElementById('billPeople');
         const amount = -entryLine.amount;
-        const selectedPerson =  entryLine.person.firstName + " " + entryLine.person.lastName;
+        const selectedPerson = entryLine.person.firstName + " " + entryLine.person.lastName;
         const selectedId = entryLine.person.id;
+
         const personDiv = document.createElement('div');
-        personDiv.className = 'personDiv';
+        personDiv.className = 'personDiv mb-3';
 
         const textDiv = document.createElement('div');
-        textDiv.className = 'text';
-        textDiv.textContent = selectedPerson + " ";
+        textDiv.className = 'mb-1';
+        textDiv.textContent = selectedPerson;
         personDiv.appendChild(textDiv);
 
         const personIdElement = document.createElement("input");
@@ -24,46 +21,67 @@ function addExistingEntries(entryLines)
         personIdElement.value = selectedId;
         document.querySelector("#addedPeople").append(personIdElement);
 
+        const amountGroup = document.createElement('div');
+        amountGroup.className = 'd-flex align-items-center';
+
         const amountElement = document.createElement("input");
         amountElement.name = "amount" + counter;
         amountElement.type = "number";
         amountElement.step = ".01";
+        amountElement.className = "form-control me-2";
         amountElement.value = amount;
-        if (isTest)
-            amountElement.setAttribute("data-test-id", "input");
-        personDiv.append(amountElement);
-        personDiv.append(document.createElement("br"));
+        amountElement.oninput = updateTotalAmount;
+        personDiv.appendChild(amountGroup);
+        amountGroup.appendChild(amountElement);
 
         const button = document.createElement("button");
         button.innerText = "Entfernen";
+        button.className = "btn btn-danger";
         button.onclick = function () {
             personDiv.remove();
+            updateTotalAmount();
             let addToOptions = document.createElement("option");
             addToOptions.value = selectedPerson;
             addToOptions.dataset.id = selectedId;
             addToOptions.textContent = selectedPerson;
             selectElement.appendChild(addToOptions);
 
-            addPerson.hidden = false;
-        }
-        if (isTest)
-        {
-            button.setAttribute("data-test-action", "removePeople");
-            button.setAttribute("data-test-click-behavior", "Click");
-        }
-        personDiv.appendChild(button);
+            document.getElementById("addPerson").hidden = false;
+        };
+        button.setAttribute("type", "button");
+        amountGroup.appendChild(button);
+
         document.getElementById("addedPeople").appendChild(personDiv);
-
         counter++;
-
-
-    };
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log(existingEntryLines);
     addExistingEntries(existingEntryLines);  
 });
+
+function updateTotalAmount() {
+    const amounts = document.querySelectorAll("input[name^='amount']");
+    let sum = 0;
+
+    amounts.forEach((input) => {
+        const value = parseFloat(input.value) || 0;
+        sum += value;
+    });
+
+    const formattedSum = new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        currencyDisplay: 'symbol'
+    }).format(sum).replace('€', '€');
+
+    document.getElementById("billAmount").value = formattedSum;
+}
+
 
 function AddPerson() {
     const dropdown = document.getElementById("billPeople");
@@ -92,7 +110,10 @@ function AddPerson() {
     amountElement.name = "amount" + counter;
     amountElement.type = "number";
     amountElement.step = "1.0";
-    amountElement.className = "form-control me-2"; 
+    amountElement.className = "form-control me-2";
+
+    amountElement.addEventListener('input', updateTotalAmount);
+
     if (isTest)
         amountElement.setAttribute("data-test-id", "input");
     inputGroup.appendChild(amountElement);
@@ -110,6 +131,9 @@ function AddPerson() {
 
         addPerson.hidden = false;
     }
+
+    updateTotalAmount()
+
     if (isTest) {
         button.setAttribute("data-test-action", "removePeople");
         button.setAttribute("data-test-click-behavior", "Click");
@@ -194,3 +218,7 @@ function validate(formName) {
 
     document.getElementById(formName).submit();
 }
+
+$("#billAmount").focus(function(){
+    $(this).blur();
+});

@@ -16,42 +16,64 @@
     }
     else
     {
-        <div>
-            <h2>Rechnung bearbeiten:</h2>
-            <form id="editBillForm" method="post" action="/api/bills/@billId">
+<div>
+    <h2 class="text-center">Rechnung bearbeiten:</h2>
+    <form id="editBillForm" method="post" action="/api/bills/@billId" class="mx-auto">
+        <div class="row">
+            <div class="col-12">
                 <label for="billDate">Datum:</label>
-                <input id="billDate" t-id="billDate" type="date" name="billDate" value="@currentBill.Date.ToString("yyyy-MM-dd")" required="required"></input><br>
+                <input class="form-control" id="billDate" t-id="billDate" type="date" name="billDate" value="@currentBill.Date.ToString("yyyy-MM-dd")" required="required"/><br>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-12">
                 <label for="billDescription">Beschreibung:</label>
-                <input id="billDescription" t-id="billDescription" type="text" name="billDescription" value="@currentBill.Description" required/><br/>
+                <input class="form-control" id="billDescription" t-id="billDescription" type="text" name="billDescription" value="@currentBill.Description" required /><br/>
+            </div>
+        </div>
 
-                <label for="billAmount">Gesamtbetrag:</label>
-                @{
-                    string totalAmountWithDot = currentBill.EntryLines[0].Amount.ToString(CultureInfo.InvariantCulture);
-                }
-                <input id="billAmount" t-id="billAmount" type="number" step=".01" name="billAmount" value="@totalAmountWithDot" required/><br/>
-                <input type="hidden" id = "billId" name="billId" value="@billId"/>
-                
-                <div id="addedPeople" t-id="addedPeople"></div>
-                
-                <div id="addPerson">
-                    <label for="billPeople">Person hinzufügen:</label>
-                    <select name="billPeople" id="billPeople" t-id="billPeople">
+        <input type="hidden" id="billId" name="billId" value="@billId"/>
+
+        <div id="addedPeople" t-id="addedPeople"></div>
+
+        <div class="row" id="addPerson">
+            <div class="col-12">
+                <label for="billPeople">Person hinzufügen:</label>
+                <div class="d-flex">
+                    <select class="form-select me-2" name="billPeople" id="billPeople" t-id="billPeople">
                         @foreach (Person person in PersonRepository.GetAllActive().Except(currentBill.EntryLines.Select(entryLine => entryLine.Person).ToList()))
                         {
                         <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
                         }
                     </select>
-                    <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" value="Person hinzufügen"></input><br/>
-                </div>
-
-                <button t-action="updateBill" t-click-behavior="Click" type="button" onclick="validate('editBillForm')">Rechnung aktualisieren</button><br>
-                <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
-            </form>
-            <script>
-                const existingEntryLines = @Html.Raw(Json.Serialize(currentBill.EntryLines));
-            </script>
-            <script type="text/javascript" src="../js/editableBill.js"></script>
+                    <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Person hinzufügen"/>
+                </div><br/>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-2">
+                <label for="billAmount">Gesamtbetrag:</label>
+                @{
+                    string totalAmountWithDot = currentBill.EntryLines[0].Amount.ToString(CultureInfo.InvariantCulture);
+                }
+                <input class="form-control" id="billAmount" t-id="billAmount" name="billAmount" readonly value="@totalAmountWithDot"/><br/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button t-action="updateBill" t-click-behavior="Click" type="button" onclick="validate('editBillForm')" class="btn btn-primary">Rechnung aktualisieren</button><br>
+                <text id="placeForErrorMessage" t-id="placeForErrorMessage" style="color: red;"></text>
+            </div>
+        </div>
+    </form>
+    <script>
+        const existingEntryLines = @Html.Raw(Json.Serialize(currentBill.EntryLines));
+    </script>
+    <script type="text/javascript" src="../js/editableBill.js"></script>
+</div>
+
     }
 }

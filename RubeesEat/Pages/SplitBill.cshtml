@@ -11,24 +11,16 @@
     <div class="row">
         <div class="col-12">
             <label for="billDate">Datum:</label>
-            <input id="billDate" t-id="billDate" type="date" name="billDate" value="@today" required="required"></input><br>
+            <input class="form-control" id="billDate" t-id="billDate" type="date" name="billDate" value="@today" required="required"></input><br>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
             <label for="billDescription">Beschreibung:</label>
-            <input class="form-control" id="billDescription" t-id="billDescription" type="text" name="billDescription" required="required"></input>
+            <input class="form-control" id="billDescription" t-id="billDescription" type="text" name="billDescription" required="required"></input><br>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-12">
-            <label for="billAmount">Gesamtbetrag:</label>
-            <input class="form-control" id="billAmount" t-id="billAmount" type="number" step="1.0" name="billAmount" required="required"></input>
-        </div>
-    </div>
-
 
     <div id="addedPeople" t-id="addedPeople"></div>
 
@@ -43,7 +35,14 @@
                     }
                 </select>
                 <input t-action="addPerson" t-click-behavior="Click" type="button" onclick="AddPerson()" class="btn btn-secondary" value="Person hinzufügen"></input>
-            </div>
+            </div><br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            <label for="billAmount">Gesamtbetrag:</label>
+            <input class="form-control" id="billAmount" t-id="billAmount" name="billAmount" readonly ></input>
         </div>
     </div>
 

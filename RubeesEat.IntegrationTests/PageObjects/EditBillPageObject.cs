@@ -25,12 +25,6 @@ public class EditBillPageObject : PageObject
         element.SendKeys(value);
     }
 
-    public void SetNewTotalPriceText(string value)
-    {
-        var element = FindElement("billAmount");
-        element.Clear();
-        element.SendKeys(value);
-    }
     public PersonAmountControlObject ClickAddPerson()
     { 
         InvokeAction("addPerson");
