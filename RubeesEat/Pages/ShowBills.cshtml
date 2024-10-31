@@ -23,7 +23,7 @@
     <div class="entryLines list-group mx-auto">
         @foreach (var item in billsPaginated.Items)
         {
-            <a t-id="entryLine" class="list-group-item list-group-item-action text-decoration-none text-dark w-100" t-action="showBillDetails" href="BillDetails/@item.BillId">
+            <a t-id="entryLine" class="list-group-item list-group-item-action text-decoration-none text-dark w-100" t-action="showBillDetails" href="../BillDetails/@item.BillId">
                 <div class="amount-description">
                     <div class="row">
                         <div class="col-3 @(item.Amount < 0 ? "text-danger" : "text-success")" t-id="amount">
