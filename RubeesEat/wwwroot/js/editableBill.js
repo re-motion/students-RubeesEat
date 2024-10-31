@@ -148,7 +148,12 @@ function validate(formName) {
 
     const description = document.getElementById("billDescription");
 
-    const amounts = document.getElementById("addedPeople").querySelectorAll("input[name^='amount']");
+    const  addedPeople = document.getElementById("addedPeople");
+
+    if (!addedPeople)
+        return;
+
+    const amounts = addedPeople.querySelectorAll("input[name^='amount']");
 
     for (let i = 0; i < amounts.length; i++) {
         if (!amounts[i].value) {

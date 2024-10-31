@@ -152,7 +152,7 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
     [Test]
     public void GetRecentBillParticipants_WithLimitIs2_ReturnsLast2Participants()
     {
-        var bill = _dbBillRepository.GetRecentBillParticipants(_dbPersonRepository.GetCurrentUser(), 2);
+        var bill = _dbBillRepository.GetRecentBillParticipants(_dbPersonRepository.GetOrCreateUser(new ClaimsPrincipal()), 2);
 
         Assert.That(bill.Count, Is.EqualTo(2));
         Assert.That(bill[0].Id, Is.EqualTo(Guid.Parse("a05764e0-c2f5-4a3f-8f04-746aee8b355b")));
