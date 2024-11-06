@@ -21,29 +21,6 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        var openIdSettings = Configuration.GetSection("OpenId").Get<OpenIDSettings>();
-        Validator.ValidateObject(openIdSettings, new ValidationContext(openIdSettings), validateAllProperties: true);
-            services.AddAuthentication(options =>
-                    {
-                        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                    })
-                    .AddCookie()
-                    .AddOpenIdConnect(options =>
-                    {
-                        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                        options.ClientId = openIdSettings.ClientId;
-                        options.ClientSecret = openIdSettings.ClientSecret;
-                        options.Authority = openIdSettings.Authority;
-                        options.GetClaimsFromUserInfoEndpoint = true;
-                    });
-            services.AddAuthorization(option =>
-            {
-                option.FallbackPolicy = option.DefaultPolicy;
-            });
-        
-
-    
         services.AddRazorPages();
 
         var connectionString = Configuration["ConnectionStrings:DefaultConnectionString"];
@@ -70,8 +47,6 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
-        app.UseAuthentication();
-        app.UseAuthorization();
 
         app.UseEndpoints(
             endpoints =>

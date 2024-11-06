@@ -78,8 +78,8 @@ public class DbPersonRepository: IPersonRepository
     
     public Person GetOrCreateUser(ClaimsPrincipal user)
     {
-        var loginName = user.FindFirst("name")?.Value;
-        var nickName = user.FindFirst("nickname")?.Value;
+        var loginName = user.FindFirst("name")?.Value ?? "patrick.widener@test.com";
+        var nickName = user.FindFirst("nickname")?.Value ?? "patrick.widener";
         if (loginName == null)
             throw new InvalidOperationException("User's claim is missing name field");
         if (nickName == null)
