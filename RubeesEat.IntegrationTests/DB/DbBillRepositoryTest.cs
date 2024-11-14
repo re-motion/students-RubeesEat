@@ -1,5 +1,5 @@
 using System.Globalization;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using RubeesEat.Model;
 using RubeesEat.Model.DB;
 using RubeesEat.Model.EqualityComparer;
@@ -102,7 +102,7 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
     [Test]
     public void GetAllForUserTest()
     {
-        var currentUser = _dbPersonRepository.GetOrCreateUser(new ClaimsPrincipal());
+        var currentUser = _dbPersonRepository.GetOrCreateUser(new DefaultHttpContext());
         var bills = _dbBillRepository. GetAllForUser(currentUser);
         
         Assert.That(bills, Has.Count.EqualTo(2));
@@ -111,7 +111,7 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
     [Test]
     public void GetRecentBalanceChanges_GetsTheMostRecentBalanceChanges()
     {
-        var currentUser = _dbPersonRepository.GetOrCreateUser(new ClaimsPrincipal());
+        var currentUser = _dbPersonRepository.GetOrCreateUser(new DefaultHttpContext());
         var balanceChanges = _dbBillRepository.GetRecentBalanceChanges(currentUser, 1, 2);
         Assert.That(balanceChanges[0].Amount, Is.EqualTo(1000000m));
         Assert.That(balanceChanges[0].Description, Is.EqualTo("Mittagessen auf Patrick sein Nacken"));
@@ -125,7 +125,7 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
     [Test]
     public void GetBalance_ReturnsBalanceOfUser()
     {
-        var currentUser = _dbPersonRepository.GetOrCreateUser(new ClaimsPrincipal());
+        var currentUser = _dbPersonRepository.GetOrCreateUser(new DefaultHttpContext());
         decimal balance = _dbBillRepository.GetBalance(currentUser);
         Assert.That(balance, Is.EqualTo(999980m));
     }

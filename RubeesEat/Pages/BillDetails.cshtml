@@ -41,7 +41,7 @@
                     <dd t-id="amountPerPerson" class="col-12 col-sm-6 text-sm-end">@(Math.Abs(item.EntryLines[i].Amount).ToString("C", CultureInfo.CreateSpecificCulture("fr-FR")))</dd>
                 </dl>
             }
-            @if (personRepository.GetOrCreateUser(HttpContext.User).Id == item.EntryLines[0].Person.Id) {
+            @if (personRepository.GetOrCreateUser(HttpContext).Id == item.EntryLines[0].Person.Id) {
                 <a href="../EditBill/@item.Id" t-action="editBillButton" t-click-behavior="Click"> Rechnung bearbeiten</a>
             }
         </div>

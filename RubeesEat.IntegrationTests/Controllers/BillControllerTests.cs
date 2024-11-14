@@ -38,7 +38,7 @@ public class BillControllerTest : IntegrationTestBase
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
         Assert.That(billsAfter.Length, Is.EqualTo(bills.Length + 1));
         Assert.That(billsAfter[^1].Description, Is.EqualTo("test234"));
-        Assert.That(billsAfter[^1].Date.ToString(), Is.EqualTo("29.10.2024 00:00:00"));
+        Assert.That(billsAfter[^1].Date.ToString(), Is.EqualTo("29/10/2024 00:00:00"));
     }
 
     [Test]

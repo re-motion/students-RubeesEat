@@ -39,6 +39,11 @@ public class InMemoryPersonRepository : IPersonRepository
         _persons.Add(person.Id, person);
     }
 
+    public Person GetOrCreateUser(HttpContext context)
+    {
+        return GetOrCreateUser(context.User);
+    }
+
     public Person GetOrCreateUser(ClaimsPrincipal user)
     {
         return _persons.TryGetValue(CurrentUser, out var person) 

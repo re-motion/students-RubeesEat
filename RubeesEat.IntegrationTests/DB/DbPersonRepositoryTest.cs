@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using RubeesEat.Model;
 using RubeesEat.Model.DB;
 using RubeesEat.Model.EqualityComparer;
@@ -71,9 +72,10 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
             new Claim("nickname", "Item.Arslan")
         };
         var claimsIdentity = new ClaimsIdentity(claims, "TestAuthType");
-        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(claimsIdentity);
         
-        var person = _dbPersonRepository.GetOrCreateUser(claimsPrincipal);
+        var person = _dbPersonRepository.GetOrCreateUser(httpContext);
         var comparisonPerson = _dbPersonRepository.GetById(Guid.Parse("A05764E0-C2F5-4A3F-8F04-746AEE8B355B"));
 
         Assert.That(person, Is.EqualTo(comparisonPerson).Using(_personPropertyComparer));
@@ -93,7 +95,9 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
         };
         var claimsIdentity = new ClaimsIdentity(claims, "TestAuthType");
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        var person = _dbPersonRepository.GetOrCreateUser(claimsPrincipal);
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(claimsIdentity);
+        var person = _dbPersonRepository.GetOrCreateUser(httpContext);
         Assert.That(person, Is.EqualTo(_dbPersonRepository.GetById(person.Id)).Using(_personPropertyComparer));
     }
     
@@ -106,7 +110,9 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
         };
         var claimsIdentity = new ClaimsIdentity(claims, "TestAuthType");
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        Assert.That(() => _dbPersonRepository.GetOrCreateUser(claimsPrincipal), 
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(claimsIdentity);
+        Assert.That(() => _dbPersonRepository.GetOrCreateUser(httpContext), 
             Throws.TypeOf<InvalidOperationException>().With.Message.EqualTo("User's claim is missing name field"));
     }
     
@@ -119,7 +125,9 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
         };
         var claimsIdentity = new ClaimsIdentity(claims, "TestAuthType");
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        Assert.That(() => _dbPersonRepository.GetOrCreateUser(claimsPrincipal), 
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(claimsIdentity);
+        Assert.That(() => _dbPersonRepository.GetOrCreateUser(httpContext), 
             Throws.TypeOf<InvalidOperationException>().With.Message.EqualTo("User's claim is missing nickname field"));
     }
     
@@ -133,7 +141,9 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
         };
         var claimsIdentity = new ClaimsIdentity(claims, "TestAuthType");
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        Assert.That(() => _dbPersonRepository.GetOrCreateUser(claimsPrincipal), 
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(claimsIdentity);
+        Assert.That(() => _dbPersonRepository.GetOrCreateUser(httpContext), 
             Throws.TypeOf<InvalidOperationException>().With.Message.EqualTo("Nickname in User's claim has unexpected formating (does not contain '.')"));
     }
 }

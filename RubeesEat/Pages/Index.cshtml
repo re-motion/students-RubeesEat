@@ -3,10 +3,10 @@
 @inject IBillRepository billRepository
 @inject IPersonRepository personRepository
 
-<h1>Hallo, @personRepository.GetOrCreateUser(HttpContext.User).FirstName!</h1>
+<h1>Hallo, @personRepository.GetOrCreateUser(HttpContext).FirstName!</h1>
 
 @{
-    var amount = billRepository.GetBalance(personRepository.GetOrCreateUser(HttpContext.User));
+    var amount = billRepository.GetBalance(personRepository.GetOrCreateUser(HttpContext));
     var isPositive = amount >= 0;
     var amountAsString = amount.ToString("C", CultureInfo.CreateSpecificCulture("fr-FR"));
     var displayClass = isPositive ? "text-success" : "text-danger";
@@ -28,7 +28,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="list-group">
-    @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetOrCreateUser(HttpContext.User), 1, 5))
+                @foreach (var item in billRepository.GetRecentBalanceChanges(personRepository.GetOrCreateUser(HttpContext), 1, 5))
                 {
                     <div t-id="entryLine">
                         <a class="list-group-item list-group-item-action text-decoration-none text-dark" t-action="showBillDetails" href="BillDetails/@item.BillId">
@@ -50,3 +50,17 @@
         </div>
     </div>
 </div>
+
+
+User details:
+<dl>
+    <dd>IsAuthenticated</dd>
+    <dt>@(User.Identity?.IsAuthenticated ?? false)</dt>
+    <dd>Name</dd>
+    <dt>@User.Identity?.Name</dt>
+    @foreach (var claim in User.Claims)
+    {
+        <dd>@claim.Type</dd>
+        <dt>@claim.Value</dt>
+    }
+</dl>
