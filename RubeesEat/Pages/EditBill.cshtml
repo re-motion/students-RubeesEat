@@ -10,7 +10,7 @@
     {
         <div id="errorText" style="color:red">Rechnung wurde nicht gefunden!</div>
     }
-    else if (PersonRepository.GetOrCreateUser(HttpContext.User).Id != currentBill.EntryLines[0].Person.Id)
+    else if (PersonRepository.GetOrCreateUser(HttpContext).Id != currentBill.EntryLines[0].Person.Id)
     {
         <div id="errorText" style="color:red">Rechnungen können nur vom Ersteller bearbeitet werden!</div>
     }

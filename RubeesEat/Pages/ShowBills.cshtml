@@ -7,7 +7,7 @@
 
 <h1 class="text-center">Deine Rechnungen:</h1>
     @{
-        var currentUser = personRepository.GetOrCreateUser(HttpContext.User);
+        var currentUser = personRepository.GetOrCreateUser(HttpContext);
         int pageSize = Configuration.GetValue<int>("PageSize");
 
         int page;

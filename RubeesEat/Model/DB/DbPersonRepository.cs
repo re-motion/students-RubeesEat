@@ -75,8 +75,65 @@ public class DbPersonRepository: IPersonRepository
         connection.Open();
         command.ExecuteNonQuery();
     }
-    
-    public Person GetOrCreateUser(ClaimsPrincipal user)
+
+    public Person GetOrCreateUser(HttpContext context)
+    {
+        var user = context.User;
+        var loginName = user.FindFirst("name")?.Value;
+        if (loginName == null)
+        {
+            var splitNameFromEmail = user.FindFirst("upn")?.Value?
+                .Split("@")[0]
+                .Split(".");
+            
+            if (splitNameFromEmail == null)
+            {
+                return LegacyGetOrCreateUser(user);
+            }
+            
+            if (splitNameFromEmail is not { Length: 2 })
+                throw new ApplicationException("Invalid email address.");
+            
+            
+            var person1 = GetPersonFromArray(splitNameFromEmail, loginName);
+            Add(person1);
+            return person1;
+        }
+                        
+        string[] names;
+        try
+        {
+            names = loginName.Split('\\')[1].Split('.', 2);
+        }
+        catch (IndexOutOfRangeException) //does not contain a backslash
+        {
+            return LegacyGetOrCreateUser(user); 
+        }
+
+        if (names.Length != 2)
+            throw new ApplicationException("Name has more than 2 dots. Not a valid name");
+        if (names[0].Length < 1)
+            throw new ApplicationException("Name has to be at least 2 characters long. Not a valid name");
+
+        var person = GetPersonFromArray(names, loginName);
+        Add(person);
+        return person;
+    }
+
+    private static Person GetPersonFromArray (string[] splitName, string? loginName)
+    {
+        if (splitName.Length != 2)
+        {
+            throw new ApplicationException("Name can only have first and last name. Not a valid name");
+        }
+        var firstName1 = splitName[0].Length > 1 ? char.ToUpper(splitName[0][0]) + splitName[0][1..] : splitName[0].ToUpper();
+        var lastName1 = splitName[1].Length > 1 ? char.ToUpper(splitName[1][0]) + splitName[1][1..] : splitName[1].ToUpper();
+            
+        var person1 = new Person(Guid.NewGuid(), firstName1, lastName1, loginName);
+        return person1;
+    }
+
+    public Person LegacyGetOrCreateUser(ClaimsPrincipal user)
     {
         var loginName = user.FindFirst("name")?.Value;
         var nickName = user.FindFirst("nickname")?.Value;
