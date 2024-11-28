@@ -44,7 +44,7 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
     public void Add_AddsNewPerson()
     {
         Guid personId = Guid.NewGuid();
-        Person person = new Person(personId, "Joel", "Fredericka", "joel.fredericka");
+        Person person = new Person(personId, "Joel", "Fredericka", "joel.fredericka", "joel.fredericka@bla");
         _dbPersonRepository.Add(person);
         var persons = _dbPersonRepository.GetAll().ToList();
         Assert.That(persons[1].FirstName, Is.EqualTo("Joel"));

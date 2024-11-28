@@ -20,7 +20,10 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
                      E.Amount,
                      P.PersonID,
                      P.FirstName,
-                     P.LastName
+                     P.LastName,
+                     P.LoginName,
+                     P.Email,
+                     P.IsActive
                  FROM
                      Bills B
                  INNER JOIN
@@ -116,7 +119,9 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
                                                       	P.PersonID,
                                                       	P.FirstName,
                                                       	P.LastName,
-                                                      	P.LoginName
+                                                      	P.LoginName,
+                                                        P.Email,
+                                                        P.IsActive
                                                       FROM
                                                       	Bills B
                                                       INNER JOIN 
@@ -227,7 +232,9 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
                                        P.PersonID,
                                        P.FirstName,
                                        P.LastName,
-                                       P.LoginName
+                                       P.LoginName,
+                                       P.Email,
+                                       P.IsActive
                                    FROM
                                        Bills B
                                    INNER JOIN
@@ -272,7 +279,9 @@ public class DbBillRepository(IDbConnectionFactory connectionFactory) : IBillRep
                 reader.GetGuid(5),
                 reader.GetString(6),
                 reader.GetString(7),
-                reader.IsDBNull(8) ? null : reader.GetString(8)
+                reader.IsDBNull(8) ? null : reader.GetString(8),
+                reader.IsDBNull(9) ? null : reader.GetString(9),
+                reader.GetBoolean(10)
             );
 
             var entryLine = new EntryLine(

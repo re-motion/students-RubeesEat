@@ -14,11 +14,11 @@ public class BillTests
         DateTime expectedTime = DateTime.Now;
         ImmutableArray<EntryLine> entryLines =
         [
-            new EntryLine(new Person(Guid.NewGuid(), "Max", "Ackermann", "max.ackermann"), 100),
-            new EntryLine(new Person(Guid.NewGuid(), "Minecraft", "Steve", "minecraft.steve"), -50),
-            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax", "schmoes.relax"), -50)
+            new EntryLine(new Person(Guid.NewGuid(), "Max", "Ackermann", "max.ackermann", "max.ackermann@bla"), 100),
+            new EntryLine(new Person(Guid.NewGuid(), "Minecraft", "Steve", "minecraft.steve", "minecraft.steve@bla"), -50),
+            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax", "schmoes.relax", "schmoes.relax@bla"), -50)
         ];
-        
+
         Bill bill = new Bill(expectedGuid, expectedTime, "Going to Macdonal", entryLines);
         
         Assert.That(bill.Id, Is.EqualTo(expectedGuid));
@@ -32,8 +32,8 @@ public class BillTests
     {
         ImmutableArray<EntryLine> entryLines =
         [
-            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax", "schmoes.relax"), 100),
-            new EntryLine(new Person(Guid.NewGuid(), "Klara", "Malernachzahler", "klara.malernachzahler"), -50)
+            new EntryLine(new Person(Guid.NewGuid(), "Schmoes", "Relax", "schmoes.relax", "schmoes.relax@bla"), 100),
+            new EntryLine(new Person(Guid.NewGuid(), "Klara", "Malernachzahler", "klara.malernachzahler", "klara.malernachzahler@bla"), -50)
         ];
 
         Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Bolognese Flade in der Fladerei", entryLines),
@@ -45,7 +45,7 @@ public class BillTests
     {
         ImmutableArray<EntryLine> entryLines =
         [
-            new EntryLine(new Person(Guid.NewGuid(), "Doctor", "Doofenshmirtz", "doctor.doofenschmirtz"), 100)
+            new EntryLine(new Person(Guid.NewGuid(), "Doctor", "Doofenshmirtz", "doctor.doofenschmirtz", "doctor.doofenschmirtz@bla"), 100)
         ];
 
         Assert.That(() => new Bill(Guid.NewGuid(), DateTime.Now, "Alleine bei seiner Geburt", entryLines),

@@ -42,7 +42,7 @@ public class InMemoryPersonRepositoryTests
     [Test]
     public void GetCurrentUser_IsInDictionary_ReturnsCurrentUser()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName", "Default@bla");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
@@ -54,7 +54,7 @@ public class InMemoryPersonRepositoryTests
     [Test]
     public void GetCurrentUser_IsNotInDictionary_ThrowsException()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName", "Default@bla");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
 
@@ -67,7 +67,7 @@ public class InMemoryPersonRepositoryTests
     [Test]
     public void GetById_IsInDictionary_ReturnsUser()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName", "Default@bla");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         personRepository.Add(defaultUser);
@@ -77,7 +77,7 @@ public class InMemoryPersonRepositoryTests
     [Test]
     public void GetById_IsNotInDictionary_ReturnsNull()
     {
-        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName");
+        Person defaultUser = new Person(Guid.NewGuid(), "DefaultFirstName", "DefaultLastName", "DefaultLoginName", "Default@bla");
 
         var personRepository = new InMemoryPersonRepository(defaultUser.Id);
         Assert.That(personRepository.GetById(defaultUser.Id), Is.Null);

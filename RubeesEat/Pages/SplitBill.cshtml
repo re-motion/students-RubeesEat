@@ -29,7 +29,7 @@
             <label for="billPeople">Person hinzufügen:</label>
             <div class="d-flex">
                 <select class="form-select me-2" name="billPeople" id="billPeople" t-id="billPeople">
-                    @foreach (Person person in PersonRepository.GetAll())
+                    @foreach (Person person in PersonRepository.GetAllActive())
                     {
                         <option value="@person.FirstName @person.LastName" data-id="@person.Id">@person.FirstName @person.LastName </option>
                     }

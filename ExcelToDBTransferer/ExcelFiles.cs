@@ -39,10 +39,10 @@ namespace ExcelToDBTransferer
         {
             var carryOvers = GetEntryLinesForBill(dataTable, 3, listOfPersons);
             var voidPerson = FindPersonByInitials("VoidPerson", listOfPersons);
-            decimal voidEntryValue = -carryOvers.Sum(e => e.Amount);
+            decimal voidEntryValue = carryOvers.Sum(e => e.Amount);
             var voidEntry = new EntryLine(voidPerson, voidEntryValue);
             for(int i = 0; i < carryOvers.Count; i++)
-                carryOvers[i] = carryOvers[i].With(-carryOvers[i].Amount);
+                carryOvers[i] = carryOvers[i].With(carryOvers[i].Amount);
             carryOvers.Add(voidEntry);
             var billForCarryOvers = Bill.Create("All carry overs", carryOvers.ToArray());
             return billForCarryOvers;

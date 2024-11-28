@@ -10,8 +10,15 @@ public class PersonDTO
     public string Initials { get;}
     public bool IsActive { get; }
     public string? LoginName { get; }
+    public string? Email { get; }
 
-    public PersonDTO(string firstName, string lastName, string initials, bool isActive, string? loginName)
+    public PersonDTO(
+        string firstName,
+        string lastName,
+        string initials,
+        bool isActive,
+        string? loginName,
+        string? email)
     {
         Id = Guid.NewGuid();
         FirstName = firstName;
@@ -19,10 +26,11 @@ public class PersonDTO
         Initials = initials;
         IsActive = isActive;
         LoginName = loginName;
+        Email = email;
     }
     
     public Person MapToPerson()
     {
-        return new Person(Id, FirstName, LastName, LoginName, IsActive);
+        return new Person(Id, FirstName, LastName, LoginName, Email, IsActive);
     }
 }

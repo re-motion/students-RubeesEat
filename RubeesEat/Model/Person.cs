@@ -1,35 +1,27 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 
 namespace RubeesEat.Model;
 
 public class Person
 {
-    public static Person Create(string firstName, string lastName, string loginName) => new(Guid.NewGuid(), firstName, lastName, loginName);
+    public static Person Create(string firstName, string lastName, string loginName, string email) => new(Guid.NewGuid(), firstName, lastName, loginName, email);
     public Guid Id { get; }
     public string FirstName { get; }
     public string LastName { get; }
     [MemberNotNullWhen(true, nameof(LoginName))]
     public bool IsActive { get; }
     public string? LoginName { get; }
+    public string? Email { get; }
 
-    public Person(Guid id, string firstName, string lastName, string? loginName, bool isActive = true)
+    public Person(Guid id, string firstName, string lastName, string? loginName, string? email, bool isActive = true)
     {
         ArgumentNullException.ThrowIfNull(firstName);
         ArgumentNullException.ThrowIfNull(lastName);
-        if (!IsValidName(firstName, lastName))
+        if (email != null && !MailAddress.TryCreate(email, out _))
         {
-            throw new ArgumentException("Name must only consist of letters.");
-        }
-
-        if (isActive == false && loginName != null)
-        {
-            throw new ArgumentException("Inactive users should have no login name");
-        }
-
-        if (isActive && loginName == null)
-        {
-            throw new ArgumentException("Active users should have a login name");
+            throw new ArgumentException("Invalid email address.");
         }
 
         Id = id;
@@ -37,6 +29,7 @@ public class Person
         LastName = lastName;
         IsActive = isActive;
         LoginName = loginName;
+        Email = email;
     }
 
     private static bool IsValidName(params string[] words)
@@ -46,6 +39,6 @@ public class Person
     
     public override string ToString()
     {
-        return $"{FirstName} {LastName} (ID: {Id})";
+        return $"{FirstName} {LastName} (ID: {Id}; Logon: '{LoginName}'; Email: {Email})";
     }
 }
