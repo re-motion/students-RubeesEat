@@ -15,7 +15,7 @@ public class DbPersonRepositoryTest : DatabaseIntegrationTestBase
     [SetUp]
     public void Setup()
     {
-        _dbPersonRepository = new DbPersonRepository(Factory);
+        _dbPersonRepository = new DbPersonRepository(Factory, new ClaimsPrincipalPersonFactory());
         _personPropertyComparer = new PersonPropertyEqualityComparer();
     }
     

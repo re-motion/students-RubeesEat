@@ -19,7 +19,7 @@ public class DbBillRepositoryTest : DatabaseIntegrationTestBase
     {
         _billPropertyComparer = new BillPropertyEqualityComparer();
         _dbBillRepository = new DbBillRepository(Factory);
-        _dbPersonRepository = new DbPersonRepository(Factory);
+        _dbPersonRepository = new DbPersonRepository(Factory, new ClaimsPrincipalPersonFactory());
     }
     
     [Test]

@@ -22,7 +22,7 @@ public class Program
         var listOfPersons = JsonConvert.DeserializeObject<List<PersonDTO>>(jsonContent);
 
         var sqlConnectionFactory = new SqlConnectionFactory(connectionString);
-        var personRepository = new DbPersonRepository(sqlConnectionFactory);
+        var personRepository = new DbPersonRepository(sqlConnectionFactory, new ClaimsPrincipalPersonFactory());
         var billRepository = new DbBillRepository(sqlConnectionFactory);
 
         var transferer = new DbTransferer(sqlConnectionFactory, personRepository, billRepository);

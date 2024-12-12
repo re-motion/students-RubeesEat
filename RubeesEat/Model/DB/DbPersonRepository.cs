@@ -7,10 +7,12 @@ namespace RubeesEat.Model.DB;
 public class DbPersonRepository: IPersonRepository
 {
     private readonly IDbConnectionFactory _connectionFactory;
-    
-    public DbPersonRepository(IDbConnectionFactory connectionFactory)
+    private readonly IClaimsPrincipalPersonFactory _claimsPrincipalPersonFactory;
+
+    public DbPersonRepository(IDbConnectionFactory connectionFactory, IClaimsPrincipalPersonFactory claimsPrincipalPersonFactory)
     {
         _connectionFactory = connectionFactory;
+        _claimsPrincipalPersonFactory = claimsPrincipalPersonFactory;
     }
     
     public IReadOnlyList<Person> GetAll()
@@ -82,35 +84,12 @@ public class DbPersonRepository: IPersonRepository
     
     public Person GetOrCreateUser(ClaimsPrincipal user)
     {
-        const string domain = "RUBICON\\";
-
-        var loginNameWithDomain = user.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
-        if (loginNameWithDomain == null)
-            throw new InvalidOperationException("Cannot find the required claims on the user.");
-        if (!loginNameWithDomain.StartsWith(domain))
-            throw new InvalidOperationException("Invalid user account. Not in domain.");
-
-        var loginName = loginNameWithDomain[domain.Length..];
+        var loginName = _claimsPrincipalPersonFactory.GetLoginName(user);
         var person = GetByLoginName(loginName);
         if (person != null)
             return person;
 
-        var email = user.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn")?.Value;
-        Console.WriteLine($"Person '{loginName}' does not exist. Creating with email '{email}'");
-
-        if (email == null)
-            throw new InvalidOperationException("Cannot create account. No Email found.");
-        if (!MailAddress.TryCreate(email, out _))
-            throw new InvalidOperationException($"Cannot create account. Invalid Email '{email}'.");
-
-        var nameParts = email.Split('@')[0].Split('.');
-
-        person = new Person(
-            Guid.NewGuid(),
-            ToPascalCase(nameParts[0]),
-            nameParts.Length > 0 ? ToPascalCase(nameParts[1]) : "",
-            loginName,
-            email);
+        person = _claimsPrincipalPersonFactory.CreatePerson(user, loginName);
         Add(person);
 
         return person;
@@ -160,15 +139,5 @@ public class DbPersonRepository: IPersonRepository
             reader.IsDBNull(4) ? null : reader.GetString(4),
             reader.GetBoolean(5)
         );
-    }
-
-    private string ToPascalCase(string value)
-    {
-        if (value.Length == 0)
-            return value;
-
-        return char.IsUpper(value[0])
-            ? value
-            : char.ToUpper(value[0]) + value[1..];
     }
 }
