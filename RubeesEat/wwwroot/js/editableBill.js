@@ -72,19 +72,11 @@ function updateTotalAmount() {
     let sum = 0;
 
     amounts.forEach((input) => {
-        const value = parseFloat(input.value) || 0;
+        const value = Number(input.value) || 0;
         sum += value;
     });
 
-    const formattedSum = new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-        currencyDisplay: 'symbol'
-    }).format(sum).replace('€', '€');
-
-    document.getElementById("billAmount").value = formattedSum;
+    document.getElementById("billAmount").value = sum;
 }
 
 
@@ -193,7 +185,9 @@ function validate(formName) {
             document.getElementById("placeForErrorMessage").textContent = "Deine Eingabe ist ungültig. Bitte eine positive Zahl eingeben.";
             return;
         }
-        if (amounts[i].value <= 0) {
+
+        const amount = Number(amounts[i].value);
+        if (isNaN(amount) || amount <= 0) {
             document.getElementById("placeForErrorMessage").textContent = amounts[i].value + " ist ungültig. Bitte eine positive Zahl eingeben.";
             return;
         }
@@ -205,10 +199,10 @@ function validate(formName) {
     }
 
     const sum = [...amounts]
-        .map((amount) => parseFloat(amount.value))
+        .map((amount) => Number(amount.value))
         .reduce((acc, value) => acc + value, 0);
 
-    const totalAmount = parseFloat(document.getElementById("billAmount").value);
+    const totalAmount = Number(document.getElementById("billAmount").value);
 
     if (!date.value) {
         document.getElementById("placeForErrorMessage").textContent = "Bitte ein Datum wählen.";
@@ -230,7 +224,7 @@ function validate(formName) {
         return;
     }
 
-    if (totalAmount <= 0) {
+    if (isNan(totalAmount) || totalAmount <= 0) {
         document.getElementById("placeForErrorMessage").textContent = totalAmount + " ist ungültig. Bitte eine gültige Zahl für den Gesamtbetrag eingeben.";
         return;
     }
