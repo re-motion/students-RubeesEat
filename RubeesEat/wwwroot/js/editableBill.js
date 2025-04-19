@@ -224,7 +224,7 @@ function validate(formName) {
         return;
     }
 
-    if (isNan(totalAmount) || totalAmount <= 0) {
+    if (isNaN(totalAmount) || totalAmount <= 0) {
         document.getElementById("placeForErrorMessage").textContent = totalAmount + " ist ungültig. Bitte eine gültige Zahl für den Gesamtbetrag eingeben.";
         return;
     }
